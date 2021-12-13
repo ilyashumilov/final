@@ -37,14 +37,12 @@
            }
         
         .row1 {
-            
             outline: none;
             border: thin solid black;
             text-decoration: none;
             padding: 10px;
             color: black;
             font-size:80%;
-            
             background-color: white;
         }
         
@@ -74,7 +72,6 @@
             border: thin solid black;
             text-decoration: none;
             padding: 10px;
-
             color: black;
             font-size:90%;
            }
@@ -93,20 +90,23 @@
             margin: 10px;
             width: 40%;
         }
-        
 
-        
-
-
-        .container1 {
-            position: absolute;
-            left: 50%;
-            top: 45%;
-            transform: translate(-50%, -50%);
-            font-size:110%;
+        .box {
+            max-width: 730px;
+            margin: 100px auto;
+            position: relative;
             text-align: center;
-            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            max-height: 555px;
+            overflow-y: auto;
+            overflow-x: auto;
             white-space: nowrap;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        .options {
+            position: absolute;
+            top:700px;
+            left: 590px;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
     </style>
 
@@ -114,7 +114,8 @@
 <body>
 <a href = "{% url 'OPS'  %}" class=h2>VIPA</a>
     
-<div class = container1>   
+{% if truck == False %}
+<div class = box>
     <table class="table" align="center">
         {% for query in queryset %}
         <tr>
@@ -128,13 +129,41 @@
         </tr>
         {% endfor %}
     </table>
+</div>
+<div class = options>
     <a href = "{% url 'Particular' city %}" class='link'>Back</a>
     <a href = "{% url 'ContainerCreate' shipment_id %}" class='link'>Create</a>
     <a href = "{% url 'Upload' shipment_id %}" class='link'>Upload</a>
-<div/>
-<div/>
-    
+</div>
+{% endif %}
 
+{% if truck == True %}
+<div class = box>
+    <table class="table" align="center">
+        {% for query in queryset %}
+        <tr>
+            <td class='rosw'> Number </td>
+            <td class='rosw'> Transaction </td>
+            <td class='rosw'> Bales </td>
+            <td class='rosw'> Inv. weight </td>
+            <td class='rosw'> Act. weight </td>
+        </tr>
+        <tr>
+            <td class='row'> {{ query.number }} </td>
+            <td class='row'> {{ query.seal }} </td>
+            <td class='row'> {{ query.bales }} </td>
+            <td class='row'> {{ query.gross }} </td>
+            <td class='row'> {{ query.tara }} </td>
+            <td class='row1'><a href = "{% url 'ContainerUpdate' query.id %}" class='link1'>Update</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class = options>
+    <a href = "{% url 'Particular' city %}" class='link'>Back</a>
+</div>
+{% endif %}
+    
 </body>
 </html>
 

@@ -46,13 +46,17 @@
         }
         
         .row {
-            background-color: #ffd70063;
-            font-size:90%;
+            background-color: deeppink;
+            font-size:110%;
      
         }        
         
-
-        
+        .row4 {
+            background-color: #7FFF00;
+        }   
+        .row5 {
+            background-color: red; 
+        }  
         
         .table {
             border-spacing: 4px;
@@ -125,6 +129,10 @@
             color: black;
             font-size:90%;
            }
+        
+        .order {
+            background-color: gold;
+        }
     </style>
 
 </head>
@@ -133,30 +141,60 @@
     
 <div class="container1">
 
-    <table class="table" align="center"> 
-        <tr>
-            <td class=row> {{ order.date }} </td>
-            <td class=row> {{ order.number }} </td>
-            <td class=row> {{ order.Proveedor }} </td>
-            <td class=row> {{ order.Origin }} </td>
-            <td class=row> {{ order.cntr }} </td>
-            <td class=row> {{ order.Tons }} </td>
-            <td class=row> {{ order.price }} </td>
+    <table class="table" align="center">
+        <tr class = 'd'>
+            <td>Date</td>
+            <td> Material </td>
+            <td> Supplier </td>
+            <td> Origin </td>
+            <td> Cntr </td>
+            <td> Tons </td>
+            <td> Purchaise Price</td>
+        </tr>
+        
+        <tr class=row >
+            <td> {{ order.date }} </td>
+            <td> {{ order.material }} </td>
+            <td> {{ order.Proveedor }} </td>
+            <td> {{ order.Origin }} </td>
+            <td> {{ order.cntr }} </td>
+            <td> {{ order.Tons }} </td>
+            <td> {{ order.price }} </td>
+        </tr>
+
+        <tr class = 'd'>            
+            <td> Date </td>
+            <td> Number </td>
+            <td> Client </td>
+            <td> Destination </td>
+            <td> Cntrs </td>
+            <td> Tons </td>
+            <td> Min Payload </td>
+            <td> Sales Price </td>
+            <td> Comment </td>
+            <td> Left to load </td>
         </tr>
         {% for sale in sales %}
         {% if sale.number != '00-0000' %}
-        <tr>
-            <td class=row> {{ sale.client }} </td>
-            <td class=row> {{ sale.destination }} </td>
-            <td class=row> {{ sale.date }} </td>
-            <td class=row> {{ sale.number }} </td>
-            <td class=row> {{ sale.material }} </td>
-            <td class=row> {{ sale.cntr }} </td>
-            <td class=row> {{ sale.Tons }} </td>
-            <td class=row> {{ sale.min }} </td>
-            <td class=row> {{ sale.cost }} </td>
-            <td class=row> {{ sale.comment }} </td>
-          
+        <tr class ='order'>            
+            <td> {{ sale.date }} </td>
+            <td> {{ sale.number }} </td>
+            <td> {{ sale.client }} </td>
+            <td> {{ sale.destination }} </td>
+            <td> {{ sale.cntr }} </td>
+            <td> {{ sale.Tons }} </td>
+            <td> {{ sale.min }} </td>
+            <td> {{ sale.cost }} </td>
+            <td> {{ sale.comment }} </td>
+            
+            {% if closed|get_item:sale.id <= 0 %}
+            <td class=row5> {{ closed|get_item:sale.id }} </td>
+            {% endif %}
+    
+            {% if closed|get_item:sale.id > 0 %}
+            <td class=row4> {{ closed|get_item:sale.id }} </td>
+            {% endif %}
+    
             <td class=row2><a href = "{% url 'Allocate' purchaise_id sale.id  %}" class='link1'>Select</a></td>
         </tr>
         {% endif %}

@@ -132,7 +132,8 @@
             outline: none;
 
         }
-        
+
+
         .line {
             white-space: nowrap;
             text-align: left;
@@ -159,19 +160,18 @@
             padding-bottom: 9px;
         }
 
-        .variants {
+        .variants_box1 {
             width: 167px;
             max-height: 55px;
-            background-color: red;
+            background-color: white;
             position: absolute;
             left: 403px;
             top: 137px;
-            
-            background-color: white;
             z-index: 1;
             overflow-y: auto;
             overflow-x: auto;
         }
+        
         li {
             list-style: none;
             padding: 3px;
@@ -205,8 +205,6 @@
             {{ form.date.label }}
             {{ form.date }}
             
-
-            
             {{ form.cntr.label }}
             {{ form.cntr }}
             
@@ -231,17 +229,16 @@
         </div>
         {{ form1.number.label }}
         {{ form1.number }}
-
-        <div class ="variants" id ="variants"></div>
+        <div class=none></div>
     </form>
     <br>
+    <div class="variants_box1" id="variants"></div>
 </div>
+
 <script type="text/javascript">
-    const values = {{all|safe}};
-    const current = '{{current}}';
+    const values = {{ports|safe}};
 </script>
-<script src="{% static 'ScriptUpdate.js' %}">
-</script>
+<script src="{% static 'Script1.js' %}"></script>
 </body>
 </html>
 

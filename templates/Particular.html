@@ -181,6 +181,14 @@
             top:-85px;
             opacity: 30%;
         }
+        .row2t {
+            background-color: #1f39bf9f;
+            border: 2px solid black;
+        }
+        .row0 {
+            background-color: #07f5f5f4;
+            border: 2px solid black;
+        }
         
     </style>
     {% load static %}
@@ -238,13 +246,12 @@
             <td class=head> ETA </td>
             <td class=head> M USD</td>
             <td class=head> M EUR</td>
-            <td class=head>SI</td>
+            <td class=head>SI/CST</td>
             <td class=head>MGC</td>
-            <td class=head>CSTMS</td>
         </tr>
         {% endif %}
         {% for Shipment in Shipments %}
-        {% if Shipment.BK == False %}
+        {% if Shipment.BK == False and Shipment.Truck == False %}
         <tr>
             <td class=row2> {{ Shipment.number }} </td>
             <td class=row2> {{ Shipment.carrier }} </td>
@@ -289,14 +296,6 @@
             <td class=row5> {{ ' ' }} </td>
             {% endif %}
     
-            {% if Shipment.Customs == True %}
-            <td class=row4> {{ ' ' }} </td>
-            {% endif %}
-            
-            {% if Shipment.Customs == False %}
-            <td class=row5> {{ ' ' }} </td>
-            {% endif %}
-    
             <td class=row11><a href = "{% url 'ShipmentUpdate' Shipment.id %}" class=link>Update</a></td>
             <td class=row11><a href = "{% url 'ContainerViews' Shipment.id %}" class=link>Cntrs</a></td>
             <td class=row11><a href = "{% url 'CostViews' Shipment.id %}" class=link>Costs</a></td>
@@ -304,7 +303,7 @@
         </tr>
         {% endif %}
     
-        {% if Shipment.BK == True %}
+        {% if Shipment.BK == True and Shipment.Truck == False %}
         <tr>
             <td class=row0> {{ Shipment.number }} </td>
             <td class=row0> {{ Shipment.carrier }} </td>
@@ -314,7 +313,7 @@
             <td class=row0> {{ Shipment.po.material }} </td>
             <td class=row0> {{ Shipment.po.cntr }} </td>
             <td class=row0> {{ Shipment.ETD }} </td>
-            <td class=row0> {{ Shipment.ETA }} </td>         
+            <td class=row0> {{ Shipment.ETA }} </td>       
             
             {% if Shipment.margin <= 0 %}
             <td class=row5> {{ Shipment.margin }} </td>
@@ -348,20 +347,114 @@
             <td class=row5> {{ ' ' }} </td>
             {% endif %}
     
-            {% if Shipment.Customs == True %}
-            <td class=row4> {{ ' ' }} </td>
-            {% endif %}
-            
-            {% if Shipment.Customs == False %}
-            <td class=row5> {{ ' ' }} </td>
-            {% endif %}
+
             <td><a href = "{% url 'ShipmentUpdate' Shipment.id %}" class=link>Update</a></td>
             <td><a href = "{% url 'ContainerViews' Shipment.id %}" class=link>Cntrs</a></td>
             <td><a href = "{% url 'CostViews' Shipment.id %}" class=link>Costs</a></td>
-
+        </tr>
             {% endif %}
 
+            {% if Shipment.BK == False and Shipment.Truck == True %}
+        
+            <td class=row2t> {{ Shipment.number }} </td>
+            <td class=row2t> {{ Shipment.carrier }} </td>
+            <td class=row2t> {{ Shipment.bknumber }} </td>
+            <td class=row2t> {{ Shipment.po.Origin }} </td>
+            <td class=row2t> {{ Shipment.po.so.destination }} </td>
+            <td class=row2t> {{ Shipment.po.material }} </td>
+            <td class=row2t> {{ Shipment.po.cntr }} </td>
+            <td class=row2t> {{ Shipment.ETD }} </td>
+            <td class=row2t> {{ Shipment.ETA }} </td>
+            
+            
+            {% if Shipment.margin <= 0 %}
+            <td class=row5> {{ Shipment.margin }} </td>
+            {% endif %}
+    
+            {% if Shipment.margin > 0 %}
+            <td class=row4> {{ Shipment.margin }} </td>
+            {% endif %}
+            
+            {% if Shipment.numero <= 0 %}
+            <td class=row5> {{ Shipment.marginEUR }} </td>
+            {% endif %}
+    
+            {% if Shipment.numero > 0 %}
+            <td class=row4> {{ Shipment.marginEUR }} </td>
+            {% endif %}
+            
+            {% if Shipment.SI == True %}
+            <td class=row4> {{ ' ' }} </td>
+            {% endif %}
+            
+            {% if Shipment.SI == False %}
+            <td class=row5> {{ ' ' }} </td>
+            {% endif %}
 
+            {% if Shipment.Magic == True %}
+            <td class=row4> {{ ' ' }} </td>
+            {% endif %}
+            
+            {% if Shipment.Magic == False %}
+            <td class=row5> {{ ' ' }} </td>
+            {% endif %}
+
+            <td class=row11><a href = "{% url 'ShipmentUpdate' Shipment.id %}" class=link>Update</a></td>
+            <td class=row11><a href = "{% url 'ContainerViews' Shipment.id %}" class=link>Cntrs</a></td>
+            <td class=row11><a href = "{% url 'CostViews' Shipment.id %}" class=link>Costs</a></td>
+    
+        </tr>
+        {% endif %}
+    
+        {% if Shipment.BK == True and Shipment.Truck == True %}
+        <tr>
+            <td class=row0t> {{ Shipment.number }} </td>
+            <td class=row0t> {{ Shipment.carrier }} </td>
+            <td class=row0t> {{ Shipment.bknumber }} </td>
+            <td class=row0t> {{ Shipment.po.Origin }} </td>
+            <td class=row0t> {{ Shipment.po.so.destination }} </td>
+            <td class=row0t> {{ Shipment.po.material }} </td>
+            <td class=row0t> {{ Shipment.po.cntr }} </td>
+            <td class=row0t> {{ Shipment.ETD }} </td>
+            <td class=row0t> {{ Shipment.ETA }} </td>       
+            
+            {% if Shipment.margin <= 0 %}
+            <td class=row5> {{ Shipment.margin }} </td>
+            {% endif %}
+    
+            {% if Shipment.margin > 0 %}
+            <td class=row4> {{ Shipment.margin }} </td>
+            {% endif %}
+            
+            {% if Shipment.numero <= 0 %}
+            <td class=row5> {{ Shipment.marginEUR }} </td>
+            {% endif %}
+    
+            {% if Shipment.numero > 0 %}
+            <td class=row4> {{ Shipment.marginEUR }} </td>
+            {% endif %}
+            
+            {% if Shipment.SI == True %}
+            <td class=row4> {{ ' ' }} </td>
+            {% endif %}
+            
+            {% if Shipment.SI == False %}
+            <td class=row5> {{ ' ' }} </td>
+            {% endif %}
+
+            {% if Shipment.Magic == True %}
+            <td class=row4> {{ ' ' }} </td>
+            {% endif %}
+            
+            {% if Shipment.Magic == False %}
+            <td class=row5> {{ ' ' }} </td>
+            {% endif %}
+
+            <td class=row11><a href = "{% url 'ShipmentUpdate' Shipment.id %}" class=link>Update</a></td>
+            <td class=row11><a href = "{% url 'ContainerViews' Shipment.id %}" class=link>Cntrs</a></td>
+            <td class=row11><a href = "{% url 'CostViews' Shipment.id %}" class=link>Costs</a></td>
+        </tr>
+        {% endif %}
 
             {% endfor %}
         </tr>

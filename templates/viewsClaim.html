@@ -6,8 +6,9 @@
     <style>
         
         .h2 {
-            margin-left: 50px;
-            margin-top: 50px;
+            position: absolute;
+            left: 50px;
+            top: 50px;
             font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size:400%;
             font-weight: 700%;
@@ -16,10 +17,10 @@
             text-decoration: none;
             position: absolute;
         }
-            
+
         .h2:hover{
-              font-size:405%;  
-            }
+          font-size:405%;  
+        }
 
         .link1 {
             outline: none;
@@ -116,10 +117,10 @@
             padding: 10px;
             padding-bottom: 9px;
             position: absolute;
-            top:47px;
-            left:945px;
+            top:65px;
+            left:1800px;
             color: black;
-            font-size:70%;
+            font-size:71%;
            }
 
         .delete:hover {
@@ -137,13 +138,54 @@
             padding: 10px;
             padding-bottom: 9px;
             position: absolute;
-            top:47px;
-            left:877px;
+            top:65px;
+            left:1740px;
             color: black;
-            font-size:70%;
+            font-size:71%;
            }
 
         .update:hover {
+            background: black;
+            color: white;
+            outline: none;
+
+        }
+        
+        .delete1 {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            padding-bottom: 9px;
+            position: absolute;
+            top:45px;
+            left:940px;
+            color: black;
+            font-size:71%;
+           }
+
+        .delete1:hover {
+            background: red;
+            color: white;
+            border: thin solid red;
+            outline: none;
+
+        }
+        
+        .update1 {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            padding-bottom: 9px;
+            position: absolute;
+            top:45px;
+            left:880px;
+            color: black;
+            font-size:71%;
+           }
+
+        .update1:hover {
             background: black;
             color: white;
             outline: none;
@@ -154,49 +196,55 @@
             font-size:85%;
             font-weight: 200%;
         }
+        
+        .box {
+            width: 1000px;
+            margin: 120px auto;
+            position: relative;
+            text-align: center;
+            height: 670px;
+            overflow-y: auto;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
     </style>
 
 </head>
 <body>
 <a href = "{% url 'OPS'  %}" class=h2>VIPA</a>
     
-<div class="container1">
-    <table class="table" align="center">     
+<div class="box">
+    
+    <table class="table" align="center"> 
+        {% if len != 0 %}
         <tr>
             <td class='head'> Date </td>
             <td class='head'> BL </td>
             <td class='head'> Reason </td>
+            <td class='head'> Cntrs </td>
+            <td class='head'> Tons </td>
             <td class='head'> Comment </td>
-            
-
             <td class='head'> Amount </td>
-  
-            <td class='head'> picCust </td>
-            
+            <td class='head'> picCust </td>     
             <td class='head'> picVipa </td>
             <td class='head'> Sent </td>
             <td class='head'> Set-nt </td>
-
-
             <td class='head'> CN amount </td>
-     
-            
             <td class='head'> DN amount </td>
             <td class='head'> Set-nt Date </td>
             <td class='head'> Profit </td>
             <td class='head'> Rate </td>    
         </tr>        
             
-
         {% for queryset in querysets %}
-        
         <tr>
             <td class=row1> {{ queryset.date }} </td>
             <td class=row1> {{ queryset.bl }} </td>
             <td class=row1> {{ queryset.reason }} </td>
-            <td class=row1> {{ queryset.comment }} </td>
-            
+            <td class=row1> {{ queryset.cntrs }} </td>
+            <td class=row1> {{ queryset.tons }} </td>
 
+            <td class=row1> {{ queryset.comment }} </td>
             {% if queryset.currency == 'USD'  %}
             <td class=row1>{{ queryset.amount }}$ </td>
             {% endif %}
@@ -205,8 +253,6 @@
             <td class=row1>{{ queryset.amount }}€ </td>
             {% endif %}
 
-            
-                        
             {% if queryset.picCust == True  %}
             <td class=row4>  </td>
             {% endif %}
@@ -232,7 +278,6 @@
             {% endif %}
 
  
-            
             {% if queryset.settlement == False  %}
             <td class=row5>  </td>
             {% endif %}
@@ -242,7 +287,6 @@
             {% endif %}
             
 
-            
             {% if queryset.cn_currency == 'USD'  %}
             <td class=row1>{{ queryset.cn_amount }}$ </td>
             {% endif %}
@@ -263,11 +307,85 @@
             <td class=row1> {{ queryset.settlement_date }} </td> 
             <td class=row1>{{ queryset.profit }} </td>
             <td class=row1> {{ queryset.rate }} </td> 
+            <td><a href = "{% url 'ClaimDelete' queryset.id   %}" class='delete1'>Delete</a></td>  
+            <td><a href = "{% url 'ClaimUpdate' queryset.id   %}" class='update1'>Update</a></td>  
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </table>   
+    
+    <table class="table" align="center"> 
+        {% if len1 != 0 %}
+        <tr>
+            <td class='head'> Shipment </td>
+            <td class='head'> Unloading Date </td>
+            <td class='head'> Trader </td>
+            <td class='head'> Supplier </td>
+            
+
+            <td class='head'> Grade </td>
+  
+            <td class='head'> Truck </td>
+            
+            <td class='head'> Invoice weight </td>
+            <td class='head'> Actual weight </td>
+            <td class='head'> Difference </td>
+
+
+            <td class='head'> Purchase price </td>
+            <td class='head'> Invoice price </td>
+            
+            <td class='head'> Humidity % </td>
+            <td class='head'> Humidity tons </td>
+            <td class='head'> Impurities </td>    
+            
+            <td class='head'> General claim </td>
+            <td class='head'> Claim to Supplier </td>
+            <td class='head'> Claim to VIPA </td>
+            
+            <td class='head'> Received Docs </td>
+            <td class='head'> Claimed to Supplier </td>
+            <td class='head'> Final claim </td>
+            <td class='head'> Settlement </td>        
+        </tr>        
+                    
+        {% for queryset in ukr %}
+        <tr>
+            <td class=row1> {{ queryset.monthly.number }} </td>
+            <td class=row1> {{ queryset.monthly.ETA }} </td>
+            <td class=row1> {{ trader}} </td>
+            <td class=row1> {{ queryset.monthly.Supplier }} </td>
+            
+            <td class=row1> {{ queryset.monthly.material }} </td>
+            
+            <td class=row1> {{ queryset.monthly.bknumber }} </td>
+            <td class=row1> {{ queryset.monthly.Tons }} </td>
+            <td class=row1> {{ queryset.monthly.Tonsact  }} </td>
+
+            <td class=row1> {{ dif }} </td>
+            <td class=row1> {{ queryset.monthly.po.price }} </td>
+            <td class=row1> {{ queryset.monthly.po.so.cost }} </td>
+
+            <td class=row1> {{ queryset.humidper }} </td>
+            <td class=row1> {{ queryset.humidton  }} </td>
+            
+            <td class=row1> {{ queryset.impur }} </td>
+            <td class=row1> {{ general  }} </td>
+    
+            <td class=row1> {{ clsup }} </td>
+            <td class=row1> {{ clvipa }} </td>
+             
+            <td class=row1> {{ queryset.docs }} </td>
+            <td class=row1> {{ queryset.claimsupp  }} </td>      
+            
+            <td class=row1> {{ fin }} </td>
+            <td class=row1> {{ queryset.set }} </td>                
+
             <td><a href = "{% url 'ClaimDelete' queryset.id   %}" class='delete'>Delete</a></td>  
             <td><a href = "{% url 'ClaimUpdate' queryset.id   %}" class='update'>Update</a></td>  
         </tr>
         {% endfor %}
-        
+        {% endif %}
     </table>
     <a href = "{% url 'Result' number   %}" class='link'>Back</a>
     <a href = "{% url 'ClaimCreate' shipment_id   %}" class='link'>NEW</a>

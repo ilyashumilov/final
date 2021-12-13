@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <style>
-        .one {
+        .one,#period {
             padding:10px;
             margin:5px;  
             border: thin solid black;
@@ -15,7 +15,7 @@
             max-height: 55px;
             background-color: white;
             position: absolute;
-            left: 187px;
+            left: 369px;
             top: 45px;
             z-index: 1;
             overflow-y: auto;
@@ -27,7 +27,7 @@
             max-height: 55px;
             background-color: white;
             position: absolute;
-            left: 369px;
+            left: 551px;
             top: 45px;
             z-index: 1;
             overflow-y: auto;
@@ -78,15 +78,18 @@
           font-size:405%;  
         }
 
-        .button{
+        .button {
             margin: 5px;
+            margin-top: 6px;
             outline: none;
             border: thin solid black;
+            border-radius: 1px;
             text-decoration: none;
             background: none;
             padding: 10px;
-            margin-left: 5px;
-            margin-right: 10px;
+            padding-bottom: 10px;
+            margin-left: 92px;
+
             color: black;
             font-size:80%;
             cursor:pointer;
@@ -117,13 +120,16 @@
             outline: none;
             border: thin solid black;
             text-decoration: none;
-            padding-top: 9px;
+            padding-top: 10px;
             padding-bottom: 10px;
-            padding-left: 26px;
-            padding-right: 26px;
+            padding-left: 18px;
+            padding-right: 17px;
             color: black;
             font-size:80%;
-            margin-left: 5px; 
+            border-radius: 1px;
+            position: absolute;
+            top: 53px;
+            left: 740px;
            }
 
 
@@ -140,16 +146,18 @@
         
         #currencyrate{
             position: absolute;
-            height: 37px;
+            left: 96px;
+            top: 48px;
+            height: 38px;
         }
         #add{
             position: absolute;
-            height: 37px;
+            top: 48px;
+            height: 38px;
         }
-        #period {
-            margin-left: 91px;
-        }
+
         #additional {
+            
             width:59px;
         }
         .link {
@@ -166,6 +174,13 @@
         li:hover {
             cursor: pointer;
             background: gold;
+        }
+        #period {
+            margin-left: 90px;
+            width: 145px;
+            font-size:80%;
+            height: 16px;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
     
     </style>
@@ -187,11 +202,11 @@
         {% csrf_token %}
 
         <div class="line">
+            {{ form.forwarder }}
             {{ form.Line }}
             {{ form.POL }}
             {{ form.POD }}
             {{ form.terms }}    
-            <button type="submit" class='button'>Submition</button>
         </div>
         
         <div class="line">
@@ -200,7 +215,8 @@
             {{ form.period }}
             {{ form.contract }}
             {{ form.additional }} 
-            {{ form.currencyadd }}    
+            {{ form.currencyadd }}
+            <button type="submit" class='button'>Submition</button>
             <a href = "{% url 'FreightSearch'  %}" class='link'>Back</a>
         </div>
     </form>

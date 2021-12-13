@@ -47,7 +47,7 @@
             padding: 10px;
             padding-left: 15px;
             padding-right: 15px;
-            margin-left: 6px;
+            margin-left: 5px;
             margin-right: 10px;
             color: black;
             font-size:80%;
@@ -132,7 +132,8 @@
             outline: none;
 
         }
-        
+
+
         .line {
             white-space: nowrap;
             text-align: left;
@@ -154,35 +155,10 @@
         #cntr {
             margin-left: 25px;
         }
-        #currency {
-            padding-top: 9px;
-            padding-bottom: 9px;
-        }
+        
+        #
 
-        .variants {
-            width: 167px;
-            max-height: 55px;
-            background-color: red;
-            position: absolute;
-            left: 403px;
-            top: 137px;
-            
-            background-color: white;
-            z-index: 1;
-            overflow-y: auto;
-            overflow-x: auto;
-        }
-        li {
-            list-style: none;
-            padding: 3px;
-            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size:85%;
-        }
 
-        li:hover {
-            cursor: pointer;
-            background: gold;
-        }
     </style>
 
     {% load static %}
@@ -213,7 +189,7 @@
             {{ form.comment.label }}
             {{ form.comment }}
             <button type="submit" class='button'>Submit</button>
-            <a href = "{% url 'SalesViews'  %}" class='cancel'>Cancel</a>
+            <a href = "{% url 'Result' number %}" class='cancel'>Cancel</a>
         </div>
         <div class="line">
             {{ form.Tons.label }}
@@ -225,23 +201,19 @@
             {{ form.cost.label }}
             {{ form.cost }}
             {{ form.currency }}
-
             <a href = "{% url 'Close' sales_id  %}" class="close">Close</a>
             <a href = "{% url 'SalesDelete' sales_id  %}" class="delete">Delete</a>
+            
         </div>
-        {{ form1.number.label }}
-        {{ form1.number }}
-
-        <div class ="variants" id ="variants"></div>
     </form>
     <br>
 </div>
-<script type="text/javascript">
-    const values = {{all|safe}};
-    const current = '{{current}}';
-</script>
-<script src="{% static 'ScriptUpdate.js' %}">
-</script>
+
 </body>
+
 </html>
+
+
+
+
 

@@ -115,6 +115,18 @@
             white-space: nowrap;
             text-align:left;
         }
+        #reason {
+            padding-top: 9px;
+            padding-bottom: 9px;
+            padding-left: 9px;
+        }
+        #cntrs {
+            margin-left: 4px;
+            width: 55px;
+        }
+        #tons {
+            width: 53px;
+        }
 
     </style>
 
@@ -138,11 +150,17 @@
             {{ indexform.date }}
             {{ indexform.bl }}
             {{ indexform.reason }}
+            {{ indexform.cntrs }}
+            {{ indexform.tons }}
             {{ indexform.comment }}
             
             {{ indexform.currency }}
             {{ indexform.amount }}
             {{ indexform.photos }}
+            
+            {{ indexform.humidper }}
+            {{ indexform.humidton }}
+            {{ indexform.impur }}
         
         </div>
         
@@ -171,8 +189,12 @@
             {{ indexform.Sent }}
             {{ indexform.settlement.label }}
             {{ indexform.settlement }}
-
-
+            
+            {{ indexform.claimsupp }}
+            {{ indexform.set }}
+            {{ indexform.docs.label }}
+            {{ indexform.docs }}
+            
         </div>          
         <div class ='overlay' id ="variants"></div> 
         <button class='button' type="submit">Submition</button>  

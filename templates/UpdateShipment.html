@@ -103,6 +103,28 @@
             padding-right: 22px;
             
         }
+        #ETD {
+            padding:10px;
+            margin:5px;  
+            border: thin solid black;
+            border-radius: 1px;
+            width: 145px;
+            height: 16px;
+            font-size:80%;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        #ETA{
+            
+            padding:10px;
+            margin:5px;  
+            border: thin solid black;
+            border-radius: 1px;
+            width: 145px;
+            height: 16px;
+            font-size:80%;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
     </style>
 
     {% load static %}
@@ -122,19 +144,22 @@
         {% csrf_token %}
 
         <div class="line">
-            {{ form.number }}         
-            {{ form.bknumber }}
-            {{ form.ETD }}
-            {{ form.ETA }}
+            {{ form.forwarder }}         
+            {{ form.carrier }}         
+            {{ form.number }}  
             {{ form.Magic.label }}
             {{ form.Magic }}    
             {{ form.Customs.label }}
             {{ form.Customs }}
             {{ form.BK.label }}
             {{ form.BK }}
+        </div>
+        <div class="line">  
+            {{ form.bknumber }}
+            {{ form.ETD }}
+            {{ form.ETA }}
             {{ form.SI.label }}
             {{ form.SI }}
-           
         </div>
         <button type="submit" class="button">Submit</button>
         <a href = "{% url 'Monthly' Shipment %}" class='link'>Monthly</a>

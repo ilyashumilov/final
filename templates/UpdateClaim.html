@@ -120,7 +120,24 @@
             white-space: nowrap;
             text-align:left;
         }
-
+        #humidper {
+            margin-left: 46px;
+        }
+        #humidton {
+            margin-left: 38px;
+        }
+        #reason {
+            padding-top: 9px;
+            padding-bottom: 9px;
+            padding-left: 9px;
+        }
+        #cntrs {
+            margin-left: 4px;
+            width: 55px;
+        }
+        #tons {
+            width: 53px;
+        }
     </style>
 
     {% load static %}
@@ -143,12 +160,25 @@
             {{ indexform.date }}
             {{ indexform.bl }}
             {{ indexform.reason }}
+            {{ indexform.cntrs }}
+            {{ indexform.tons }}
+
             {{ indexform.comment }}
             
             {{ indexform.currency }}
             {{ indexform.amount }}
             {{ indexform.photos }}
-        
+
+                                    
+            
+            {{ indexform.humidper.label }}
+            {{ indexform.humidper }}
+            
+            {{ indexform.humidton.label }}
+            {{ indexform.humidton }}
+            
+            {{ indexform.impur.label }}
+            {{ indexform.impur }}
         </div>
         
         <div class="line1"> 
@@ -176,6 +206,16 @@
             {{ indexform.Sent }}
             {{ indexform.settlement.label }}
             {{ indexform.settlement }}
+            
+
+                                    
+  
+            {{ indexform.claimsupp.label }}
+            {{ indexform.claimsupp }}
+            {{ indexform.set.label }}
+            {{ indexform.set }}
+            {{ indexform.docs.label }}
+            {{ indexform.docs }}
 
 
         </div>          

@@ -127,6 +127,7 @@
 
         
         <tr>
+            <td> Forwarder </td>
             <td> Line </td>
             <td> POL </td>
             <td> POD </td>
@@ -140,6 +141,7 @@
         </tr>
         {% for i in price %}
         <tr>
+            <td class=row> {{ i.forwarder }} </td>
             <td class=row> {{ i.Line }} </td>
             <td class=row> {{ i.POL }} </td>
             <td class=row> {{ i.POD }} </td>
@@ -178,7 +180,7 @@
         {% endfor %}
     </table>
     <a href = "{% url 'Particular' country  %}" class=row1>Back</a>
-    <a href = "{% url 'Skip' readiness_id  %}" class=row1>Skip</a>
+    <a href = "{% url 'Skip' readiness_id  %}" class=row1>Truck</a>
 </div>
 </body>
 </html>

@@ -116,9 +116,9 @@
 
 <div class="container1">
     <table class="table" align="center">
-
-        {% for query in queryset %}
+        {% if len != 0 %}
         <tr>
+            <td> Forwarder </td>
             <td> Line </td>
             <td> POL </td>
             <td> POD </td>
@@ -127,10 +127,11 @@
             <td> Contract </td> 
             <td> Rate </td>
             <td> Additional </td> 
-            
         </tr>
-        
+        {% endif %}
+        {% for query in queryset %}
         <tr>
+            <td class=row> {{ query.forwarder }} </td>
             <td class=row> {{ query.Line }} </td>
             <td class=row> {{ query.POL }} </td>
             <td class=row> {{ query.POD }} </td>
@@ -158,6 +159,9 @@
 
         </tr>
         {% endfor %}
+        {% if len == 0 %}
+        <h1>No freight found</h1>
+        {% endif %}
     </table>
     <a href = "{% url 'FreightSearch'  %}" class='link'>Back</a>
     </table>

@@ -376,9 +376,8 @@
             <td class=head> ETA </td>
             <td class=head> M USD</td>
             <td class=head> M EUR</td>
-            <td class=head>SI</td>
+            <td class=head>SI/CST</td>
             <td class=head>MGC</td>
-            <td class=head>CSTMS</td>
         </tr>
         {% endif %}
     
@@ -492,7 +491,6 @@
             <td><a href = "{% url 'ShipmentUpdate1' result.id %}" class="update">Update</a></td>
             <td><a href = "{% url 'Container' result.id %}" class="cntrs">Cntrs</a></td>
             <td><a href = "{% url 'C' result.id %}" class="costs">Costs</a></td>
-            <td><a href = "{% url 'ClaimView' result.id %}" class="costs">Claims</a></td>
 
         </tr>
         {% endif %}
@@ -501,6 +499,7 @@
         <tr>
             <td> {{ 'Number' }} </td>
             <td> {{ 'BK' }} </td>
+            <td> {{ 'Carrier' }} </td>
             <td> {{ 'SO date' }} </td>
             <td> {{ 'PO date' }} </td>
             <td> {{ 'Supplier' }} </td>
@@ -527,6 +526,7 @@
         <tr>
             <td class=row9> {{ result.number }} </td>
             <td class=row9> {{ result.bknumber }} </td>
+            <td class=row9> {{ result.line }} </td>
             <td class=row9> {{ result.sodate }} </td>
             <td class=row9> {{ result.podate }} </td>
             <td class=row9> {{ result.Supplier }} </td>
@@ -567,9 +567,15 @@
             <td class=row6><a href="{% url  'CostMonthlyView1' result.id%}" class =link>N</a></td>
             {% if request.user.username == 'admin' %}
             <td class=row6><a href="{% url  'FinCostMonthlyView1' result.id%}" class =link>F</a></td>
+            {% endif %}
+            {% if result.destinationcountry == 'Ukraine' or request.user.username == 'managerlatam' %}
             <td><a href = "{% url 'ClaimView' result.id %}" class="link">C</a></td>
             {% endif %}
+            
         </tr>
+        {% endif %}
+        {% if a == 9 %}
+        <h1>No result</h1>
         {% endif %}
 
     </table>

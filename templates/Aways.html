@@ -139,8 +139,8 @@
         {% if len != 0 %}
         <tr>
             <td class=head> Date </td>
-            <td class=head> Number </td>
             <td class=head> Supplier </td>
+            <td class=head> Material </td>
             <td class=head> Origin </td>        
             <td class=head> Cntr </td>
             <td class=head> Tons </td>
@@ -150,8 +150,8 @@
         {% for purchaise in purchaises %}
         <tr>
             <td class=row> {{ purchaise.date }} </td>
-            <td class=row> {{ purchaise.number }} </td>
             <td class=row> {{ purchaise.Proveedor }} </td>
+            <td class=row> {{ purchaise.material }} </td>
             <td class=row> {{ purchaise.Origin }} </td>
             <td class=row> {{ purchaise.cntr }} </td>
             <td class=row> {{ purchaise.Tons }} </td>

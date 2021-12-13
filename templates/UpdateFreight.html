@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <style>
-        .one {
+        .one, #period{
             padding:10px;
             margin:5px;  
             border: thin solid black;
             border-radius: 1px;
-           
             }
         
         .overlay1 {
@@ -58,7 +57,7 @@
             text-decoration: none;
             background: none;
             padding: 10px;
-            margin-left: 5px;
+            margin-left: 92px;
             margin-right: 10px;
             color: black;
             font-size:80%;
@@ -93,11 +92,10 @@
             text-decoration: none;
             padding-top: 9px;
             padding-bottom: 10px;
-            padding-left: 26px;
-            padding-right: 26px;
+            padding-left: 16px;
+            padding-right: 16px;
             color: black;
             font-size:80%;
-            margin-left: 5px; 
            }
 
 
@@ -115,22 +113,26 @@
         #currencyrate{
             position: absolute;
             height: 37px;
+            top:48px;
         }
         #add{
             position: absolute;
             height: 37px;
+            top:48px;
         }
-        #period {
-            margin-left: 91px;
-        }
+
         #additional {
             width:59px;
         }
-        .link {
-            margin-left: 91px;
-        }
+
         
-    
+        #period {
+            margin-left: 90px;
+            width: 145px;
+            font-size:80%;
+            height: 16px;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
     </style>
 
     {% load static %}
@@ -150,11 +152,11 @@
         {% csrf_token %}
 
         <div class="line">
+            {{ form.forwarder }}
             {{ form.Line }}
             {{ form.POL }}
             {{ form.POD }}
             {{ form.terms }}    
-            <button type="submit" class='button'>Submition</button>
         </div>
         
         <div class="line">
@@ -164,6 +166,8 @@
             {{ form.contract }}
             {{ form.additional }} 
             {{ form.currencyadd }}    
+            <button type="submit" class='button'>Submition</button>
+
             <a href = "{% url 'FreightViews' POL POD %}" class='link'>Back</a>
         </div>
     </form>

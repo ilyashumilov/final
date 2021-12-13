@@ -3,8 +3,12 @@ const panel = document.getElementById('variants');
 
 
 searchInput.addEventListener('keyup', function() {
-    const input = searchInput.value;
-
+    const name = searchInput.value
+    
+    if (name != ''){
+        var input = name[0].toUpperCase() + name.slice(1);
+    };
+    
     panel.innerHTML = '';
     const output = values.filter(function(value){
         return value.startsWith(input);     
