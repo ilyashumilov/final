@@ -739,7 +739,7 @@ def OPS(request):
         flag.st == False
         flag.save()
 
-    if flag.st == False and now.hour == 9:
+    if flag.st == False and now.hour == 21:
         CREDENTIALS_FILE = str(pathlib.Path(
             __file__).parent.resolve()) + '/backup-334515-e0b541a9ad5d.json'  # Имя файла с закрытым ключом, вы должны подставить свое
         # Читаем ключи из файла
