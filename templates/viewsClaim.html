@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OPS</title>
+    <style>
+        
+        .h2 {
+            margin-left: 50px;
+            margin-top: 50px;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size:400%;
+            font-weight: 700%;
+            color: red;
+            outline: none;
+            text-decoration: none;
+            position: absolute;
+        }
+            
+        .h2:hover{
+              font-size:405%;  
+            }
+
+        .link1 {
+            outline: none;
+            text-decoration: none;
+            color: white;
+            font-size:90%;
+           }
+        
+        .link1: hover {
+            outline: none;
+            text-decoration: none;
+            color: black;
+            font-size:90%;
+           }
+        .row1 {
+            
+            padding: 10px;
+            color: black;
+            font-size:80%;
+            
+            background-color: #1f89bf9f;
+        }
+        
+        .row {
+            background-color: #ffd79063;
+            font-size:90%;
+     
+        }        
+                
+        .table {
+            border-spacing: 4px;
+            margin: 20px;
+        }
+
+        .link {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            color: black;
+            font-size:90%;
+           }
+
+        .link:hover {
+            background: black;
+            color: white;
+            outline: none;
+
+        }
+        
+
+        
+        .container1 {
+            position: absolute;
+            left: 50%;
+            top: 45%;
+            transform: translate(-50%, -50%);
+            font-size:110%;
+            text-align: center;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            white-space: nowrap;
+        }
+        
+        .row2 {
+            
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            color: black;
+            font-size:80%;
+            
+            background-color: white;
+        }
+        
+        .row2:hover {
+            background: black;
+            outline: none;
+            color: black;
+        }
+        .row4 {
+            background-color: #7FFF00;
+        }   
+        
+        
+          .row5 {
+            background-color: red; 
+        }  
+        
+        .delete {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            padding-bottom: 9px;
+            position: absolute;
+            top:47px;
+            left:945px;
+            color: black;
+            font-size:70%;
+           }
+
+        .delete:hover {
+            background: red;
+            color: white;
+            border: thin solid red;
+            outline: none;
+
+        }
+        
+        .update {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            padding-bottom: 9px;
+            position: absolute;
+            top:47px;
+            left:877px;
+            color: black;
+            font-size:70%;
+           }
+
+        .update:hover {
+            background: black;
+            color: white;
+            outline: none;
+
+        }
+        
+        .head {
+            font-size:85%;
+            font-weight: 200%;
+        }
+    </style>
+
+</head>
+<body>
+<a href = "{% url 'OPS'  %}" class=h2>VIPA</a>
+    
+<div class="container1">
+    <table class="table" align="center">     
+        <tr>
+            <td class='head'> Date </td>
+            <td class='head'> BL </td>
+            <td class='head'> Reason </td>
+            <td class='head'> Comment </td>
+            
+
+            <td class='head'> Amount </td>
+  
+            <td class='head'> picCust </td>
+            
+            <td class='head'> picVipa </td>
+            <td class='head'> Sent </td>
+            <td class='head'> Set-nt </td>
+
+
+            <td class='head'> CN amount </td>
+     
+            
+            <td class='head'> DN amount </td>
+            <td class='head'> Set-nt Date </td>
+            <td class='head'> Profit </td>
+            <td class='head'> Rate </td>    
+        </tr>        
+            
+
+        {% for queryset in querysets %}
+        
+        <tr>
+            <td class=row1> {{ queryset.date }} </td>
+            <td class=row1> {{ queryset.bl }} </td>
+            <td class=row1> {{ queryset.reason }} </td>
+            <td class=row1> {{ queryset.comment }} </td>
+            
+
+            {% if queryset.currency == 'USD'  %}
+            <td class=row1>{{ queryset.amount }}$ </td>
+            {% endif %}
+            
+            {% if queryset.currency == 'EUR'  %}
+            <td class=row1>{{ queryset.amount }}€ </td>
+            {% endif %}
+
+            
+                        
+            {% if queryset.picCust == True  %}
+            <td class=row4>  </td>
+            {% endif %}
+            
+            {% if queryset.picCust == False  %}
+            <td class=row5>  </td>
+            {% endif %}
+            
+            {% if queryset.picVipa == True  %}
+            <td class=row4>  </td>
+            {% endif %}
+            
+            {% if queryset.picVipa == False  %}
+            <td class=row5>  </td>
+            {% endif %}
+            
+            {% if queryset.Sent == True  %}
+            <td class=row4>  </td>
+            {% endif %}
+            
+            {% if queryset.Sent == False  %}
+            <td class=row5>  </td>
+            {% endif %}
+
+ 
+            
+            {% if queryset.settlement == False  %}
+            <td class=row5>  </td>
+            {% endif %}
+            
+            {% if queryset.settlement == True  %}
+            <td class=row4>  </td>
+            {% endif %}
+            
+
+            
+            {% if queryset.cn_currency == 'USD'  %}
+            <td class=row1>{{ queryset.cn_amount }}$ </td>
+            {% endif %}
+            
+            {% if queryset.cn_currency == 'EUR'  %}
+            <td class=row1>{{ queryset.cn_amount }}€ </td>
+            {% endif %}
+
+            
+            {% if queryset.dn_currency == 'USD'  %}
+            <td class=row1>{{ queryset.dn_amount }}$ </td>
+            {% endif %}
+            
+            {% if queryset.dn_currency == 'EUR'  %}
+            <td class=row1>{{ queryset.dn_amount }}€ </td>
+            {% endif %}
+            
+            <td class=row1> {{ queryset.settlement_date }} </td> 
+            <td class=row1>{{ queryset.profit }} </td>
+            <td class=row1> {{ queryset.rate }} </td> 
+            <td><a href = "{% url 'ClaimDelete' queryset.id   %}" class='delete'>Delete</a></td>  
+            <td><a href = "{% url 'ClaimUpdate' queryset.id   %}" class='update'>Update</a></td>  
+        </tr>
+        {% endfor %}
+        
+    </table>
+    <a href = "{% url 'Result' number   %}" class='link'>Back</a>
+    <a href = "{% url 'ClaimCreate' shipment_id   %}" class='link'>NEW</a>
+</div>
+
+</body>
+</html>
+
