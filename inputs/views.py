@@ -27,6 +27,49 @@ from googleapiclient.http import MediaFileUpload
 from oauth2client.service_account import ServiceAccountCredentials
 import pathlib
 import pandas as pd
+import psycopg2
+from psycopg2 import Error
+from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
+import pandas as pd
+
+
+def z(request):
+    user = request.user
+    df_sales = pd.read_excel('/Users/ilya.shumilov/Desktop/Script.xlsx',sheet_name='SO')
+    df_sales = pd.DataFrame(df_sales)
+    count = -1
+    print(df_sales)
+    for i in df_sales:
+        count += 1
+        try:
+            print(df_sales.loc[count, 'Buyer'])
+
+            client = Empresa.objects.filter(name=df_sales.loc[count, 'Buyer'])[0]
+            destination = Ports.objects.filter(port=df_sales.loc[count, 'Destination / City'])[0]
+            material = Materials.objects.filter(name=df_sales.loc[count, 'Product / EN643'])[0].name
+
+            min = 0
+            try:
+                min = float(df_sales.loc[count, 'MT/cntr'].replace(',', '.'))
+            except:
+                min = float(df_sales.loc[count, 'MT/cntr'])
+            cost = 0
+
+            try:
+                cost = float(df_sales.loc[count, 'Sales Price (USD/Ton)'].replace(',', '.'))
+            except:
+                cost = float(df_sales.loc[count, 'Sales Price (USD/Ton)'])
+
+            sale = SO(user=user, number=df_sales.loc[count, 'SO'], client=client, destination=destination,
+                      date=df_sales.loc[count, 'SO date'], material=material, cntr=int(df_sales.loc[count, 'Cntrs']),\
+                      Tons=float(str(df_sales.loc[count, 'Tons']).replace(',', '.')), min=min, cost=cost, currency='USD',
+                      comment=str(df_sales.loc[count, 'Add. Info']) + str(df_sales.loc[count, 'Order Conditions / Remarks']),\
+                      cpt=str(df_sales.loc[count, 'Customers Payment Terms']), stat=False)
+            sale.save()
+
+
+        except:
+            pass
 
 def ReportMonthly(request,month):
 
@@ -629,6 +672,8 @@ def DelBuffer(request,buffer_id):
 
 @restriction
 def OPS(request):
+
+    z(request)
 
     item = request.user
 
