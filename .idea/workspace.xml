@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1f676d81-e32c-4de2-8cb2-c6ba35379598" name="Changes" comment="">
+    <list default="true" id="3b3d2565-0bc7-4d2b-a0d6-d34249b3fd26" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/Claims.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/Claims.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/ClaimsUkr.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/ClaimsUkr.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/Containers.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/Containers.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/Costs.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/Costs.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/FinCosts.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/FinCosts.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/Monthly.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/Monthly.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/MonthlyCosts.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/MonthlyCosts.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/PO.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/PO.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/Readiness.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/Readiness.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/SO.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/SO.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/backup/Shipments.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/backup/Shipments.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/migrations/0001_initial.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/templates/MonthlyReport.html" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/templates/MonthlyReport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/templates/MonthlyUpdate.html" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/templates/MonthlyUpdate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/templates/MonthlyUpdate1.html" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/templates/MonthlyUpdate1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/templates/Result.html" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/templates/Result.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/templates/UpdateShipment.html" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/templates/UpdateShipment.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inputs/templates/UpdateShipment1.html" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/templates/UpdateShipment1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inputs/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/inputs/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/inputs/views.py" afterDir="false" />
     </list>
@@ -10,19 +31,17 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
-  </component>
-  <component name="ProjectId" id="21kPFRyDG8DbzwazOO2HIlFXEUn" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="22GbL04aRAMS0cJktmJvC6zCUv6" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -30,10 +49,9 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
-    <configuration name="time" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="scripts" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="local" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -45,7 +63,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/inputs/time.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/inputs/scripts.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -56,30 +74,19 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.time" />
+        <item itemvalue="Python.scripts" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1f676d81-e32c-4de2-8cb2-c6ba35379598" name="Changes" comment="" />
-      <created>1638482008165</created>
+      <changelist id="3b3d2565-0bc7-4d2b-a0d6-d34249b3fd26" name="Changes" comment="" />
+      <created>1639466813533</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1638482008165</updated>
+      <updated>1639466813533</updated>
     </task>
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
 </project>

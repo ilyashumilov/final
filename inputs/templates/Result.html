@@ -374,6 +374,8 @@
             <td class=head> Destination </td> 
             <td class=head> ETD </td>
             <td class=head> ETA </td>
+            <td class=head> SI number</td>
+            
             <td class=head> M USD</td>
             <td class=head> M EUR</td>
             <td class=head>SI/CST</td>
@@ -391,6 +393,8 @@
             <td class=row2> {{ result.po.so.destination }} </td>
             <td class=row2> {{ result.ETD }} </td>
             <td class=row2> {{ result.ETA }} </td>
+            
+            <td class=row2> {{ result.shipinstr }} </td>       
             
             
             {% if result.margin <= 0 %}
@@ -447,7 +451,9 @@
             <td class=row0> {{ result.po.Origin }} </td>
             <td class=row0> {{ result.po.so.destination }} </td>
             <td class=row0> {{ result.ETD }} </td>
-            <td class=row0> {{ result.ETA }} </td>        
+            <td class=row0> {{ result.ETA }} </td>
+            
+            <td class=row0> {{ result.shipinstr }} </td>       
             
             {% if result.margin <= 0 %}
             <td class=row5> {{ result.margin }} </td>
@@ -519,6 +525,7 @@
             
             <td> {{ 'ETD' }} </td>
             <td> {{ 'ETA' }} </td>
+            <td> {{ 'SI number' }} </td>
             <td> {{ 'M $' }} </td>
             <td> {{ 'M €' }} </td>
         </tr>
@@ -546,6 +553,7 @@
             
             <td class=row9> {{ result.ETD }} </td>
             <td class=row9> {{ result.ETA }} </td>
+            <td class=row9> {{ result.shipinstr }} </td>
             
             {% if result.margin <= 0 %}
             <td class=row5> {{ result.margin }} </td>

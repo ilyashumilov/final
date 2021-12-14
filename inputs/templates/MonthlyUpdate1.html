@@ -184,6 +184,9 @@
         #bknumber {
             margin-left: 89px;
         }
+        #shipinstr {
+            margin-left: 63px;
+        }
     </style>
 
     {% load static %}
@@ -254,7 +257,6 @@
                         
         </div>
         <div class="line1">
-        
             {{ form.min.label }}
             {{ form.min }}
             
@@ -267,6 +269,13 @@
             {{ form.bknumber.label }}
             {{ form.bknumber }}
         </div>
+        <div class="line1">
+            {{ form.shipinstr.label }}
+            {{ form.shipinstr }}
+        </div>
+        
+        
+
         <a href = "{% url 'MonthlyDelete1' id  %}" class="delete">Del</a>
         <button type="submit" class="button">OK</button>
         <a href = "{% url 'Result' number  %}" class="back">Back</a> 

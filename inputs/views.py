@@ -553,7 +553,7 @@ def buffer(request,shipment_id):
                       destinationcity=str(salesorder.destination), destinationcountry=destinationcountry, \
                       number=item.number,bknumber=item.bknumber, material=salesorder.material, cntr=str(order.cntr), Tons=str(order.Tons),
                       Tonsact=0,min=str(min), ETD=str(item.ETD), \
-                      ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder)
+                      ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder,shipinstr=item.shipinstr)
         new.save()
 
         if item.Truck == True:
@@ -731,6 +731,8 @@ def OPS(request):
         lista['Costs'].append([i.shipment.bknumber,i.name,i.volume,i.currency])
 
     now = datetime.now(timezone.utc)
+
+
 
 
     flag = upd.objects.get(index = '1')
@@ -1778,7 +1780,7 @@ def MonthlyReports(request, shipment_id):
         new = Monthly(sodate=str(salesorder.date), podate = str(order.date), Supplier = str(order.Proveedor), client = str(salesorder.client),\
                       origincity = str(order.Origin),origincountry=origincountry,destinationcity=str(salesorder.destination), destinationcountry=destinationcountry,\
                       number = item.number, bknumber=item.bknumber,material = salesorder.material, cntr=str(order.cntr), Tons = peso,Tonsact = 0,min = str(min),ETD = str(item.ETD),\
-                      ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder,Truck = False, transaction = '' )
+                      ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder,Truck = False, transaction = '', shipinstr=item.shipinstr)
         new.save()
 
         if item.Truck == True:
@@ -1839,7 +1841,7 @@ def MonthlyReports1(request, shipment_id):
         new = Monthly(sodate=str(salesorder.date), podate = str(order.date), Supplier = str(order.Proveedor), client = str(salesorder.client),\
                       origincity = str(order.Origin),origincountry=origincountry,destinationcity=str(salesorder.destination), destinationcountry=destinationcountry,\
                       number = item.number, bknumber=item.bknumber,material = salesorder.material, cntr=str(order.cntr), Tons = peso,min = str(min),ETD = str(item.ETD),\
-                      ETA=str(item.ETA), margin=0,line = item.carrier, forwarder = item.forwarder)
+                      ETA=str(item.ETA), margin=0,line = item.carrier, forwarder = item.forwarder,shipinstr=item.shipinstr)
         new.save()
 
         rate = ShipmentRate.objects.get(shipment=item)
@@ -2352,12 +2354,26 @@ def ShipmentUpdate(request, shipment_id):
 
 def ShipmentUpdate1(request, shipment_id):
     shipment = Shipment.objects.get(id=shipment_id)
-    form = shipmentform(instance=shipment)
-    if request.method == 'POST':
+    city = Ports.objects.get(port=shipment.po.Origin).country
+    flag = False
+    if shipment.ETD == '':
         form = shipmentform(request.POST, instance=shipment)
-        if form.is_valid():
-            form.save()
-            return redirect('Result',shipment.number)
+        flag = True
+    else:
+        form = shipmentform1(request.POST, instance=shipment)
+        flag = False
+
+    if form.is_valid():
+        form.save()
+        if flag == True:
+            shipment.ETD = shipment.ETD[8] + shipment.ETD[9] + '.' + shipment.ETD[5] + shipment.ETD[6] + '.' + \
+                           shipment.ETD[0] + shipment.ETD[1] + shipment.ETD[2] + shipment.ETD[3]
+            shipment.save()
+            shipment.ETA = shipment.ETA[8] + shipment.ETA[9] + '.' + shipment.ETA[5] + shipment.ETA[6] + '.' + \
+                           shipment.ETA[0] + shipment.ETA[1] + shipment.ETA[2] + shipment.ETA[3]
+            shipment.save()
+        return redirect('Result', shipment.number)
+
     context = {
         'form': form,
         'PO': shipment.po_id,
@@ -2867,7 +2883,7 @@ def Select(request, freight_id, readiness_id):
         order = PO.objects.get(pk=readiness.po_id)
         salesorder = SO.objects.get(pk=order.so_id)
 
-        obj = Shipment(po = order,number = '', forwarder = freight.forwarder,carrier = freight.Line,cntr=readiness.cntr,bknumber = '',ETD='',ETA='',margin=0,marginEUR=0,BK=False,SI=False,Magic=False, Truck = False)
+        obj = Shipment(po = order,number = '', forwarder = freight.forwarder,carrier = freight.Line,cntr=readiness.cntr,bknumber = '',ETD='',ETA='',margin=0,marginEUR=0,BK=False,SI=False,Magic=False, Truck = False,shipinstr='')
 
         form = shipmentforma(request.POST,instance = obj)
         if form.is_valid():
@@ -2920,7 +2936,7 @@ def Skip(request, readiness_id):
 
     item = Shipment(po=order, number='', forwarder='', carrier='', cntr=1,
                    bknumber='', ETD='', ETA='', margin=0, marginEUR=0, BK=False, SI=False, Magic=False,
-                   Truck=True)
+                   Truck=True,)
     item.save()
     try:
         response = requests.get(f'https://www.cbr-xml-daily.ru/daily_json.js')
