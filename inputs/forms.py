@@ -229,13 +229,22 @@ class index(forms.Form):
 
 class shipmentforma(forms.ModelForm):
     class Meta:
+        choises = (
+            ('NOR', 'NOR'),
+            ("40'HC", "40'HC"),
+            ("40'DC", "40'DC"),
+            ("Truck", "Truck"),
+            ("Rail", "Rail"),
+            ("45'", "45'"),
+        )
         model = Shipment
-        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic']
+        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic','equip']
         labels = {
             'number': "Number",
             'bknumber': "BK",
             'ETD': "ETD",
-            'ETA': "ETA"
+            'ETA': "ETA",
+            'equip': 'Equipment'
         }
         widgets = {
             'number': forms.TextInput(attrs={'class':'one','id': 'search', 'placeholder': 'Number','autocomplete':"off"}),
@@ -246,13 +255,22 @@ class shipmentforma(forms.ModelForm):
 
             'BK': forms.CheckboxInput(),
             'SI': forms.CheckboxInput(),
-            'Magic': forms.CheckboxInput()
+            'Magic': forms.CheckboxInput(),
+            'equip': forms.Select(attrs={'class': 'currency', 'id': 'currency'}, choices=choises)
         }
 
 class shipmentform(forms.ModelForm):
     class Meta:
+        choises = (
+            ('NOR', 'NOR'),
+            ("40'HC", "40'HC"),
+            ("40'DC", "40'DC"),
+            ("Truck", "Truck"),
+            ("Rail", "Rail"),
+            ("45'", "45'"),
+        )
         model = Shipment
-        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic','carrier','forwarder']
+        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic','carrier','forwarder','shipinstr','equip']
         labels = {
             'number': "Number",
             'bknumber': "BK",
@@ -260,7 +278,9 @@ class shipmentform(forms.ModelForm):
             'ETA': "ETA",
             'carrier':'carrier',
             'SI': 'SI/CST',
-            'forwarder': 'forwarder'
+            'forwarder': 'forwarder',
+            'shipinstr':'SI number',
+            'equip':'Equipment'
         }
         widgets = {
             'number': forms.TextInput(attrs={'class':'one','id': 'search', 'placeholder': 'Number','autocomplete':"off"}),
@@ -273,13 +293,25 @@ class shipmentform(forms.ModelForm):
             'SI': forms.CheckboxInput(),
             'Magic': forms.CheckboxInput(),
             'carrier': forms.TextInput(attrs={'class': 'one', 'id': 'search', 'placeholder': 'Carrier', 'autocomplete': "off"}),
-            'forwarder': forms.TextInput(attrs={'class': 'one', 'id': 'search', 'placeholder': 'Forwarder', 'autocomplete': "off"})
-        }
+            'shipinstr': forms.TextInput(attrs={'class': 'one', 'id': 'shipinstr', 'placeholder': 'SI number', 'autocomplete': "off"}),
+            'forwarder': forms.TextInput(attrs={'class': 'one', 'id': 'search', 'placeholder': 'Forwarder', 'autocomplete': "off"}),
+            'equip': forms.Select(attrs={'class': 'currency', 'id': 'currency'},choices=choises)
 
+        }
 class shipmentform1(forms.ModelForm):
     class Meta:
+        choises = (
+                      ('NOR', 'NOR'),
+                      ("40'HC", "40'HC"),
+                      ("40'DC", "40'DC"),
+                      ("Truck", "Truck"),
+                      ("Rail", "Rail"),
+                      ("45'", "45'"),
+
+        )
+
         model = Shipment
-        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic','carrier','forwarder']
+        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic','carrier','forwarder','shipinstr','equip']
         labels = {
             'number': "Number",
             'bknumber': "BK",
@@ -287,7 +319,9 @@ class shipmentform1(forms.ModelForm):
             'ETA': "ETA",
             'carrier':'carrier',
             'SI':'SI/CST',
-            'forwarder': 'forwarder'
+            'forwarder': 'forwarder',
+            'shipinstr':'SI number',
+            'equip': 'Equipment'
         }
         widgets = {
             'number': forms.TextInput(attrs={'class':'one','id': 'search', 'placeholder': 'Number','autocomplete':"off"}),
@@ -298,8 +332,11 @@ class shipmentform1(forms.ModelForm):
             'SI': forms.CheckboxInput(),
             'Magic': forms.CheckboxInput(),
             'carrier': forms.TextInput(attrs={'class': 'one', 'id': 'search', 'placeholder': 'Carrier', 'autocomplete': "off"}),
-            'forwarder': forms.TextInput(attrs={'class': 'one', 'id': 'search', 'placeholder': 'Forwarder', 'autocomplete': "off"})
+            'shipinstr': forms.TextInput(attrs={'class': 'one', 'id': 'shipinstr', 'placeholder': 'SI number', 'autocomplete': "off"}),
+            'forwarder': forms.TextInput(attrs={'class': 'one', 'id': 'search', 'placeholder': 'Forwarder', 'autocomplete': "off"}),
+            'equip': forms.Select(attrs={'class': 'currency', 'id': 'currency'},choices=choises)
         }
+
 class freightform(forms.ModelForm):
     class Meta:
         model = Freight
@@ -482,8 +519,6 @@ class bufferf(forms.ModelForm):
 class bufferform(forms.Form):
     Comment = forms.CharField(label=False, widget=forms.TextInput(attrs={'class': 'one', 'id': 'search1', 'placeholder': 'Comment', 'autocomplete': "off"}))
 
-
-
 class countryform(forms.ModelForm):
     class Meta:
         model = Ports
@@ -491,9 +526,17 @@ class countryform(forms.ModelForm):
 
 class Monthlyform(forms.ModelForm):
     class Meta:
+        choises = (
+            ('NOR', 'NOR'),
+            ("40'HC", "40'HC"),
+            ("40'DC", "40'DC"),
+            ("Truck", "Truck"),
+            ("Rail", "Rail"),
+            ("45'", "45'"),
+        )
         model = Monthly
         fields = ['sodate','podate','Supplier','client','origincity','origincountry','destinationcity','destinationcountry','number',\
-                  'material','cntr','Tons','min','ETD','ETA','bknumber']
+                  'material','cntr','Tons','min','ETD','ETA','bknumber','shipinstr','equip']
 
         labels = {
             'sodate': "SO date:",
@@ -512,6 +555,8 @@ class Monthlyform(forms.ModelForm):
             'ETD': "ETD:",
             'ETA': "ETA:",
             'bknumber': "BK:",
+            'shipinstr':'SI:',
+            'equip' : 'Equip:'
         }
         widgets = {
             'sodate': forms.TextInput(attrs={'class':'one','id': 'sodate', 'placeholder': 'SO date','autocomplete':"off"}),
@@ -530,4 +575,6 @@ class Monthlyform(forms.ModelForm):
             'ETD': forms.TextInput(attrs={'class': 'one', 'id': 'ETD', 'placeholder': 'ETD', 'autocomplete': "off"}),
             'ETA': forms.TextInput(attrs={'class': 'one', 'id': 'ETA', 'placeholder': 'ETA', 'autocomplete': "off"}),
             'bknumber': forms.TextInput(attrs={'class': 'one', 'id': 'bknumber', 'placeholder': 'BK', 'autocomplete': "off"}),
+            'shipinstr': forms.TextInput(attrs={'class': 'one', 'id': 'shipinstr', 'placeholder': 'SI number', 'autocomplete': "off"}),
+            'equip': forms.Select(attrs={'class': 'currency', 'id': 'currency'}, choices=choises)
         }

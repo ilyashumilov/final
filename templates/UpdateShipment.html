@@ -113,7 +113,12 @@
             font-size:80%;
             font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
-        
+        .currency {        
+            padding:9px;
+            margin:5px;  
+            border: thin solid black;
+            border-radius: 1px;
+        }
         #ETA{
             
             padding:10px;
@@ -146,7 +151,8 @@
         <div class="line">
             {{ form.forwarder }}         
             {{ form.carrier }}         
-            {{ form.number }}  
+            {{ form.number }}
+            {{ form.equip }}
             {{ form.Magic.label }}
             {{ form.Magic }}    
             {{ form.Customs.label }}
@@ -154,7 +160,8 @@
             {{ form.BK.label }}
             {{ form.BK }}
         </div>
-        <div class="line">  
+        <div class="line">
+            {{ form.shipinstr }}
             {{ form.bknumber }}
             {{ form.ETD }}
             {{ form.ETA }}

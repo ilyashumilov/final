@@ -159,6 +159,10 @@
             font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
 
         }
+        #ex {
+            max-width: 150px;
+            overflow-x: auto;
+        }
     </style>
 
 </head>
@@ -205,7 +209,7 @@
             <td class=row> {{ sale.destination }} </td>
             <td class=row> {{ sale.date }} </td>
             <td class=row> {{ sale.number }} </td>
-            <td class=row> {{ sale.material }} </td>
+            <td class=row id=ex> {{ sale.material }} </td>
             <td class=row> {{ sale.cntr }} </td>
             <td class=row> {{ sale.Tons }} </td>
             <td class=row> {{ sale.min }} </td>
@@ -218,7 +222,7 @@
             {% endif %}
             
             <td class=row> {{ sale.cpt }} </td>
-            <td class=row> {{ sale.comment }} </td>
+            <td class=row id=ex> {{ sale.comment }} </td>
             <td class=row> {{ closed|get_item:sale.id }} </td>
             <td><a href = "{% url 'PurchaisesViews' sale.id  %}" class='link'>View PO's</a></td>
             <td><a href = "{% url 'SalesUpdate' sale.id  %}" class='link1'>Update</a></td>

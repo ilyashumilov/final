@@ -94,6 +94,8 @@ class Shipment(models.Model):
     SI = models.BooleanField(default=False)
     Magic = models.BooleanField(default=False)
 
+    shipinstr = models.TextField(max_length = 50)
+    equip = models.CharField(max_length=30)
     Truck = models.BooleanField(default=False)
 
     def numero(self):
@@ -104,8 +106,8 @@ class Shipment(models.Model):
 
 class Monthly(models.Model):
     # po = models.ForeignKey(PO, on_delete=models.CASCADE)
-    sodate = models.CharField(max_length = 30)
-    podate = models.CharField(max_length = 30)
+    sodate = models.TextField(max_length = 50)
+    podate = models.TextField(max_length = 50)
 
     Supplier =  models.TextField(max_length = 50)
     client =  models.TextField(max_length = 50)
@@ -119,7 +121,7 @@ class Monthly(models.Model):
     forwarder = models.TextField(max_length=50)
     number = models.TextField(max_length = 50)
     bknumber = models.TextField(max_length = 50)
-    material = models.CharField(max_length=20)
+    material = models.TextField(max_length = 50)
     cntr = models.CharField(max_length=20)
     Tons = models.DecimalField(max_digits=10, decimal_places=2)
     Tonsact = models.DecimalField(max_digits=10, decimal_places=2)
@@ -127,12 +129,15 @@ class Monthly(models.Model):
 
     transaction = models.TextField(max_length = 50)
     margin = models.DecimalField(max_digits=10, decimal_places=2)
-    marginEUR = models.CharField(max_length=10)
+    marginEUR = models.TextField(max_length = 50)
 
-    ETD = models.CharField(max_length=20)
-    ETA = models.CharField(max_length=20)
+    ETD = models.TextField(max_length = 50)
+    ETA = models.TextField(max_length = 50)
+
+    shipinstr = models.TextField(max_length = 50)
 
     Truck = models.BooleanField(default = False)
+    equip = models.CharField(max_length=30)
 
     def numero(self):
         return float(self.marginEUR)
@@ -153,6 +158,9 @@ class MonthlyCosts(models.Model):
     name =  models.TextField(max_length = 50)
     volume = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length = 20)
+
+class invoices(models.Model):
+    number = models.TextField(max_length = 50)
 
 class Containers(models.Model):
     us = models.ForeignKey(User, on_delete = models.CASCADE)
@@ -282,7 +290,7 @@ class track(models.Model):
     number = models.TextField(max_length=50)
     Supplier = models.TextField(max_length = 50)
     origincountry = models.TextField(max_length = 50)
-    material = models.CharField(max_length=20)
+    material = models.TextField(max_length = 50)
 
     payment_status = models.BooleanField(default=False)
     registered = models.BooleanField(default=False)

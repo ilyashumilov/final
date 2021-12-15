@@ -53,6 +53,10 @@
             outline: none;
             color: black;
         }
+        #ex {
+            max-width: 120px;
+            overflow-x: auto;
+        }
         
         .row {
             background-color:  gold;
@@ -309,12 +313,15 @@
         {% for Shipment in shipments %}
         <tr>
             <td>Shipment</td>
-            <td class=row2> {{ Shipment.po.material }} </td>
             <td class=row2> {{ Shipment.number }} </td>
             <td class=row2> {{ Shipment.carrier }} </td>
+            <td class=row2> {{ Shipment.equip }} </td>
             <td class=row2> {{ Shipment.bknumber }} </td>
             <td class=row2> {{ Shipment.po.Origin }} </td>
+            <td class=row2> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row2> {{ Shipment.po.so.destination }} </td>
+            <td class=row2 id=ex> {{ Shipment.po.material }} </td>
+            <td class=row2> {{ Shipment.po.cntr }} </td>
             <td class=row2> {{ Shipment.ETD }} </td>
             <td class=row2> {{ Shipment.ETA }} </td>
             
@@ -366,12 +373,15 @@
 
         {% if a == 3 %}
         <tr>
-            <td class=head> Material </td>
             <td class=head> Number </td>
             <td class=head> Carrier </td>
+            <td class=head> Equip </td>
             <td class=head> BK </td>  
-            <td class=head> Origin </td> 
+            <td class=head> Origin </td>
+            <td class=head> Supplier </td> 
             <td class=head> Destination </td> 
+            <td class=head> Material </td>  
+            <td class=head> Cntrs </td>  
             <td class=head> ETD </td>
             <td class=head> ETA </td>
             <td class=head> M USD</td>
@@ -383,14 +393,17 @@
     
         {% if result.BK == False %}
         <tr>
-            <td class=row2> {{ result.po.material }} </td>
             <td class=row2> {{ result.number }} </td>
             <td class=row2> {{ result.carrier }} </td>
+            <td class=row2> {{ result.equip }} </td>
             <td class=row2> {{ result.bknumber }} </td>
             <td class=row2> {{ result.po.Origin }} </td>
+            <td class=row2> {{ result.po.Proveedor.name }} </td>
             <td class=row2> {{ result.po.so.destination }} </td>
+            <td class=row2 id=ex> {{ result.po.material }} </td>
+            <td class=row2> {{ result.po.cntr }} </td>
             <td class=row2> {{ result.ETD }} </td>
-            <td class=row2> {{ result.ETA }} </td>
+            <td class=row2> {{ result.ETA }} </td>       
             
             
             {% if result.margin <= 0 %}
@@ -440,14 +453,17 @@
     
         {% if result.BK == True %}
         <tr>
-            <td class=row0> {{ result.po.material }} </td>
             <td class=row0> {{ result.number }} </td>
             <td class=row0> {{ result.carrier }} </td>
+            <td class=row0> {{ result.equip }} </td>
             <td class=row0> {{ result.bknumber }} </td>
             <td class=row0> {{ result.po.Origin }} </td>
+            <td class=row0> {{ result.po.Proveedor.name }} </td>
             <td class=row0> {{ result.po.so.destination }} </td>
+            <td class=row0 id=ex> {{ result.po.material }} </td>
+            <td class=row0> {{ result.po.cntr }} </td>
             <td class=row0> {{ result.ETD }} </td>
-            <td class=row0> {{ result.ETA }} </td>        
+            <td class=row0> {{ result.ETA }} </td>         
             
             {% if result.margin <= 0 %}
             <td class=row5> {{ result.margin }} </td>
@@ -519,6 +535,7 @@
             
             <td> {{ 'ETD' }} </td>
             <td> {{ 'ETA' }} </td>
+            <td> {{ 'SI number' }} </td>
             <td> {{ 'M $' }} </td>
             <td> {{ 'M €' }} </td>
         </tr>
@@ -546,6 +563,7 @@
             
             <td class=row9> {{ result.ETD }} </td>
             <td class=row9> {{ result.ETA }} </td>
+            <td class=row9> {{ result.shipinstr }} </td>
             
             {% if result.margin <= 0 %}
             <td class=row5> {{ result.margin }} </td>

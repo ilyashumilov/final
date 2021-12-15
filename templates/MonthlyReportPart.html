@@ -175,6 +175,8 @@
             <td class=row0> Carrier </td>            
             <td class=row0> ETD </td>
             <td class=row0> ETA </td>
+            <td class=row0> SI number </td>
+            <td class=row0> Equip </td>
             <td class=row0> M $ </td>
             <td class=row0> M € </td>
         </tr>
@@ -256,6 +258,8 @@
             <td class=row0> Carrier </td>            
             <td class=row0> ETD </td>
             <td class=row0> ETA </td>
+            <td class=row0> SI number </td>
+            <td class=row0> Equip </td>
             <td class=row0> M $ </td>
             <td class=row0> M € </td>
         </tr>
@@ -291,6 +295,9 @@
             
             <td class=row2> {{ item.ETD }} </td>
             <td class=row2> {{ item.ETA }} </td>
+            
+            <td class=row2> {{ item.shipinstr }} </td>
+            <td class=row2> {{ item.equip }} </td>
             
             {% if item.margin <= 0 %}
             <td class=row5> {{ item.margin }} </td>

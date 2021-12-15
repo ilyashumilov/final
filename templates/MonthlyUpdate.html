@@ -101,7 +101,12 @@
             text-align:left;
 
         }
-
+        .currency {        
+            padding:9px;
+            margin:5px;  
+            border: thin solid black;
+            border-radius: 1px;
+        }
         .but {
             outline: none;
             border: thin solid black;
@@ -184,6 +189,9 @@
         #bknumber {
             margin-left: 89px;
         }
+        #shipinstr {
+            margin-left: 63px;
+        }
     </style>
 
     {% load static %}
@@ -265,6 +273,13 @@
             {{ form.bknumber.label }}
             {{ form.bknumber }}
             
+        </div>
+        <div class="line1">
+            {{ form.shipinstr.label }}
+            {{ form.shipinstr }}
+            
+            {{ form.equip.label }}
+            {{ form.equip }}
         </div>
         <a href = "{% url 'MonthlyDelete' id  %}" class="delete">Del</a>
         <button type="submit" class="button">OK</button>

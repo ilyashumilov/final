@@ -16,7 +16,9 @@
             left:1000px;
             top: 70px;
         }
-        
+        tr {
+            padding: 10px;
+        }
         h1 {
             position: absolute;
             left:200px;
@@ -83,15 +85,19 @@
             cursor: pointer;
             background: gold;
         }
+
         .row2t {
             background-color: #1f39bf9f;
-            border: 2px solid black;
+            border: 1px solid black;
         }
-        .row0 {
+        .row0t {
             background-color: #07f5f5f4;
-            border: 2px solid black;
-        }      
-
+            border: 1px solid black;
+        }
+        #ex {
+            max-width: 120px;
+            overflow-x: auto;
+        }
     </style>
 </head>
 <body>
@@ -139,7 +145,7 @@
             <td class=row3> {{ Shipment.bknumber }} </td>
             <td class=row3> {{ Shipment.ETD }} </td>
             <td class=row3> {{ Shipment.ETA }} </td>
-            <td class=row3> {{ Shipment.comment }} </td>
+            <td class=row3 id=ex> {{ Shipment.comment }} </td>
           
         </tr>
         {% endfor %}
@@ -151,8 +157,10 @@
         <tr>
             <td class=head> Number </td>
             <td class=head> Carrier </td>
+            <td class=head> Equip </td>
             <td class=head> BK </td>  
-            <td class=head> Origin </td> 
+            <td class=head> Origin </td>
+            <td class=head> Supplier </td> 
             <td class=head> Destination </td> 
             <td class=head> Material </td>  
             <td class=head> Cntrs </td>  
@@ -169,10 +177,12 @@
         <tr>
             <td class=row2> {{ Shipment.number }} </td>
             <td class=row2> {{ Shipment.carrier }} </td>
+            <td class=row2> {{ Shipment.equip }} </td>
             <td class=row2> {{ Shipment.bknumber }} </td>
             <td class=row2> {{ Shipment.po.Origin }} </td>
+            <td class=row2> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row2> {{ Shipment.po.so.destination }} </td>
-            <td class=row2> {{ Shipment.po.material }} </td>
+            <td class=row2 id=ex> {{ Shipment.po.material }} </td>
             <td class=row2> {{ Shipment.po.cntr }} </td>
             <td class=row2> {{ Shipment.ETD }} </td>
             <td class=row2> {{ Shipment.ETA }} </td>
@@ -224,13 +234,15 @@
         <tr>
             <td class=row0> {{ Shipment.number }} </td>
             <td class=row0> {{ Shipment.carrier }} </td>
+            <td class=row0> {{ Shipment.equip }} </td>
             <td class=row0> {{ Shipment.bknumber }} </td>
             <td class=row0> {{ Shipment.po.Origin }} </td>
+            <td class=row0> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row0> {{ Shipment.po.so.destination }} </td>
-            <td class=row0> {{ Shipment.po.material }} </td>
+            <td class=row0 id=ex> {{ Shipment.po.material }} </td>
             <td class=row0> {{ Shipment.po.cntr }} </td>
             <td class=row0> {{ Shipment.ETD }} </td>
-            <td class=row0> {{ Shipment.ETA }} </td>       
+            <td class=row0> {{ Shipment.ETA }} </td>   
             
             {% if Shipment.margin <= 0 %}
             <td class=row5> {{ Shipment.margin }} </td>
@@ -277,10 +289,12 @@
         
             <td class=row2t> {{ Shipment.number }} </td>
             <td class=row2t> {{ Shipment.carrier }} </td>
+            <td class=row2t> {{ Shipment.equip }} </td>
             <td class=row2t> {{ Shipment.bknumber }} </td>
             <td class=row2t> {{ Shipment.po.Origin }} </td>
+            <td class=row2t> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row2t> {{ Shipment.po.so.destination }} </td>
-            <td class=row2t> {{ Shipment.po.material }} </td>
+            <td class=row2t id=ex> {{ Shipment.po.material }} </td>
             <td class=row2t> {{ Shipment.po.cntr }} </td>
             <td class=row2t> {{ Shipment.ETD }} </td>
             <td class=row2t> {{ Shipment.ETA }} </td>
@@ -325,13 +339,15 @@
         <tr>
             <td class=row0t> {{ Shipment.number }} </td>
             <td class=row0t> {{ Shipment.carrier }} </td>
+            <td class=row0t> {{ Shipment.equip }} </td>
             <td class=row0t> {{ Shipment.bknumber }} </td>
             <td class=row0t> {{ Shipment.po.Origin }} </td>
+            <td class=row0t> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row0t> {{ Shipment.po.so.destination }} </td>
-            <td class=row0t> {{ Shipment.po.material }} </td>
+            <td class=row0t id=ex> {{ Shipment.po.material }} </td>
             <td class=row0t> {{ Shipment.po.cntr }} </td>
             <td class=row0t> {{ Shipment.ETD }} </td>
-            <td class=row0t> {{ Shipment.ETA }} </td>       
+            <td class=row0t> {{ Shipment.ETA }} </td>    
             
             {% if Shipment.margin <= 0 %}
             <td class=row5> {{ Shipment.margin }} </td>
@@ -395,7 +411,7 @@
         {% for purchaise in queryset %}
         <tr>
             <td class=row> Readiness </td>
-            <td class=row> {{ purchaise.po.material }} </td>
+            <td class=row id=ex> {{ purchaise.po.material }} </td>
             {% if purchaise.number == 'Allocate' %}
             <td class=row5> {{ purchaise.number }} </td>
             {% endif %}
