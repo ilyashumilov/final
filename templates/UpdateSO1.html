@@ -181,8 +181,6 @@
             {{ form.date.label }}
             {{ form.date }}
             
-
-            
             {{ form.cntr.label }}
             {{ form.cntr }}
             
@@ -203,12 +201,19 @@
             {{ form.currency }}
             <a href = "{% url 'Close' sales_id  %}" class="close">Close</a>
             <a href = "{% url 'SalesDelete' sales_id  %}" class="delete">Delete</a>
-            
+        </div>
+        <div class=none>
+        {{ form1.number.label }}
+        {{ form1.number }}
         </div>
     </form>
     <br>
 </div>
-
+<script type="text/javascript">
+    const current = {{current|safe}};
+    const values = {{ports|safe}};
+</script>
+<script src="{% static 'Script1.js' %}"></script>
 </body>
 
 </html>

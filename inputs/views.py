@@ -229,7 +229,6 @@ def ReportMonthly(request,month):
 
     item = request.user
     countries = Profile.objects.filter(user=item)
-
     filtered = Monthly.objects.none()
     final = []
 
@@ -740,8 +739,8 @@ def buffer(request,shipment_id):
     min = peso / containers.count()
 
     if request.method == 'POST':
-        origincountry = str(Ports.objects.get(port=order.Origin).country)
-        destinationcountry = str(Ports.objects.get(port=salesorder.destination).country)
+        origincountry = str(Ports.objects.filter(port=order.Origin)[0].country)
+        destinationcountry = str(Ports.objects.filter(port=salesorder.destination)[0].country)
 
         new = Monthly(sodate=str(salesorder.date), podate=str(order.date), Supplier=str(order.Proveedor),
                       client=str(salesorder.client),\
@@ -807,7 +806,7 @@ def buffer(request,shipment_id):
 def comment(request,buffer_id):
     item = Buffer.objects.get(pk=buffer_id)
     form=bufferf(instance=item)
-    city = Ports.objects.filter(port=item.po.Origin)[0].country
+    city = Ports.objects.filter(port=item.Origin)[0].country
     if request.method == 'POST':
         form = bufferf(request.POST,instance=item)
         if form.is_valid():
@@ -817,7 +816,7 @@ def comment(request,buffer_id):
 
 def DelBuffer(request,buffer_id):
     item = Buffer.objects.get(pk=buffer_id)
-    city = Ports.objects.filter(port=item.po.Origin)[0].country
+    city = Ports.objects.filter(port=item.Origin)[0].country
     if request.method == 'POST':
         item.delete()
         return redirect('Particular', city)
@@ -1650,7 +1649,7 @@ def SalesCreate(request):
 
             date = date[8] + date[9] + '.' + date[5] + date[6] + '.' + date[0] + date[1] + date[2] + date[3]
             client = Empresa.objects.get(name=client)
-            destination = Ports.objects.get(port=destination)
+            destination = Ports.objects.filter(port=destination)[0]
             item = SO(user=usr,client=client,destination=destination,date=date,number=number,material=material,cntr=cntr,Tons=Tons,min=min,cost=cost,currency=currency,comment=comment,cpt=cpt)
             item.save()
             return redirect('SalesViews')
@@ -1669,6 +1668,7 @@ def SalesUpdate(request, sales_id):
     ports = json.dumps(ports)
 
     salesorder = SO.objects.get(id=sales_id)
+    current = "'"+str(salesorder.destination.port)+"'"
     form = soform(instance=salesorder)
     form1 = destform()
     if request.method == 'POST':
@@ -1676,7 +1676,7 @@ def SalesUpdate(request, sales_id):
         form = soform(request.POST, instance=salesorder)
         if form1.is_valid():
             dest = form1.cleaned_data['number']
-            port = Ports.objects.get(port=dest)
+            port = Ports.objects.filter(port=dest)[0]
             salesorder.destination = port
             salesorder.save()
         if form.is_valid():
@@ -1687,23 +1687,35 @@ def SalesUpdate(request, sales_id):
         'form': form,
         'sales_id':sales_id,
         'form1': form1,
+        'current':current
     }
     return render(request, 'UpdateSO.html', context)
+
 def SalesUpdate1(request, sales_id):
 
-    ports = Ports.objects.all()
+    ports1 = Ports.objects.values_list('port', flat=True)
+    ports1 = list(ports1)
+    ports1 = json.dumps(ports1)
 
+    form1 = destform()
+    ports = Ports.objects.all()
     salesorder = SO.objects.get(id=sales_id)
+    current = "'"+str(salesorder.destination.port)+"'"
+    print(current)
     form = soform(instance=salesorder)
     if request.method == 'POST':
+        form1 = destform(request.POST)
         form = soform(request.POST, instance=salesorder)
         if form.is_valid():
             form.save()
             return redirect('Result',salesorder.number )
     context = {
+        'ports':ports1,
         'form': form,
+        'form1': form1,
         'sales_id':salesorder,
-        'number':salesorder.number
+        'number':salesorder.number,
+        'current':current
     }
     return render(request, 'UpdateSO1.html', context)
 def SalesDelete(request, sales_id):
@@ -1838,7 +1850,7 @@ def PurchaisesCreate(request):
         material = Materials.objects.get(name=material)
 
         provider = Empresa.objects.get(name=Proveedor)
-        port = Ports.objects.get(port=Origin)
+        port = Ports.objects.filter(port=Origin)[0]
         country = port.country
         profiles = Profile.objects.filter(country = country)
         if profiles.count() == 0:
@@ -2000,8 +2012,8 @@ def MonthlyReports(request, shipment_id):
     min = peso / containers.count()
 
     if request.method == 'POST':
-        origincountry = str(Ports.objects.get(port=order.Origin).country)
-        destinationcountry = str(Ports.objects.get(port=salesorder.destination).country)
+        origincountry = str(Ports.objects.filter(port=order.Origin)[0].country)
+        destinationcountry = str(Ports.objects.filter(port=salesorder.destination)[0].country)
 
         new = Monthly(sodate=str(salesorder.date), podate = str(order.date), Supplier = str(order.Proveedor), client = str(salesorder.client),\
                       origincity = str(order.Origin),origincountry=origincountry,destinationcity=str(salesorder.destination), destinationcountry=destinationcountry,\
@@ -2061,8 +2073,8 @@ def MonthlyReports1(request, shipment_id):
     min = peso / containers.count()
 
     if request.method == 'POST':
-        origincountry = str(Ports.objects.get(port=order.Origin).country)
-        destinationcountry = str(Ports.objects.get(port=salesorder.destination).country)
+        origincountry = str(Ports.objects.filter(port=order.Origin).country)[0]
+        destinationcountry = str(Ports.objects.filter(port=salesorder.destination).country)[0]
 
         new = Monthly(sodate=str(salesorder.date), podate = str(order.date), Supplier = str(order.Proveedor), client = str(salesorder.client),\
                       origincity = str(order.Origin),origincountry=origincountry,destinationcity=str(salesorder.destination), destinationcountry=destinationcountry,\
@@ -2382,7 +2394,7 @@ def ContainerCreate1(request, shipment_id):
             bales = form.cleaned_data['bales']
             gross = form.cleaned_data['gross']
             tara = form.cleaned_data['tara']
-            base = Containers(shipment=item,number=number,seal=seal,bales=bales,gross=gross,tara=tara, vgm = int(gross)+int(tara))
+            base = Containers(us=request.user,shipment=item,number=number,seal=seal,bales=bales,gross=gross,tara=tara, vgm = int(gross)+int(tara))
             base.save()
 
             nuevo = counter.objects.get(name = item.po.Origin.country)
@@ -3016,7 +3028,7 @@ def Cost(request, shipment_id):
 def ShowFreight(request, readiness_id):
 
     read = Readiness.objects.get(pk=readiness_id)
-    country = Ports.objects.get(port=read.Origin).country
+    country = Ports.objects.filter(port=read.Origin)[0].country
     POL = read.po.Origin
     POD = read.po.so.destination
     options = Freight.objects.filter(POL=POL).filter(POD=POD)

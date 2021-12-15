@@ -20,14 +20,14 @@ try:
 
 
 
-    # cargo = df['Cargo type'].dropna().reset_index()
-    # count = 0
-    # for i in cargo['Cargo type']:
-    #     a = "'"+cargo.loc[count,'Cargo type']+"'"
-    #     query = f'INSERT INTO inputs_materials (name) VALUES ({a});'
-    #     print(query)
-    #     count += 1
-    #     cursor.execute(query)
+    cargo = df['Cargo type'].dropna().reset_index()
+    count = 0
+    for i in cargo['Cargo type']:
+        a = "'"+cargo.loc[count,'Cargo type']+"'"
+        query = f'INSERT INTO inputs_materials (name) VALUES ({a});'
+        print(query)
+        count += 1
+        cursor.execute(query)
 
     ports = df[['City','Country']].copy().reset_index()
     count = 0

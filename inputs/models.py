@@ -257,7 +257,7 @@ class Freight(models.Model):
 class Costs(models.Model):
     shipment = models.ForeignKey(Shipment, on_delete = models.CASCADE)
     name =  models.TextField(max_length = 50)
-    volume = models.IntegerField()
+    volume = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=20)
 
 class FinCosts(models.Model):

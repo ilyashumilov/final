@@ -187,6 +187,11 @@
         .row9 {
             background: orange;
         }
+        
+        #ex {
+            max-width: 150px;
+            overflow-x: auto;
+        }
     </style>
 
 </head>
@@ -232,12 +237,12 @@
             {% endif %}
             
             <td class=row> {{ result.cpt }} </td> 
-            <td class=row> {{ result.material }} </td>
+            <td class=row id=ex> {{ result.material }} </td>
 
 
             <td class=row> {{ result.min }} </td>
 
-            <td class=row> {{ result.comment }} </td>
+            <td class=row id=ex> {{ result.comment }} </td>
             <td class=row1><a href = "{% url 'SalesUpdate1' result.id  %}" class='link1'>Update</a></td>
         </tr> 
         {% for purchaise in purchaises %}
@@ -281,7 +286,7 @@
             <td class=row> {{ result.number }} </td>
             <td class=row> {{ result.Proveedor }} </td>
             <td class=row> {{ result.Origin }} </td>
-            <td class=row> {{ result.material }} </td>
+            <td class=row id=ex> {{ result.material }} </td>
             <td class=row> {{ result.cntr }} </td>
             <td class=row> {{ result.Tons }} </td>
             {% if result.currency == 'USD' %}
@@ -364,7 +369,7 @@
             <td class=read> {{ purchaise.Origin }} </td>        
             <td class=read> {{ purchaise.cntr }} </td>
             <td class=read> {{ purchaise.Tons }} </td>
-            <td class=read> {{ purchaise.comment }} </td>
+            <td class=read id=ex> {{ purchaise.comment }} </td>
         </tr>
         {% endfor %}
         {% endif %}

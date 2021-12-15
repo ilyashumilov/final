@@ -1,6 +1,6 @@
 const searchInput = document.getElementById('search');
 const panel = document.getElementById('variants');
-
+searchInput.value = current;
 
 searchInput.addEventListener('keyup', function() {
     const name = searchInput.value
