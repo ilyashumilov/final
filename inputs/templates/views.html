@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OPS</title>
+    <style>
+        
+        .h2 {
+            position: absolute;
+            left: 50px;
+            top: 50px;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size:400%;
+            font-weight: 700%;
+            color: red;
+            outline: none;
+            text-decoration: none;
+            position: absolute;
+        }
+
+        .h2:hover{
+          font-size:405%;  
+        }
+
+        .link1 {
+            outline: none;
+            text-decoration: none;
+            color: white;
+            font-size:90%;
+           }
+        
+        .link1: hover {
+            outline: none;
+            text-decoration: none;
+            color: black;
+            font-size:90%;
+           }
+        
+        .row1 {
+            
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            color: black;
+            font-size:80%;
+            
+            background-color: white;
+        }
+        
+        .row1:hover {
+            background: black;
+            outline: none;
+            color: black;
+        }
+        
+        .row {
+            background-color: #ffd70063;
+     
+        }     
+        
+        .away {
+            background-color: #f22b11b5;
+     
+        }    
+        
+          .row2 {
+            background-color: #1f39bf9f; 
+              
+        }    
+        
+          .row3 {
+            background-color: red; 
+        }     
+        
+          .row4 {
+            background-color: #7FFF00; 
+        }     
+        
+        .table {
+            border-spacing: 4px;
+            margin: 20px;
+        }
+
+        .link {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 8px;
+            margin: -2px;
+
+            color: black;
+            font-size:90%;
+           }
+
+
+        .link:hover {
+            background: black;
+            color: white;
+            outline: none;
+
+        }
+        
+        .link1 {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 8px;
+            margin: -10px;
+            color: black;
+            font-size:90%;
+           }
+
+
+        .link1:hover {
+            background: black;
+            color: white;
+            outline: none;
+
+        }
+        
+        .link2 {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 8px;
+            padding-left: 23px;
+            padding-right: 23px;
+            margin: 5px;
+
+            color: black;
+            font-size:90%;
+           }
+
+
+        .link2:hover {
+            background: black;
+            color: white;
+            outline: none;
+
+        }
+        
+        td, th {
+            
+            padding: 8px;
+            margin: 10px;
+            width: 40%;
+        }
+
+        .box {
+            max-width: 1500px;
+            margin: 270px auto;
+            position: relative;
+            text-align: center;
+            height: 1100px;
+            overflow-y: auto;
+            overflow-x: auto;
+            white-space: nowrap;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+        }
+        #ex {
+            max-width: 150px;
+            overflow-x: auto;
+        }
+    </style>
+
+</head>
+<body>
+<a href = "{% url 'OPS'  %}" class=h2>VIPA</a>
+    
+<div class = "box">
+    <table class="table" align="center">
+        <tr>
+            <td>Client</td>
+            <td>Destination</td>
+            <td>Date</td>
+            <td>Number</td>
+            <td>Material</td>
+            <td>Cntr</td>
+            <td>Tons</td>
+            <td>MT/cntr</td>
+            <td>Sales price</td>
+            <td>Cust. payments terms</td>
+            <td>Comment</td>
+            <td>Closed</td>
+        </tr>
+
+        {% for sale in sales %}
+        {% if sale.number == '00-0000' %}
+        <tr>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ 'Moves Away' }} </td>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ '' }} </td>
+            <td class=away> {{ closed|get_item:sale.id }} </td>
+            <td><a href = "{% url 'Away' sale.id  %}" class='link2'>Show</a></td>
+        </tr>
+        {% else %}
+        <tr>
+            <td class=row> {{ sale.client }} </td>
+            <td class=row> {{ sale.destination }} </td>
+            <td class=row> {{ sale.date }} </td>
+            <td class=row> {{ sale.number }} </td>
+            <td class=row id=ex> {{ sale.material }} </td>
+            <td class=row> {{ sale.cntr }} </td>
+            <td class=row> {{ sale.Tons }} </td>
+            <td class=row> {{ sale.min }} </td>
+            
+            {% if sale.currency == 'USD' %}
+            <td class=row> {{ sale.cost }}{{'$'}} </td>
+            {% endif %}
+            {% if sale.currency == 'EUR' %}
+            <td class=row> {{ sale.cost }}{{'€'}} </td>
+            {% endif %}
+            
+            <td class=row> {{ sale.cpt }} </td>
+            <td class=row id=ex> {{ sale.comment }} </td>
+            <td class=row> {{ closed|get_item:sale.id }} </td>
+            <td><a href = "{% url 'PurchaisesViews' sale.id  %}" class='link'>View PO's</a></td>
+            <td><a href = "{% url 'SalesUpdate' sale.id  %}" class='link1'>Update</a></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+    <a href = "{% url 'SalesCreate'  %}" class='link1'>Create new</a> 
+
+<div/>
+
+</body>
+</html>
