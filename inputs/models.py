@@ -41,7 +41,7 @@ class SO(models.Model):
     min = models.DecimalField(max_digits=10, decimal_places=2)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=20)
-    comment = models.TextField(max_length = 50)
+    comment = models.TextField(max_length = 200)
     cpt = models.CharField(max_length = 10)
 
     stat = models.BooleanField(default=False)
