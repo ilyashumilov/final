@@ -591,7 +591,7 @@
             {% if request.user.username == 'admin' %}
             <td class=row6><a href="{% url  'FinCostMonthlyView1' result.id%}" class =link>F</a></td>
             {% endif %}
-            {% if result.destinationcountry == 'Ukraine' or request.user.username == 'managerlatam' %}
+            {% if result.destinationcountry == 'Ukraine' or request.user.username == 'managerlatam' or request.user.username == 'managereurope' %}
             <td><a href = "{% url 'ClaimView' result.id %}" class="link">C</a></td>
             {% endif %}
             
