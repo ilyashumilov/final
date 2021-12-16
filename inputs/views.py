@@ -890,7 +890,7 @@ def OPS(request):
         flag.st == False
         flag.save()
 
-    if flag.st == False and now.hour == 9:
+    if flag.st == False and now.hour == 8:
         
         lista = {
             'Readiness':[],
