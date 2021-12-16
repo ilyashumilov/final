@@ -434,7 +434,7 @@ def ReportMonthly(request,month):
             logusdnames = ''
 
             logeur = '='
-            logeurdnames = ''
+            logeurnames = ''
 
             finusd = '='
             finusdnames = '='
