@@ -884,7 +884,14 @@ def OPS(request):
     print(result)
 
 
+    flag = upd.objects.get(index = '1')
 
+    if now.hour == 12:
+        flag.st == False
+        flag.save()
+
+    if flag.st == False and now.hour == 9:
+        
     lista = {
         'Readiness':[],
         'SO':[],
@@ -956,17 +963,7 @@ def OPS(request):
         lista['Costs'].append([i.shipment.bknumber,i.name,i.volume,i.currency])
 
     now = datetime.now(timezone.utc)
-
-
-
-
-    flag = upd.objects.get(index = '1')
-
-    if now.hour == 12:
-        flag.st == False
-        flag.save()
-
-    if flag.st == False and now.hour == 10:
+        
         CREDENTIALS_FILE = str(pathlib.Path(
             __file__).parent.resolve()) + '/backup-334515-e0b541a9ad5d.json'  # Имя файла с закрытым ключом, вы должны подставить свое
         # Читаем ключи из файла
