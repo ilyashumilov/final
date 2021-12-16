@@ -20,6 +20,8 @@ from .views import *
 
 urlpatterns = [
 
+    path('ParticularSO/<var>',ParticularSO,name='ParticularSO'),
+
     path('', OPS, name='OPS'),
     path('upload/<shipment_id>',Upload,name='Upload'),
 

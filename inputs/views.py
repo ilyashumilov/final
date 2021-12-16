@@ -1621,6 +1621,43 @@ def Particular(request,var):
     }
     return render(request, 'Particular.html', context)
 
+def ParticularSO(request,var):
+    filteredSO = PO.objects.none()
+    
+    X = Ports.objects.filter(country=var)
+
+    try:
+        for i in X:
+            filteredSO = filteredSO | SO.objects.filter(Origin_id=i.id)
+            filteredBuffer = filteredBuffer | Buffer.objects.filter(Origin=i)
+    except:
+        pass
+
+    try:
+        a = Empresa.objects.get(name=var)
+        filteredSO = SO.objects.filter(client=a)
+    except:
+        pass
+
+    try:
+        a = Materials.objects.get(name=var)
+        filteredSO = SO.objects.filter(material=a)
+    except:
+        pass
+    closed = {}
+
+    for i in filteredSO:
+        closed[i.id] = 0
+        POs = PO.objects.filter(so_id = i.id)
+        for p in POs:
+            closed[i.id] = closed[i.id] + p.Tons
+    context = {
+        'filtered':filteredSO,
+        'closed':closed
+    }
+    return render(request, 'ParticularSO.html', context)
+
+
 def SalesCreate(request):
     usr = request.user
 
@@ -1760,12 +1797,40 @@ def SalesViews(request):
     item = request.user
     closed = {}
     sales = SO.objects.filter(stat=False).filter(user=item)
+
     for i in sales:
         closed[i.id] = 0
         POs = PO.objects.filter(so_id = i.id)
         for p in POs:
             closed[i.id] = closed[i.id] + p.Tons
+
+    filteredSO = SO.objects.filter(user=request.user).filter(stat=False)
+
+    item1 = []
+    for i in filteredSO:
+        item1.append(i.client.name)
+
+    item2 = []
+    for i in filteredSO:
+        item2.append(i.material)
+
+    all = item1 + item2
+
+    all1 = []
+    for x in all:
+        if x not in all1:
+            all1.append(x)
+    all1 = json.dumps(all1)
+    form = searchform()
+    if request.method == 'POST':
+        form = searchform(request.POST)
+        if form.is_valid():
+            number = form.cleaned_data['number']
+        return redirect('ParticularSO', number)
+
     context = {
+        'all': all1,
+        'form': form,
         'sales': sales,
         'closed': closed
     }

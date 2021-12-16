@@ -3,35 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>OPS</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'Style.css' %}">
-    <style>
-        .one {
-            padding:10px;
-            margin:5px;  
-            margin-left: 40px;
-            border: thin solid black;
-            border-radius: 1px;
-            position: absolute;
-            left:1000px;
-            top: 70px;
-        }
-        tr {
-            padding: 10px;
-        }
-        h1 {
-            position: absolute;
-            left:200px;
-            top: 65px;
+        <style>
+        {% load static %}
+   
+        body {
             font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size:180%;
-            font-weight: 200%;
-            color: gold;
-            outline: none;
-            text-decoration: none;
-            position: absolute;
         }
-        
         .button{
             margin: 5px;
             outline: none;
@@ -39,53 +16,98 @@
             text-decoration: none;
             background: none;
             padding: 10px;
-            position: absolute;
-            left: 1210px;
-            top: 70px;
+            margin-left: 5px;
+            margin-right: 10px;
             color: black;
             font-size:80%;
-            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            text-align: center;
-            left: -97px;
-            top: -140px;
-            border: thin solid black;
-            width: 94px;
-            z-index: 1;
-        }
+
         .button:hover {
+    
             background: black;
             outline: none;
             color: white;
             cursor: pointer;
+           
         }
         
-        .variants {
-            width: 167px;
-            max-height: 55px;
-            background-color: white;
+        .one {
+            padding:10px;
+            margin:5px;  
+            margin-left:40px;
+            border: thin solid black;
+            border-radius: 1px;
+           
+            }
+        
+
+        .h2 {
             position: absolute;
-            left: 1040px;
-            top: 112px;
-            z-index: 1;
-            overflow-y: auto;
-            overflow-x: auto;
-        }
-        li {
-            list-style: none;
-            padding: 3px;
-            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size:85%;
+            left: 50px;
+            top: 50px;
+            font-size:400%;
+            font-weight: 700%;
+            color: red;
+            outline: none;
+            text-decoration: none;
+            position: absolute;
         }
 
-        li:hover {
-            cursor: pointer;
-            background: gold;
+        .h2:hover{
+          font-size:405%;  
         }
-
+         
+        .row0 {
+            background-color: #07f5f5f4;
+            padding: 10px;
+            margin: 10px;
+            width: 40%;
+        }      
+            
+        .link1 {
+            outline: none;
+            text-decoration: none;
+            color: black;
+            font-size:90%;
+           }
+        
+        .link1: hover {
+            outline: none;
+            text-decoration: none;
+            background-color: blue;
+            color: white;
+            font-size:90%;
+           }
+        
+        .row1 {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            color: black;
+            font-size:80%;
+            background-color: white;
+        }
+        
+        .row1:hover {
+            background: black;
+            outline: none;
+            color: black;
+        }
+        
+        .row {
+            background-color: deeppink;
+            padding: 10px;
+            margin: 10px;
+            width: 40%;
+        }        
+        
+        .row2 {
+            background-color: #1f39bf9f;
+            padding: 10px;
+            margin: 10px;
+            width: 40%;
+        }    
         .row2t {
             background-color: #1f39bf9f;
             border: 1px solid black;
@@ -94,33 +116,97 @@
             background-color: #07f5f5f4;
             border: 1px solid black;
         }
+        .row3 {
+            padding: 10px;
+            margin: 10px;
+            width: 40%;
+            background-color: gainsboro;
+        }     
+          
+        .row4 {
+           background-color: #7FFF00;
+           padding: 10px;
+           margin: 10px;
+           width: 40%;
+        }     
+        .row5 {
+           background-color: red;
+           padding: 10px;
+           margin: 10px;
+           width: 40%;
+        }   
+        
+        .table {
+            border-spacing: 4px;
+            margin: 20px;
+        }
+
+        .link {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            color: black;
+            font-size:90%;
+           }
+
+
+        .link:hover {
+            background: black;
+            color: white;
+            outline: none;
+
+        }
+        
+        .head {
+            font-size:90%;
+            font-weight: 200%;
+            margin-bottom: 30px;
+        }
+        td {
+            margin: 10px;
+        }
+        .box {
+            width: 1400px;
+            margin: 120px auto;
+            position: relative;
+            text-align: center;
+            height: 670px;
+            overflow-y: auto;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+            
+        h1 {
+            font-size: 120px;
+            position: absolute;
+            left: 200px;
+            top:-85px;
+            opacity: 30%;
+        }
+
+
         #ex {
             max-width: 120px;
             overflow-x: auto;
         }
+        td {
+            padding: 10px;
+            font-size: 90%;
+        }
+
     </style>
+    {% load static %}
+
 </head>
 <body>
-{{ request.user.username }}
-<a href = "{% url 'OPS'  %}" class=h2>VIPA</a>
-<div class='particular'>
-    {% for i in countries %}
-    <a href = "{% url 'Particular' i %}" class=link2>{{ i }}</a>
-    {% endfor %}
-</div>  
-    
-<form method = 'POST'>
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit" class='button'>Filter</button>
-    <div class ="variants" id ="variants"></div>
-</form>
-{% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' %}
-<h1>Loaded this week: {{result}} cntrs</h1>
-{% endif %}
-<div class="box" >
 
-    <table class="table" align="center" >
+<a href = "{% url 'OPS'  %}" class=h2>VIPA</a>
+<h1>{{ country }}</h1>
+    
+<div class="box" >
+    
+        <table class="table" align="center" >
         {% if len2 != 0 %}
         <tr>
             <td class=head> Number </td>
@@ -144,15 +230,15 @@
             <td class=row3> {{ Shipment.bknumber }} </td>
             <td class=row3> {{ Shipment.ETD }} </td>
             <td class=row3> {{ Shipment.ETA }} </td>
-            <td class=row3 id=ex> {{ Shipment.comment }} </td>
+            <td class=row3> {{ Shipment.comment }} </td>
+            <td><a href = "{% url 'comment' Shipment.id %}" class=link>Edit</a></td>
           
         </tr>
         {% endfor %}
     
     </table>
-    
-    <table class="table" align="center" >
-        {% if len1 != 0 %}
+     <table class="table" align="center" >
+        {% if len != 0 %}
         <tr>
             <td class=head> Number </td>
             <td class=head> Carrier </td>
@@ -219,13 +305,10 @@
             <td class=row5> {{ ' ' }} </td>
             {% endif %}
     
-            {% if Shipment.customs == True %}
-            <td class=row4> {{ ' ' }} </td>
-            {% endif %}
-            
-            {% if Shipment.customs == False %}
-            <td class=row5> {{ ' ' }} </td>
-            {% endif %}
+            <td class=row11><a href = "{% url 'ShipmentUpdate' Shipment.id %}" class=link>Update</a></td>
+            <td class=row11><a href = "{% url 'ContainerViews' Shipment.id %}" class=link>Cntrs</a></td>
+            <td class=row11><a href = "{% url 'CostViews' Shipment.id %}" class=link>Costs</a></td>
+
         </tr>
         {% endif %}
     
@@ -241,7 +324,7 @@
             <td class=row0 id=ex> {{ Shipment.po.material }} </td>
             <td class=row0> {{ Shipment.po.cntr }} </td>
             <td class=row0> {{ Shipment.ETD }} </td>
-            <td class=row0> {{ Shipment.ETA }} </td>   
+            <td class=row0> {{ Shipment.ETA }} </td>      
             
             {% if Shipment.margin <= 0 %}
             <td class=row5> {{ Shipment.margin }} </td>
@@ -275,16 +358,14 @@
             <td class=row5> {{ ' ' }} </td>
             {% endif %}
     
-            {% if Shipment.Customs == True %}
-            <td class=row4> {{ ' ' }} </td>
-            {% endif %}
-            
-            {% if Shipment.Customs == False %}
-            <td class=row5> {{ ' ' }} </td>
-            {% endif %}
+
+            <td><a href = "{% url 'ShipmentUpdate' Shipment.id %}" class=link>Update</a></td>
+            <td><a href = "{% url 'ContainerViews' Shipment.id %}" class=link>Cntrs</a></td>
+            <td><a href = "{% url 'CostViews' Shipment.id %}" class=link>Costs</a></td>
         </tr>
-        {% endif %}
-        {% if Shipment.BK == False and Shipment.Truck == True %}
+            {% endif %}
+
+            {% if Shipment.BK == False and Shipment.Truck == True %}
         
             <td class=row2t> {{ Shipment.number }} </td>
             <td class=row2t> {{ Shipment.carrier }} </td>
@@ -330,6 +411,10 @@
             {% if Shipment.Magic == False %}
             <td class=row5> {{ ' ' }} </td>
             {% endif %}
+
+            <td class=row11><a href = "{% url 'ShipmentUpdate' Shipment.id %}" class=link>Update</a></td>
+            <td class=row11><a href = "{% url 'ContainerViews' Shipment.id %}" class=link>Cntrs</a></td>
+            <td class=row11><a href = "{% url 'CostViews' Shipment.id %}" class=link>Costs</a></td>
     
         </tr>
         {% endif %}
@@ -346,7 +431,7 @@
             <td class=row0t id=ex> {{ Shipment.po.material }} </td>
             <td class=row0t> {{ Shipment.po.cntr }} </td>
             <td class=row0t> {{ Shipment.ETD }} </td>
-            <td class=row0t> {{ Shipment.ETA }} </td>    
+            <td class=row0t> {{ Shipment.ETA }} </td>        
             
             {% if Shipment.margin <= 0 %}
             <td class=row5> {{ Shipment.margin }} </td>
@@ -379,21 +464,21 @@
             {% if Shipment.Magic == False %}
             <td class=row5> {{ ' ' }} </td>
             {% endif %}
-    
-            {% if Shipment.Customs == True %}
-            <td class=row4> {{ ' ' }} </td>
-            {% endif %}
-            
-            {% if Shipment.Customs == False %}
-            <td class=row5> {{ ' ' }} </td>
-            {% endif %}
+
+            <td class=row11><a href = "{% url 'ShipmentUpdate' Shipment.id %}" class=link>Update</a></td>
+            <td class=row11><a href = "{% url 'ContainerViews' Shipment.id %}" class=link>Cntrs</a></td>
+            <td class=row11><a href = "{% url 'CostViews' Shipment.id %}" class=link>Costs</a></td>
         </tr>
         {% endif %}
-        {% endfor %}
-    
+
+            {% endfor %}
+        </tr>
+
     </table>
+
     <table class="table" align="center" >
-        {% if len != 0 %}
+        
+        {% if len1 != 0 %}
         <tr>
             <td class=head>  </td>
             <td class=head> Material </td>
@@ -410,14 +495,16 @@
         {% for purchaise in queryset %}
         <tr>
             <td class=row> Readiness </td>
-            <td class=row id=ex> {{ purchaise.po.material }} </td>
+            <td class=row> {{ purchaise.po.material }} </td>
+            
             {% if purchaise.number == 'Allocate' %}
             <td class=row5> {{ purchaise.number }} </td>
             {% endif %}
             
             {% if purchaise.number != 'Allocate' %}
             <td class=row> {{ purchaise.number }} </td>
-            {% endif %}
+            {% endif %}  
+            
             <td class=row> {{ purchaise.Proveedor }} </td>
             <td class=row> {{ purchaise.Origin }} </td>        
             <td class=row> {{ purchaise.cntr }} </td>
@@ -431,32 +518,12 @@
             {% endif %}            
             
             <td class=row> {{ purchaise.comment }} </td>
+            <td><a href = "{% url 'ReadinessUpdate' purchaise.id  %}" class=link>Update</a></td>
+            <td><a href = "{% url 'ShowFreight' purchaise.id  %}" class=link>Create Shipment</a></td>
         </tr>
         {% endfor %}
     </table>
 </div>
-<div class='manage'>
-    {% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' %}
-    <div class="dropdown">
-        <button class="dropbtn">Report</button>
-        <div class="dropdown-content">
-          <a href="{% url 'Report' %}">RDNS</a>
-          <a href="{% url 'reportOrders' %}">PO-SO</a>
-          <a href="{% url 'reportClaims' %}">Claims</a>
-          <a href="{% url 'reportClaimsUA' %}">Claims UA</a>
-        </div>
-    </div>
-        <a href = "{% url 'SalesViews'%}" class="link">SalesViews</a>
-        <a href = "{% url 'FreightSearch'%}" class="link">FreightSearch</a>    
-    {% endif %}
-    <a href = "{% url 'PurchaisesCreate' %}" class="link" >Create PO</a>
-    <a href = "{% url 'Search'%}" class="link">Search</a>
-    <a href = "{% url 'MonthlyView'%}" class="link">Monthly</a>
-</div>
+
 </body>
-<script type="text/javascript">
-    const values = {{all|safe}};
-</script>
-<script src="{% static 'ScriptOPS.js' %}">
-</script>
 </html>

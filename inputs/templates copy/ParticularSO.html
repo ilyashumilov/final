@@ -220,12 +220,7 @@
 </head>
 <body>
 <a href = "{% url 'OPS'  %}" class=h2>VIPA</a>
-<form method = 'POST'>
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit" class='button'>Filter</button>
-    <div class ="variants" id ="variants"></div>
-</form>  
+
 <div class = "box">
     <table class="table" align="center">
         <tr>
@@ -243,24 +238,7 @@
             <td>Closed</td>
         </tr>
 
-        {% for sale in sales %}
-        {% if sale.number == '00-0000' %}
-        <tr>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ 'Moves Away' }} </td>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ '' }} </td>
-            <td class=away> {{ closed|get_item:sale.id }} </td>
-            <td><a href = "{% url 'Away' sale.id  %}" class='link2'>Show</a></td>
-        </tr>
-        {% else %}
+        {% for sale in filtered %}
         <tr>
             <td class=row> {{ sale.client }} </td>
             <td class=row> {{ sale.destination }} </td>
@@ -284,16 +262,9 @@
             <td><a href = "{% url 'PurchaisesViews' sale.id  %}" class='link'>View PO's</a></td>
             <td><a href = "{% url 'SalesUpdate' sale.id  %}" class='link1'>Update</a></td>
         </tr>
-        {% endif %}
         {% endfor %}
     </table>
-    <a href = "{% url 'SalesCreate'  %}" class='link1'>Create new</a> 
-
+    <a href = "{% url 'SalesViews'  %}" class='link1'>Back</a> 
 <div/>
 </body>
-<script type="text/javascript">
-    const values = {{all|safe}};
-</script>
-<script src="{% static 'ScriptOPS.js' %}">
-</script>
 </html>
