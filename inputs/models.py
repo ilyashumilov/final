@@ -228,7 +228,7 @@ class Claims(models.Model):
         return float(self.profit)
 
     def __str__(self):
-        return str(self.shipment)
+        return str(self.Monthly)
 
 class ClaimsUkr(models.Model):
     monthly = models.ForeignKey(Monthly, on_delete = models.CASCADE)
