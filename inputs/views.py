@@ -892,77 +892,77 @@ def OPS(request):
 
     if flag.st == False and now.hour == 9:
         
-    lista = {
-        'Readiness':[],
-        'SO':[],
-        'PO':[],
-        'Shipments':[],
-        'Containers':[],
-        'Claims':[],
-        'ClaimsUkr':[],
-        'Monthly':Monthly.objects.all().values(),
-        'Costs': [],
-        'MonthlyCosts':[],
-        'FinCosts':[]
-    }
+        lista = {
+            'Readiness':[],
+            'SO':[],
+            'PO':[],
+            'Shipments':[],
+            'Containers':[],
+            'Claims':[],
+            'ClaimsUkr':[],
+            'Monthly':Monthly.objects.all().values(),
+            'Costs': [],
+            'MonthlyCosts':[],
+            'FinCosts':[]
+        }
 
-    lista['Readiness'].append(['Number', 'Proveedor', 'Origin', 'Date', 'Number', 'Cntrs', 'Tons', 'Comment'])
-    for i in Readiness.objects.all():
-        lista['Readiness'].append([i.po.number,i.Proveedor,i.Origin,i.date,i.number,i.cntr,i.Tons,i.comment])
+        lista['Readiness'].append(['Number', 'Proveedor', 'Origin', 'Date', 'Number', 'Cntrs', 'Tons', 'Comment'])
+        for i in Readiness.objects.all():
+            lista['Readiness'].append([i.po.number,i.Proveedor,i.Origin,i.date,i.number,i.cntr,i.Tons,i.comment])
 
-    lista['SO'].append(['Number', 'Client', 'Destination', 'Date', 'Material', 'Cntrs', 'Tons', 'Min', 'Sales price','Currency','Cust. payment terms','Comment','Closed'])
-    for i in SO.objects.all():
-        lista['SO'].append([i.number,i.client.name,i.destination.port,i.date,i.material,i.cntr,i.Tons,i.min,i.cost,i.currency,i.cpt,i.comment,i.stat])
+        lista['SO'].append(['Number', 'Client', 'Destination', 'Date', 'Material', 'Cntrs', 'Tons', 'Min', 'Sales price','Currency','Cust. payment terms','Comment','Closed'])
+        for i in SO.objects.all():
+            lista['SO'].append([i.number,i.client.name,i.destination.port,i.date,i.material,i.cntr,i.Tons,i.min,i.cost,i.currency,i.cpt,i.comment,i.stat])
 
-    lista['PO'].append(['Number', 'Supplier', 'Origin', 'Date', 'Material', 'Cntrs', 'Tons', 'Purchaise price','Currency','Supp. payment terms'])
-    for i in PO.objects.all():
-        lista['PO'].append([i.number,i.Proveedor.name,i.Origin.port,i.date,i.material,i.cntr,i.Tons,i.price,i.currency,i.spt])
+        lista['PO'].append(['Number', 'Supplier', 'Origin', 'Date', 'Material', 'Cntrs', 'Tons', 'Purchaise price','Currency','Supp. payment terms'])
+        for i in PO.objects.all():
+            lista['PO'].append([i.number,i.Proveedor.name,i.Origin.port,i.date,i.material,i.cntr,i.Tons,i.price,i.currency,i.spt])
 
-    lista['Shipments'].append(['Number', 'Destination', 'Client', 'Origin', 'Supplier', 'Forwarder', 'Carrier','BK', 'Material', 'Cntrs', 'ETD','ETA','Margin USD','Margin EUR'])
-    for i in Shipment.objects.all():
-        lista['Shipments'].append([i.number,i.po.so.destination,i.po.so.client,i.po.Origin,i.po.Proveedor, i.forwarder,i.carrier,i.bknumber,i.po.material,i.cntr,i.ETD,i.ETA,i.margin,i.marginEUR])
+        lista['Shipments'].append(['Number', 'Destination', 'Client', 'Origin', 'Supplier', 'Forwarder', 'Carrier','BK', 'Material', 'Cntrs', 'ETD','ETA','Margin USD','Margin EUR'])
+        for i in Shipment.objects.all():
+            lista['Shipments'].append([i.number,i.po.so.destination,i.po.so.client,i.po.Origin,i.po.Proveedor, i.forwarder,i.carrier,i.bknumber,i.po.material,i.cntr,i.ETD,i.ETA,i.margin,i.marginEUR])
 
-    lista['Containers'].append(['Date','Number', 'Seal', 'Bales', 'Gross','Tara', 'VGM'])
-    for i in Containers.objects.all():
-        lista['Containers'].append([i.shipment.bknumber,i.number,i.seal,i.gross,i.tara, i.vgm])
+        lista['Containers'].append(['Date','Number', 'Seal', 'Bales', 'Gross','Tara', 'VGM'])
+        for i in Containers.objects.all():
+            lista['Containers'].append([i.shipment.bknumber,i.number,i.seal,i.gross,i.tara, i.vgm])
 
-    lista['Claims'].append(['Date','BK','BL Number', 'Origin Country', 'Supplier', 'Sup. Trader','Dest. Country', 'Customer','Cust. Trader',\
-                                'Grade','Reason of Claim', 'Vipa comments', 'Cntrs', 'Tons','Initial Claimed Amount', 'Currency','Photos',\
-                            'Pic / Customer','Pic / VIPA', 'Sent', 'CN amount','CN currency', 'DN amount','DN currency','Set-nt Date','Profit','Rate'])
+        lista['Claims'].append(['Date','BK','BL Number', 'Origin Country', 'Supplier', 'Sup. Trader','Dest. Country', 'Customer','Cust. Trader',\
+                                    'Grade','Reason of Claim', 'Vipa comments', 'Cntrs', 'Tons','Initial Claimed Amount', 'Currency','Photos',\
+                                'Pic / Customer','Pic / VIPA', 'Sent', 'CN amount','CN currency', 'DN amount','DN currency','Set-nt Date','Profit','Rate'])
 
-    for i in Claims.objects.all():
-        lista['Claims'].append([i.date,i.bl,i.Monthly.number,i.Monthly.origincountry,i.Monthly.Supplier, Empresa.objects.get(name=i.Monthly.Supplier).trader,\
-                                i.Monthly.destinationcountry,i.Monthly.client,Empresa.objects.get(name=i.Monthly.client).trader,i.Monthly.material,i.reason,\
-                                i.comment,i.cntrs,i.tons, i.amount,i.currency,i.photos,i.picCust,i.picVipa,i.Sent,i.cn_amount,i.cn_currency,i.dn_amount,i.dn_currency,i.settlement_date,\
-                                i.profit,i.rate])
+        for i in Claims.objects.all():
+            lista['Claims'].append([i.date,i.bl,i.Monthly.number,i.Monthly.origincountry,i.Monthly.Supplier, Empresa.objects.get(name=i.Monthly.Supplier).trader,\
+                                    i.Monthly.destinationcountry,i.Monthly.client,Empresa.objects.get(name=i.Monthly.client).trader,i.Monthly.material,i.reason,\
+                                    i.comment,i.cntrs,i.tons, i.amount,i.currency,i.photos,i.picCust,i.picVipa,i.Sent,i.cn_amount,i.cn_currency,i.dn_amount,i.dn_currency,i.settlement_date,\
+                                    i.profit,i.rate])
 
-    lista['ClaimsUkr'].append(['SO/PO', 'Unloading Date', 'Trader', 'Supplier', 'Factory', 'Grade', 'Truck', 'Invoice weight','Actual weight', \
-                            'Weight Difference', 'Purchase price', 'Invoice price', 'Humidity %', 'Humidity tons', 'Impurities', 'General claim tons', 'Claim to Supplier', \
-                            'Claim to VIPA', 'Received Docs', 'Claimed to Supplier', 'Final claim', 'Day of settlement'])
+        lista['ClaimsUkr'].append(['SO/PO', 'Unloading Date', 'Trader', 'Supplier', 'Factory', 'Grade', 'Truck', 'Invoice weight','Actual weight', \
+                                'Weight Difference', 'Purchase price', 'Invoice price', 'Humidity %', 'Humidity tons', 'Impurities', 'General claim tons', 'Claim to Supplier', \
+                                'Claim to VIPA', 'Received Docs', 'Claimed to Supplier', 'Final claim', 'Day of settlement'])
 
-    for i in ClaimsUkr.objects.all():
-        price = -float(MonthlyCosts.objects.get(monthly=i.monthly, name='Sale').volume)
-        cost = MonthlyCosts.objects.get(monthly=i.monthly, name='Purchaise').volume
+        for i in ClaimsUkr.objects.all():
+            price = -float(MonthlyCosts.objects.get(monthly=i.monthly, name='Sale').volume)
+            cost = MonthlyCosts.objects.get(monthly=i.monthly, name='Purchaise').volume
 
-        lista['ClaimsUkr'].append([i.monthly.number,i.monthly.ETA,Empresa.objects.get(name=i.monthly.Supplier).trader,i.monthly.Supplier,i.monthly.client,i.monthly.material,\
-                                   i.monthly.bknumber,i.monthly.Tons,i.monthly.Tonsact,i.monthly.Tonsact - i.monthly.Tons,cost,price,i.humidper,i.humidton,i.impur,\
-                                   float(i.monthly.Tons) - float(i.monthly.Tonsact) + float(i.humidton + i.impur), float(cost) * (float(i.monthly.Tons) - float(i.monthly.Tonsact) + float(i.humidton) + float(i.impur)),\
-                                   float(price) * (float(i.monthly.Tons) - float(i.monthly.Tonsact) + float(i.humidton + i.impur)),float(price) * (float(i.monthly.Tons) - float(i.monthly.Tonsact) + float(i.humidton) + float(i.impur) - float(i.claimsupp)),\
-                                   i.docs,i.claimsupp,i.set])
+            lista['ClaimsUkr'].append([i.monthly.number,i.monthly.ETA,Empresa.objects.get(name=i.monthly.Supplier).trader,i.monthly.Supplier,i.monthly.client,i.monthly.material,\
+                                       i.monthly.bknumber,i.monthly.Tons,i.monthly.Tonsact,i.monthly.Tonsact - i.monthly.Tons,cost,price,i.humidper,i.humidton,i.impur,\
+                                       float(i.monthly.Tons) - float(i.monthly.Tonsact) + float(i.humidton + i.impur), float(cost) * (float(i.monthly.Tons) - float(i.monthly.Tonsact) + float(i.humidton) + float(i.impur)),\
+                                       float(price) * (float(i.monthly.Tons) - float(i.monthly.Tonsact) + float(i.humidton + i.impur)),float(price) * (float(i.monthly.Tons) - float(i.monthly.Tonsact) + float(i.humidton) + float(i.impur) - float(i.claimsupp)),\
+                                       i.docs,i.claimsupp,i.set])
 
-    lista['MonthlyCosts'].append(['BK','Type','Volume','Currency'])
-    for i in MonthlyCosts.objects.all():
-        lista['MonthlyCosts'].append([i.monthly.bknumber,i.name,i.volume,i.currency])
+        lista['MonthlyCosts'].append(['BK','Type','Volume','Currency'])
+        for i in MonthlyCosts.objects.all():
+            lista['MonthlyCosts'].append([i.monthly.bknumber,i.name,i.volume,i.currency])
 
-    lista['FinCosts'].append(['BK','Type','Volume','Currency'])
-    for i in FinCosts.objects.all():
-        lista['FinCosts'].append([i.monthly.bknumber,i.name,i.volume,i.currency])
+        lista['FinCosts'].append(['BK','Type','Volume','Currency'])
+        for i in FinCosts.objects.all():
+            lista['FinCosts'].append([i.monthly.bknumber,i.name,i.volume,i.currency])
 
-    lista['Costs'].append(['BK','Type','Volume','Currency'])
-    for i in FinCosts.objects.all():
-        lista['Costs'].append([i.shipment.bknumber,i.name,i.volume,i.currency])
+        lista['Costs'].append(['BK','Type','Volume','Currency'])
+        for i in FinCosts.objects.all():
+            lista['Costs'].append([i.shipment.bknumber,i.name,i.volume,i.currency])
 
-    now = datetime.now(timezone.utc)
+        now = datetime.now(timezone.utc)
         
         CREDENTIALS_FILE = str(pathlib.Path(
             __file__).parent.resolve()) + '/backup-334515-e0b541a9ad5d.json'  # Имя файла с закрытым ключом, вы должны подставить свое
