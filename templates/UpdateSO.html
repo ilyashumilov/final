@@ -37,7 +37,6 @@
             font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
-
         .button{
             margin: 5px;
             outline: none;
@@ -183,6 +182,10 @@
             cursor: pointer;
             background: gold;
         }
+        none:{
+            position: absolute;
+            left: 100px;
+        }
     </style>
 
     {% load static %}
@@ -227,9 +230,12 @@
             <a href = "{% url 'Close' sales_id  %}" class="close">Close</a>
             <a href = "{% url 'SalesDelete' sales_id  %}" class="delete">Delete</a>
         </div>
-        {{ form1.number.label }}
-        {{ form1.number }}
-        <div class=none></div>
+
+        <div class=none>
+            {{ form1.number.label }}
+            {{ form1.number }}
+        </div>
+        
     </form>
     <br>
     <div class="variants_box1" id="variants"></div>

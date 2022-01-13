@@ -16,11 +16,7 @@
             position: absolute;  /* <-- added declarations */
             left: 0; top: 100%;  /*     here               */
             width: 100%;         /*     and here...        */
-           
-}
-        
-
-        
+        }
         .container1 {
             position: absolute;
             left: 50%;
@@ -87,8 +83,10 @@
             border: thin solid black;
             text-decoration: none;
             position: absolute;
-            margin-top: 5px;
+            left: 543px;
+            top: 105px;
             padding: 10px;
+            padding-top: 9px;
 
             color: black;
             font-size:80%;
@@ -96,7 +94,29 @@
             border-radius: 1px;
             
            }
+        .variants_box1 {
+            width: 167px;
+            max-height: 55px;
+            background-color: white;
+            position: absolute;
+            left: 288px;
+            top: 143px;
+            z-index: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
         
+        li {
+            list-style: none;
+            padding: 3px;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size:85%;
+        }
+
+        li:hover {
+            cursor: pointer;
+            background: gold;
+        }
         .back:hover {
     
             background: black;
@@ -154,6 +174,12 @@
             border: thin solid black;
             border-radius: 1px;
         }
+        .none {
+            position: absolute;
+            left: 236px;
+            top: 100px;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
     </style>
 
     {% load static %}
@@ -180,6 +206,7 @@
             {{ form.currency }}
             {{ form.number.label }}
             {{ form.number }}
+        </div>
 
         
         <div class="line1"> 
@@ -192,11 +219,21 @@
             <a href = "{% url 'PurchaisesDelete' purchaise  %}" class="delete">Delete</a>
             <button class='button' type="submit">Submit</button>
         </div>
-        </div>        
+        
+        <div class=none>
+            {{ form1.number1.label }}
+            {{ form1.number1 }}    
+        </div>
+        
+        <div class="variants_box1" id="variants"></div>
     </form>
     <a href = "{% url 'Result' number %}" class='back'>Back</a>
 </div>
-
+<script type="text/javascript">
+    const current = {{current|safe}};
+    const values = {{ports|safe}};
+</script>
+<script src="{% static 'Script1.js' %}"></script>
 </body>
 
 </html>

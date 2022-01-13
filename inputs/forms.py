@@ -46,7 +46,7 @@ class bfr(forms.ModelForm):
             'ETD': forms.TextInput(attrs={'class': 'one', 'id': 'price', 'placeholder': 'ETD', 'autocomplete': "off"}),
             'ETA': forms.TextInput(attrs={'class': 'one', 'id': 'price', 'placeholder': 'ETA', 'autocomplete': "off"}),
             'comment': forms.TextInput(attrs={'class': 'one', 'id': 'comment', 'placeholder': 'Comment', 'autocomplete': "off"}),
-            'proveedor': forms.TextInput(attrs={'class': 'one', 'id': 'comment', 'placeholder': 'Comment', 'autocomplete': "off"}),
+            'proveedor': forms.TextInput(attrs={'class': 'one', 'id': 'comment', 'placeholder': 'Supplier', 'autocomplete': "off"}),
         }
 
 class followupform(forms.ModelForm):
@@ -107,7 +107,7 @@ class poform (forms.ModelForm):
             'cntr': forms.TextInput(attrs={'class': 'one', 'id': 'cntr', 'placeholder': 'Cntr', 'autocomplete': "off"}),
             'Tons': forms.TextInput(attrs={'class': 'one', 'id': 'tons', 'placeholder': 'Tons', 'autocomplete': "off"}),
             'price': forms.TextInput(attrs={'class': 'one', 'id': 'price', 'placeholder': 'Price', 'autocomplete': "off"}),
-            'currency': forms.Select(attrs={'class': 'currency', 'id': 'search'}, choices=(('USD', 'USD'), ('EUR', 'EUR'),)),
+            'currency': forms.Select(attrs={'class': 'currency', 'id': 'e'}, choices=(('USD', 'USD'), ('EUR', 'EUR'),)),
         }
 
 class claimform(forms.ModelForm):
@@ -410,7 +410,6 @@ class containerindex(forms.Form):
     tara = forms.CharField(label=False, widget=forms.TextInput(attrs={'class': 'one', 'id': 'search1', 'placeholder': 'Tara', 'autocomplete': "off"}))
 
 
-
 class containerform(forms.ModelForm):
     class Meta:
         model = Containers
@@ -456,8 +455,17 @@ class containerform1(forms.ModelForm):
 class searchform(forms.Form):
     number = forms.CharField(label=False, widget=forms.TextInput(attrs={'class':'one','id': 'search', 'placeholder': 'Number', 'autocomplete': "off"}))
 
+class opsform(forms.Form):
+    number = forms.CharField(label=False, widget=forms.TextInput(attrs={'class':'one','id': 'search1', 'placeholder': '', 'autocomplete': "off"}))
+    number1 = forms.CharField(label=False, widget=forms.TextInput(attrs={'class':'one','id': 'search2', 'placeholder': '', 'autocomplete': "off"}))
+
+
 class destform(forms.Form):
     number = forms.CharField(label='POD:', widget=forms.TextInput(attrs={'class':'one','id': 'search', 'placeholder': 'POD', 'autocomplete': "off"}))
+
+class destform1(forms.Form):
+    number1 = forms.CharField(label='POD:', widget=forms.TextInput(attrs={'class':'one','id': 'search', 'placeholder': 'POD', 'autocomplete': "off"}))
+
 
 class freightsearchform(forms.Form):
     POL = forms.CharField(label=False, widget=forms.TextInput(attrs={'class': 'one', 'id': 'POL', 'placeholder': 'POL', 'autocomplete': "off"}))

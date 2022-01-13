@@ -67,13 +67,13 @@ class PO(models.Model):
 
 class Readiness(models.Model):
     po = models.ForeignKey(PO, on_delete= models.CASCADE)
-    Proveedor = models.CharField(max_length = 30)
-    Origin = models.CharField(max_length = 30)
-    date = models.CharField(max_length = 30)
-    number = models.TextField(max_length = 50)
+    Proveedor = models.TextField(max_length = 200)
+    Origin = models.TextField(max_length = 200)
+    date = models.TextField(max_length = 200)
+    number = models.TextField(max_length = 200)
     cntr = models.IntegerField()
     Tons = models.DecimalField(max_digits=10, decimal_places=2)
-    comment = models.TextField(max_length = 50)
+    comment = models.TextField(max_length = 200)
 
     def __str__(self):
         return str(self.po.number)
@@ -105,7 +105,7 @@ class Shipment(models.Model):
         return str(self.number)
 
 class Monthly(models.Model):
-    # po = models.ForeignKey(PO, on_delete=models.CASCADE)
+    po = models.TextField(max_length = 300)
     sodate = models.TextField(max_length = 50)
     podate = models.TextField(max_length = 50)
 
@@ -196,7 +196,7 @@ class Claims(models.Model):
     currency = models.CharField(max_length=20)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     photos = models.TextField(max_length = 1000)
-    # ???
+
     forwarder = models.TextField(max_length = 1000)
     carrier = models.TextField(max_length = 1000)
 

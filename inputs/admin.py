@@ -18,6 +18,8 @@ admin.site.register(back)
 admin.site.register(upd)
 admin.site.register(counter)
 admin.site.register(counterupd)
+admin.site.register(Freight)
+
 
 
 

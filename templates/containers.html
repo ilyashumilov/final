@@ -84,6 +84,23 @@
 
         }
         
+        .linkw {
+            outline: none;
+            border: thin solid black;
+            text-decoration: none;
+            padding: 10px;
+            color: black;
+            font-size:90%;
+           }
+
+
+        .linkw:hover {
+            background: black;
+            color: white;
+            outline: none;
+
+        }
+        
         td, th {
             
             padding: 8px;
@@ -131,7 +148,7 @@
     </table>
 </div>
 <div class = options>
-    <a href = "{% url 'Particular' city %}" class='link'>Back</a>
+    <a href = "{% url 'Particular' city ' ' %}" class='link'>Back</a>
     <a href = "{% url 'ContainerCreate' shipment_id %}" class='link'>Create</a>
     <a href = "{% url 'Upload' shipment_id %}" class='link'>Upload</a>
 </div>
@@ -160,7 +177,7 @@
     </table>
 </div>
 <div class = options>
-    <a href = "{% url 'Particular' city %}" class='link'>Back</a>
+
 </div>
 {% endif %}
     

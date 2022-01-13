@@ -20,7 +20,7 @@ from .views import *
 
 urlpatterns = [
 
-    path('ParticularSO/<var>',ParticularSO,name='ParticularSO'),
+    path('ParticularSO/<var>/<var1>',ParticularSO,name='ParticularSO'),
 
     path('', OPS, name='OPS'),
     path('upload/<shipment_id>',Upload,name='Upload'),
@@ -41,14 +41,14 @@ urlpatterns = [
     path('DelBuffer/<buffer_id>', DelBuffer, name='DelBuffer'),
 
     path('Away/<away>/',Away,name='Away'),
-    path('Particular/<var>/',Particular,name='Particular'),
+    path('Particular/<var>/<var1>/',Particular,name='Particular'),
     path('AwailableSO/<purchaise_id>/', AwailableSO, name='AwailableSO'),
     path('Overload/<purchaise_id>/<sales_id>/', Overload, name='Overload'),
 
     path('Allocate/<purchaise_id>,<sale_id>/', Allocate, name='Allocate'),
 
-
     path('Login',LogIn.as_view(), name='LoginView'),
+    path('Spot/<readiness_id>',Spot, name='Spot'),
 
     path('SalesCreate/', SalesCreate, name='SalesCreate'),
     path('SalesUpdate/<sales_id>/', SalesUpdate, name = 'SalesUpdate'),
@@ -60,7 +60,6 @@ urlpatterns = [
     path('PurchaisesCreate/', PurchaisesCreate, name = 'PurchaisesCreate'),
     path('PurchaisesViews/<sales_id>/', PurchaisesViews, name = 'PurchaisesViews'),
     path('PurchaisesViews1/<sales_id>/', PurchaisesViews1, name='PurchaisesViews1'),
-
 
     path('PurchaisesUpdate/<purchaise_id>',PurchaisesUpdate, name='PurchaisesUpdate'),
     path('PurchaiseDelete/<purchaise_id>/', PurchaisesDelete, name='PurchaisesDelete'),
@@ -92,7 +91,7 @@ urlpatterns = [
     path('FreightUpdate/<freight_id>/', FreightUpdate, name='FreightUpdate'),
     path('FreightDelete/<freight_id>/', FreightDelete, name='FreightDelete'),
     path('FreightViews/<POL>/<POD>/', FreightViews, name='FreightViews'),
-    path('FreightSearch/', FreightSearch, name='FreightSearch'),
+    path('FreightSearch/', renewfreight, name='FreightSearch'),
 
     path('CostViews/<shipment_id>/', CostViews, name='CostViews'),
     path('CostCreate/<shipment_id>/', CostCreate, name='CostCreate'),
@@ -130,6 +129,7 @@ urlpatterns = [
     path('Result/<number>/', Result, name='Result'),
 
     path('Report', report, name='Report'),
+    path('cunter',reportcounter,name='counter'),
     path('reportOrders', reportOrders, name='reportOrders'),
     path('reportClaims', reportClaims, name='reportClaims'),
     path('reportClaimsUA', reportClaimsUA, name='reportClaimsUA'),

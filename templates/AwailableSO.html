@@ -81,21 +81,23 @@
         }
         
         td, th {
-            
             padding: 8px;
             margin: 10px;
             width: 40%;
         }
         
         .container1 {
+            width: 1400px;
+            height: 450px;
             position: absolute;
             left: 50%;
             top: 45%;
             transform: translate(-50%, -50%);
-            font-size:110%;
+            font-size:100%;
             text-align: center;
             font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
             white-space: nowrap;
+            overflow-x: auto;
         }
         
         .row2 {
@@ -132,6 +134,12 @@
         
         .order {
             background-color: gold;
+
+        }
+        .e {
+            max-width: 140px;
+            overflow-y: auto;
+            overflow-x: auto; 
         }
     </style>
 
@@ -154,8 +162,8 @@
         
         <tr class=row >
             <td> {{ order.date }} </td>
-            <td> {{ order.material }} </td>
-            <td> {{ order.Proveedor }} </td>
+            <td class=e> {{ order.material }} </td>
+            <td class=e> {{ order.Proveedor }} </td>
             <td> {{ order.Origin }} </td>
             <td> {{ order.cntr }} </td>
             <td> {{ order.Tons }} </td>
@@ -185,7 +193,7 @@
             <td> {{ sale.Tons }} </td>
             <td> {{ sale.min }} </td>
             <td> {{ sale.cost }} </td>
-            <td> {{ sale.comment }} </td>
+            <td class=e> {{ sale.comment }} </td>
             
             {% if closed|get_item:sale.id <= 0 %}
             <td class=row5> {{ closed|get_item:sale.id }} </td>

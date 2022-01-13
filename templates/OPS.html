@@ -13,11 +13,22 @@
             border: thin solid black;
             border-radius: 1px;
             position: absolute;
-            left:1000px;
+
+            width: 100px;
+        }
+        
+        #search1 {
+            left:1045px;
             top: 70px;
         }
+        #search2 {
+            left:915px;
+            top: 70px;
+        }
+        
         tr {
             padding: 10px;
+            font-size: 100%;
         }
         h1 {
             position: absolute;
@@ -64,21 +75,35 @@
         }
         
         .variants {
-            width: 167px;
+            width: 122px;
             max-height: 55px;
             background-color: white;
             position: absolute;
-            left: 1040px;
+            left: 1085px;
             top: 112px;
             z-index: 1;
             overflow-y: auto;
             overflow-x: auto;
         }
+        
+        .variants1 {
+            width: 122px;
+            max-height: 55px;
+            background-color: white;
+            position: absolute;
+            left: 955px;
+            top: 112px;
+            z-index: 1;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+        
         li {
             list-style: none;
             padding: 3px;
             font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
             font-size:85%;
+            background: white;
         }
 
         li:hover {
@@ -98,26 +123,55 @@
             max-width: 120px;
             overflow-x: auto;
         }
+        
+        .link3 {
+            position: absolute;
+            left: 200px;
+            top: 92px;
+            font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size:130%;
+            color: gold;
+            outline: none;
+            text-decoration: none;
+            position: absolute;
+        }
+        
+        .link3:hover{
+            font-size: 135%
+        }
+        h4 {
+            color: white;
+        }
+        h4:hover {
+            color: black;
+            opacity: 5%;
+        }
     </style>
 </head>
 <body>
-{{ request.user.username }}
+<h4>{{ request.user.username }}</h4>
 <a href = "{% url 'OPS'  %}" class=h2>VIPA</a>
 <div class='particular'>
     {% for i in countries %}
-    <a href = "{% url 'Particular' i %}" class=link2>{{ i }}</a>
+    <a href = "{% url 'Particular' i ' ' %}" class=link2>{{ i }}</a>
     {% endfor %}
 </div>  
     
+{% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' %}
+<a href = "{% url 'counter' %}" class=link3>Loaded this week: {{result}} cntrs</a> 
+{% endif %}
+
+    
 <form method = 'POST'>
     {% csrf_token %}
-    {{ form }}
+    {{ form.number }}
+    {{ form.number1 }}
     <button type="submit" class='button'>Filter</button>
-    <div class ="variants" id ="variants"></div>
+    <div class ="variants" id ="variants_box1"></div>
+    <div class ="variants1" id ="variants_box2"></div>
 </form>
-{% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' %}
-<h1>Loaded this week: {{result}} cntrs</h1>
-{% endif %}
+    
+    
 <div class="box" >
 
     <table class="table" align="center" >
@@ -182,7 +236,7 @@
             <td class=row2> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row2> {{ Shipment.po.so.destination }} </td>
             <td class=row2 id=ex> {{ Shipment.po.material }} </td>
-            <td class=row2> {{ Shipment.po.cntr }} </td>
+            <td class=row2> {{ Shipment.cntr }} </td>
             <td class=row2> {{ Shipment.ETD }} </td>
             <td class=row2> {{ Shipment.ETA }} </td>
             
@@ -239,7 +293,7 @@
             <td class=row0> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row0> {{ Shipment.po.so.destination }} </td>
             <td class=row0 id=ex> {{ Shipment.po.material }} </td>
-            <td class=row0> {{ Shipment.po.cntr }} </td>
+            <td class=row0> {{ Shipment.cntr }} </td>
             <td class=row0> {{ Shipment.ETD }} </td>
             <td class=row0> {{ Shipment.ETA }} </td>   
             
@@ -294,7 +348,7 @@
             <td class=row2t> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row2t> {{ Shipment.po.so.destination }} </td>
             <td class=row2t id=ex> {{ Shipment.po.material }} </td>
-            <td class=row2t> {{ Shipment.po.cntr }} </td>
+            <td class=row2t> {{ Shipment.cntr }} </td>
             <td class=row2t> {{ Shipment.ETD }} </td>
             <td class=row2t> {{ Shipment.ETA }} </td>
             
@@ -344,7 +398,7 @@
             <td class=row0t> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row0t> {{ Shipment.po.so.destination }} </td>
             <td class=row0t id=ex> {{ Shipment.po.material }} </td>
-            <td class=row0t> {{ Shipment.po.cntr }} </td>
+            <td class=row0t> {{ Shipment.cntr }} </td>
             <td class=row0t> {{ Shipment.ETD }} </td>
             <td class=row0t> {{ Shipment.ETA }} </td>    
             
@@ -436,7 +490,7 @@
     </table>
 </div>
 <div class='manage'>
-    {% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' %}
+    {% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' or gamma == 'import' %}
     <div class="dropdown">
         <button class="dropbtn">Report</button>
         <div class="dropdown-content">
@@ -447,16 +501,23 @@
         </div>
     </div>
         <a href = "{% url 'SalesViews'%}" class="link">SalesViews</a>
-        <a href = "{% url 'FreightSearch'%}" class="link">FreightSearch</a>    
-    {% endif %}
+        <a href = "{% url 'FreightSearch'%}" class="link">Freight Update</a>    
+    
     <a href = "{% url 'PurchaisesCreate' %}" class="link" >Create PO</a>
     <a href = "{% url 'Search'%}" class="link">Search</a>
     <a href = "{% url 'MonthlyView'%}" class="link">Monthly</a>
+    {% else %}
+    <a href = "{% url 'PurchaisesCreate' %}" class="link" >Create PO</a>
+    <a href = "{% url 'Search'%}" class="link">Search</a>
+    <a href = "{% url 'MonthlyView'%}" class="link">Monthly</a>
+    {% endif %}
+    
 </div>
 </body>
 <script type="text/javascript">
-    const values = {{all|safe}};
+    const values1 = {{all|safe}};
+    const values2 = {{all|safe}};
 </script>
-<script src="{% static 'ScriptOPS.js' %}">
+<script src="{% static 'ScriptPO.js' %}">
 </script>
 </html>

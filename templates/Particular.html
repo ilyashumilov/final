@@ -183,6 +183,9 @@
             left: 200px;
             top:-85px;
             opacity: 30%;
+            max-width: 1200px;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
 
@@ -268,7 +271,7 @@
             <td class=row2> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row2> {{ Shipment.po.so.destination }} </td>
             <td class=row2 id=ex> {{ Shipment.po.material }} </td>
-            <td class=row2> {{ Shipment.po.cntr }} </td>
+            <td class=row2> {{ Shipment.cntr }} </td>
             <td class=row2> {{ Shipment.ETD }} </td>
             <td class=row2> {{ Shipment.ETA }} </td>
             
@@ -322,7 +325,7 @@
             <td class=row0> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row0> {{ Shipment.po.so.destination }} </td>
             <td class=row0 id=ex> {{ Shipment.po.material }} </td>
-            <td class=row0> {{ Shipment.po.cntr }} </td>
+            <td class=row0> {{ Shipment.cntr }} </td>
             <td class=row0> {{ Shipment.ETD }} </td>
             <td class=row0> {{ Shipment.ETA }} </td>      
             
@@ -375,7 +378,7 @@
             <td class=row2t> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row2t> {{ Shipment.po.so.destination }} </td>
             <td class=row2t id=ex> {{ Shipment.po.material }} </td>
-            <td class=row2t> {{ Shipment.po.cntr }} </td>
+            <td class=row2t> {{ Shipment.cntr }} </td>
             <td class=row2t> {{ Shipment.ETD }} </td>
             <td class=row2t> {{ Shipment.ETA }} </td>
             
@@ -429,7 +432,7 @@
             <td class=row0t> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row0t> {{ Shipment.po.so.destination }} </td>
             <td class=row0t id=ex> {{ Shipment.po.material }} </td>
-            <td class=row0t> {{ Shipment.po.cntr }} </td>
+            <td class=row0t> {{ Shipment.cntr }} </td>
             <td class=row0t> {{ Shipment.ETD }} </td>
             <td class=row0t> {{ Shipment.ETA }} </td>        
             

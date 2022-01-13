@@ -31,6 +31,68 @@ import psycopg2
 from psycopg2 import Error
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 import pandas as pd
+from .freight import ff
+
+def renewfreight(request):
+
+    all = Freight.objects.all()
+    for i in all:
+        i.delete()
+
+    for row in ff():
+        new = Freight(forwarder='',Line='',POL='',POD='',terms='',rate='0',currencyrate='USD',period='',contract='',additional='0',currencyadd='USD',margin = '')
+        new.save()
+
+        try:
+            new.forwarder = row[1]
+            new.save()
+        except:
+            pass
+
+        try:
+            new.Line = row[1]
+            new.save()
+        except:
+            pass
+
+        try:
+            new.POL = row[2]
+            new.save()
+        except:
+            pass
+
+        try:
+            new.POD = row[4]
+            new.save()
+        except:
+            pass
+
+        try:
+            new.terms = row[7]
+            new.save()
+        except:
+            pass
+
+        try:
+            new.rate = row[8]
+            new.save()
+        except:
+            pass
+
+        try:
+            new.period = row[9].replace('/', '.')
+            new.save()
+        except:
+            pass
+
+        try:
+            new.contract = row[10]
+            new.save()
+        except:
+            pass
+
+    return redirect('OPS')
+
 
 def f(request):
    user = request.user
@@ -118,6 +180,8 @@ def f(request):
            actualizeShip(ship.id)
        except:
            pass
+
+       return redirect('OPS')
 def w(request):
    user = request.user
    df_sales = pd.read_excel('/Users/a111/Desktop/Script (1) (1).xlsx', sheet_name='Shipment')
@@ -305,6 +369,11 @@ def ReportMonthly(request,month):
     worksheet.write(0, 27, "Fin. costs EUR",default)
 
     worksheet.write(0, 28, "Exchange rate",default)
+    worksheet.write(0, 29, "Equip", default)
+
+
+    worksheet.write(0, 30, "Tons Actual",default)
+    worksheet.write(0, 31, "Transaction",default)
     row = 1
 
     for i in final:
@@ -393,45 +462,15 @@ def ReportMonthly(request,month):
             worksheet.write(row, 27, fineurnames)
 
             worksheet.write(row, 28, MonthlyRate.objects.get(monthly = i).rate)
+
+            worksheet.write(row, 29, i.equip)
+
+            worksheet.write(row, 30, '0')
+            worksheet.write(row, 31, '0')
+
             row += 1
 
-    worksheet.write(row, 0, "SO date",default)
-    worksheet.write(row, 1, "PO date",default)
-    worksheet.write(row, 2, "Supplier",default)
-    worksheet.write(row, 3, "Client",default)
-    worksheet.write(row, 4, "Origin city",default)
-    worksheet.write(row, 5, "Origin country",default)
-    worksheet.write(row, 6, "Dest. city",default)
-    worksheet.write(row, 7, "Dest. country",default)
-    worksheet.write(row, 8, "Carrier",default)
-    worksheet.write(row, 9, "Forwarder",default)
-    worksheet.write(row, 10, "Shipment",default)
-    worksheet.write(row, 11, "BK",default)
-    worksheet.write(row, 12, "Grade",default)
-    worksheet.write(row, 13, "Cntr",default)
-    worksheet.write(row, 14, "Tons Invoiced",default)
-    worksheet.write(row, 15, "Tons Actual",default)
-    worksheet.write(row, 16, "Transaction",default)
-    worksheet.write(row, 17, "Min payload",default)
-    worksheet.write(row, 18, "ETD",default)
-    worksheet.write(row, 19, "ETA",default)
-    worksheet.write(row, 20, "Margin USD",default)
-    worksheet.write(row, 21, "Margin EUR",default)
 
-    worksheet.write(row, 22, "Log. costs USD",default)
-    worksheet.write(row, 23, "Log. costs USD",default)
-
-    worksheet.write(row, 24, "Log. costs EUR",default)
-    worksheet.write(row, 25, "Log. costs EUR",default)
-
-    worksheet.write(row, 26, "Fin. costs USD",default)
-    worksheet.write(row, 27, "Fin. costs USD",default)
-
-    worksheet.write(row, 28, "Fin. costs EUR",default)
-    worksheet.write(row, 29, "Fin. costs EUR",default)
-
-    worksheet.write(row, 30, "Exchange rate",default)
-    row += 1
 
     for i in final:
         if i.Truck == True:
@@ -502,27 +541,29 @@ def ReportMonthly(request,month):
             worksheet.write(row, 12, i.material)
             worksheet.write(row, 13, i.cntr)
             worksheet.write(row, 14, i.Tons)
-            worksheet.write(row, 15, i.Tonsact)
-            worksheet.write(row, 16, i.transaction)
-            worksheet.write(row, 17, i.min)
-            worksheet.write(row, 18, i.ETD)
-            worksheet.write(row, 19, i.ETA)
-            worksheet.write(row, 20, i.margin)
-            worksheet.write(row, 21, i.marginEUR)
 
-            worksheet.write(row, 22, logusd)
-            worksheet.write(row, 23, logusdnames)
+            worksheet.write(row, 15, i.min)
+            worksheet.write(row, 16, i.ETD)
+            worksheet.write(row, 17, i.ETA)
+            worksheet.write(row, 18, i.margin)
+            worksheet.write(row, 19, i.marginEUR)
 
-            worksheet.write(row, 24, logeur)
-            worksheet.write(row, 25, logeurnames)
+            worksheet.write(row, 20, logusd)
+            worksheet.write(row, 21, logusdnames)
 
-            worksheet.write(row, 26, finusd)
-            worksheet.write(row, 27, finusdnames)
+            worksheet.write(row, 22, logeur)
+            worksheet.write(row, 23, logeurnames)
+            worksheet.write(row, 24, finusd)
+            worksheet.write(row, 25, finusdnames)
 
-            worksheet.write(row, 28, fineur)
-            worksheet.write(row, 29, fineurnames)
+            worksheet.write(row, 26, fineur)
+            worksheet.write(row, 27, fineurnames)
 
-            worksheet.write(row, 30, MonthlyRate.objects.get(monthly=i).rate)
+            worksheet.write(row, 28, MonthlyRate.objects.get(monthly=i).rate)
+            worksheet.write(row, 29, i.equip)
+            worksheet.write(row, 30, i.Tonsact)
+            worksheet.write(row, 31, i.transaction)
+
             row += 1
 
     workbook.close()
@@ -536,7 +577,7 @@ def ReportMonthly(request,month):
     # return the response
     return response
 
-def uploading(data,shipment_id):
+def uploading(user,data,shipment_id):
     count = 0
     cntr = Containers.objects.filter(shipment_id = shipment_id)
 
@@ -545,14 +586,14 @@ def uploading(data,shipment_id):
         nuevo.volume += -1
         nuevo.save()
 
-        nuevo1 = counter.objects.get(name=request.user.username)
+        nuevo1 = counter.objects.get(name=user.username)
         nuevo1.volume += -1
         nuevo1.save()
 
         i.delete()
 
     for i in data['Number']:
-        new = Containers(shipment=Shipment.objects.get(pk=shipment_id), number=str(data.loc[count, 'Number']),
+        new = Containers(us = user,shipment=Shipment.objects.get(pk=shipment_id), number=str(data.loc[count, 'Number']),
                          seal=str(data.loc[count, 'Seal']),\
                          bales=int(data.loc[count, 'Bales']), gross=float(data.loc[count, 'Gross']),
                          tara=float(data.loc[count, 'Tara']),\
@@ -563,7 +604,7 @@ def uploading(data,shipment_id):
         nuevo.volume += 1
         nuevo.save()
 
-        nuevo1 = counter.objects.get(name=request.user.username)
+        nuevo1 = counter.objects.get(name=user.username)
         nuevo1.volume += 1
         nuevo1.save()
 
@@ -575,7 +616,8 @@ def Upload(request,shipment_id):
         if form.is_valid():
             file = request.FILES['file']
             data = pd.read_csv(file)
-            uploading(data, shipment_id)
+            user = request.user
+            uploading(user,data, shipment_id)
             return redirect('ContainerViews',shipment_id)
     else:
         form = uploadform()
@@ -662,7 +704,7 @@ def ClaimView(request,shipment_id):
 
     fin = 0
     try:
-        trader = Empresa.objects.get(name = mnth.Supplier).trader
+        trader = Empresa.objects.filter(name = mnth.Supplier)[0].trader
         dif = mnth.Tonsact - mnth.Tons
         general = mnth.Tons - mnth.Tonsact + ukr[0].humidton + ukr[0].impur
         clsup = mnth.po.price * general
@@ -751,11 +793,11 @@ def buffer(request,shipment_id):
         origincountry = str(Ports.objects.filter(port=order.Origin)[0].country)
         destinationcountry = str(Ports.objects.filter(port=salesorder.destination)[0].country)
 
-        new = Monthly(sodate=str(salesorder.date), podate=str(order.date), Supplier=str(order.Proveedor),
+        new = Monthly(po = order.number,sodate=str(salesorder.date), podate=str(order.date), Supplier=str(order.Proveedor),
                       client=str(salesorder.client),\
                       origincity=str(order.Origin), origincountry=origincountry,
                       destinationcity=str(salesorder.destination), destinationcountry=destinationcountry,\
-                      number=item.number,bknumber=item.bknumber, material=salesorder.material, cntr=str(order.cntr), Tons=str(order.Tons),
+                      number=item.number,bknumber=item.bknumber, material=salesorder.material, cntr=str(item.cntr), Tons=str(peso),
                       Tonsact=0,min=str(min), ETD=str(item.ETD),\
                       ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder,shipinstr=item.shipinstr,equip = item.equip)
         new.save()
@@ -792,10 +834,28 @@ def buffer(request,shipment_id):
         order = PO.objects.get(id=item.po_id)
         item.delete()
 
+        a1 = Shipment.objects.filter(po = order)
+        a2 = Readiness.objects.filter(po = order)
+        a3 = Monthly.objects.filter(po = order.number)
+
+        total = 0
+        for i in a1:
+            total += i.cntr * i.po.so.min
+
+        for i in a2:
+            total += i.Tons
+
+        for i in a3:
+            total += i.Tons
+
+        order.Tons = total
+        order.save()
+
         alls = Shipment.objects.filter(po=order).count() + Readiness.objects.filter(po=order).count()
 
         salesorder = SO.objects.get(id=order.so_id)
 
+        dst = salesorder.destination
         if alls == 0 and salesorder.stat == True:
             salesorder.delete()
 
@@ -809,7 +869,11 @@ def buffer(request,shipment_id):
             comment = form.cleaned_data['Comment']
             new.comment = comment
             new.save()
-        return redirect('Particular',city)
+        if request.user.username[:6] == 'import':
+            new.Origin = dst
+            new.save()
+
+        return redirect('Particular',city, ' ')
     return render(request, 'Buffer.html', {'form': form, 'shipment_id':shipment_id,'city':city})
 
 def comment(request,buffer_id):
@@ -820,7 +884,7 @@ def comment(request,buffer_id):
         form = bufferf(request.POST,instance=item)
         if form.is_valid():
             form.save()
-            return redirect('Particular', city)
+            return redirect('Particular', city, ' ')
     return render(request,'comment.html',{'form':form, 'buffer_id':buffer_id, 'city':city})
 
 def DelBuffer(request,buffer_id):
@@ -828,7 +892,7 @@ def DelBuffer(request,buffer_id):
     city = Ports.objects.filter(port=item.Origin)[0].country
     if request.method == 'POST':
         item.delete()
-        return redirect('Particular', city)
+        return redirect('Particular', city, ' ')
     return render(request,'Del.html',{'buffer_id':buffer_id})
 
 @restriction
@@ -843,15 +907,30 @@ def OPS(request):
         all = counter.objects.all()
         for i in all:
             i.delete()
+
         p = Profile.objects.all()
 
-        cntrs = []
+        names = []
         for i in p:
-            item1 = counter(name=i.user.username, volume=0)
-            item1.save()
-            cntrs.append(i.country)
-        output = []
+            names.append(i.user.username)
 
+        uniques = []
+        for i in names:
+            if i not in uniques:
+                uniques.append(i)
+
+        print('aa',uniques)
+
+        cntrs = []
+        for i in uniques:
+            item1 = counter(name=i, volume=0)
+            item1.save()
+
+        cntrs = []
+        for l in p:
+            cntrs.append(l.country)
+
+        output = []
         for x in cntrs:
             if x not in output:
                 output.append(x)
@@ -862,8 +941,8 @@ def OPS(request):
 
         m.st = True
         m.save()
-    item = request.user
 
+    item = request.user
     countri = Profile.objects.filter(user=item)
     countries = []
     for i in countri:
@@ -887,10 +966,7 @@ def OPS(request):
         cntrs.append(i.country)
 
     for n in cntrs:
-        print(n)
         result += counter.objects.get(name = n).volume
-
-    print(result)
 
 
     flag = upd.objects.get(index = '1')
@@ -940,7 +1016,7 @@ def OPS(request):
                                 'Pic / Customer','Pic / VIPA', 'Sent', 'CN amount','CN currency', 'DN amount','DN currency','Set-nt Date','Profit','Rate'])
 
         for i in Claims.objects.all():
-            lista['Claims'].append([i.date,i.bl,i.Monthly.number,i.Monthly.origincountry,i.Monthly.Supplier, Empresa.objects.get(name=i.Monthly.Supplier).trader,\
+            lista['Claims'].append([i.date,i.bl,i.Monthly.number,i.Monthly.origincountry,i.Monthly.Supplier, Empresa.objects.filter(name=i.Monthly.Supplier)[0].trader,\
                                     i.Monthly.destinationcountry,i.Monthly.client,Empresa.objects.get(name=i.Monthly.client).trader,i.Monthly.material,i.reason,\
                                     i.comment,i.cntrs,i.tons, i.amount,i.currency,i.photos,i.picCust,i.picVipa,i.Sent,i.cn_amount,i.cn_currency,i.dn_amount,i.dn_currency,i.settlement_date,\
                                     i.profit,i.rate])
@@ -1005,38 +1081,80 @@ def OPS(request):
     for i in countries:
         X = X | Ports.objects.filter(country=i)
 
-    for i in X:
-        filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id)
-        filteredBuffer = filteredBuffer | Buffer.objects.filter(Origin=i)
+    # import section
 
-    for n in filteredPO:
-        Saling = Saling | Shipment.objects.filter(po_id = n.id)
-
-    for j in filteredPO:
-        readiness = readiness | Readiness.objects.filter(po_id=j.id)
-
-    item1 = []
-    for i in filteredPO:
-        item1.append(i.Proveedor.name)
-
-    item2 = []
-    for i in filteredPO:
-        item2.append(i.material.name)
-
-    all = item1 + item2
-
+    gamma = request.user.username[:6]
     all1 = []
-    for x in all:
-        if x not in all1:
-            all1.append(x)
-    all1 = json.dumps(all1)
+    if request.user.username[:6] == 'import':
 
-    form = searchform()
+        filteredSO = SO.objects.none()
+        for i in X:
+            filteredSO = filteredSO | SO.objects.filter(destination=i)
+
+        for i in filteredSO:
+            filteredPO = filteredPO | PO.objects.filter(so=i)
+
+        for n in filteredPO:
+            Saling = Saling | Shipment.objects.filter(po_id=n.id)
+
+        for j in filteredPO:
+            readiness = readiness | Readiness.objects.filter(po_id=j.id)
+
+        item1 = []
+        for i in filteredSO:
+            item1.append(i.client.name)
+
+        item2 = []
+        for i in filteredSO:
+            item2.append(i.material)
+
+        all = item1 + item2
+        print(all)
+
+        all1 = []
+        for x in all:
+            if x not in all1:
+                all1.append(x)
+        all1 = json.dumps(all1)
+
+        all = item1 + item2
+
+
+
+    else:
+        for i in X:
+            filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id)
+            filteredBuffer = filteredBuffer | Buffer.objects.filter(Origin=i)
+
+        for n in filteredPO:
+            Saling = Saling | Shipment.objects.filter(po_id = n.id)
+
+        for j in filteredPO:
+            readiness = readiness | Readiness.objects.filter(po_id=j.id)
+
+        item1 = []
+        for i in filteredPO:
+            item1.append(i.Proveedor.name)
+
+        item2 = []
+        for i in filteredPO:
+            item2.append(i.material.name)
+
+        all = item1 + item2
+
+        all1 = []
+        for x in all:
+            if x not in all1:
+                all1.append(x)
+        all1 = json.dumps(all1)
+
+    form = opsform()
     if request.method == 'POST':
-        form = searchform(request.POST)
+        form = opsform(request.POST)
         if form.is_valid():
             number = form.cleaned_data['number']
-        return redirect('Particular', number)
+            number1 = form.cleaned_data['number1']
+        return redirect('Particular', number, number1)
 
     context = {
         'Shipments': Saling,
@@ -1053,7 +1171,8 @@ def OPS(request):
         'form':form,
         'result': result,
         'r':r,
-        'alpha':alpha
+        'alpha':alpha,
+        'gamma':gamma
     }
     return render(request, 'OPS.html', context)
 
@@ -1293,6 +1412,36 @@ def report(request):
         response['Content-Disposition'] = 'attachment; filename=%s' % filename
         return response
 
+def reportcounter(request):
+    # create our spreadsheet.  I will create it in memory with a StringIO
+    item = request.user
+
+    output = BytesIO()
+    workbook = xlsxwriter.Workbook(output)
+    worksheet = workbook.add_worksheet()
+
+    all = counter.objects.all()
+
+
+    worksheet.write(0, 0,"Name")
+    worksheet.write(0, 1,"Containers loaded")
+
+    row = 1
+    for i in all:
+        worksheet.write(row, 0, i.name)
+        worksheet.write(row, 1, i.volume)
+        row += 1
+    workbook.close()
+
+    # create a response
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    # tell the browser what the file is named
+    response['Content-Disposition'] = 'attachment;filename="Containers.xlsx"'
+    # put the spreadsheet data into the response
+    response.write(output.getvalue())
+    # return the response
+    return response
+
 def reportOrders(request):
     # create our spreadsheet.  I will create it in memory with a StringIO
     item = request.user
@@ -1431,10 +1580,10 @@ def reportClaims(request):
         worksheet.write(row, 2, i.Monthly.number)
         worksheet.write(row, 3, i.Monthly.origincountry)
         worksheet.write(row, 4, i.Monthly.Supplier)
-        worksheet.write(row, 5, Empresa.objects.get(name=i.Monthly.Supplier).trader)
+        worksheet.write(row, 5, Empresa.objects.filter(name=i.Monthly.Supplier)[0].trader)
         worksheet.write(row, 6, i.Monthly.destinationcountry)
         worksheet.write(row, 7, i.Monthly.client)
-        worksheet.write(row, 8, Empresa.objects.get(name=i.Monthly.client).trader)
+        worksheet.write(row, 8, Empresa.objects.filter(name=i.Monthly.client)[0].trader)
         worksheet.write(row, 9, i.Monthly.material)
         worksheet.write(row, 10, i.reason)
         worksheet.write(row, 11, i.comment)
@@ -1522,7 +1671,7 @@ def reportClaimsUA(request):
         cost = MonthlyCosts.objects.get(monthly = i.monthly, name = 'Purchaise').volume
         worksheet.write(row, 0, i.monthly.number)
         worksheet.write(row, 1, i.monthly.ETA)
-        worksheet.write(row, 2, Empresa.objects.get(name=i.monthly.Supplier).trader)
+        worksheet.write(row, 2, Empresa.objects.filter(name=i.monthly.Supplier)[0].trader)
         worksheet.write(row, 3, i.monthly.Supplier)
         worksheet.write(row, 4, i.monthly.client)
         worksheet.write(row, 5, i.monthly.material)
@@ -1559,49 +1708,322 @@ def get_item(dictionary, key):
     return dictionary.get(key)
 
 @restriction
-def Particular(request,var):
+def Particular(request,var,var1):
     filteredPO = PO.objects.none()
+
     Saling = Shipment.objects.none()
     readiness = Readiness.objects.none()
     filteredBuffer = Buffer.objects.none()
 
     X = Ports.objects.filter(country=var)
 
-    try:
-        for i in X:
-            filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id)
-            filteredBuffer = filteredBuffer | Buffer.objects.filter(Origin=i)
+    item = request.user
+    countri = Profile.objects.filter(user=item)
+    countries = []
+    for i in countri:
+        countries.append(str(i.country))
 
-        for n in filteredPO:
-            Saling = Saling | Shipment.objects.filter(po_id = n.id)
+    final = Ports.objects.none()
+    for n in countries:
+        final = final | Ports.objects.filter(country=n)
 
-        for j in filteredPO:
-            readiness = readiness | Readiness.objects.filter(po_id=j.id)
-    except:
-        pass
+    if request.user.username[:6] == 'import':
+        try:
+            filteredSO = SO.objects.none()
+            for i in X:
+                filteredSO = filteredSO | SO.objects.filter(destination=i)
 
-    try:
-        a = Empresa.objects.get(name=var)
-        filteredPO = PO.objects.filter(Proveedor=a)
-        filteredBuffer = Buffer.objects.filter(proveedor=a.name)
+            print(filteredSO)
+            for i in filteredSO:
+                filteredPO = filteredPO | PO.objects.filter(so=i)
+                filteredBuffer = filteredBuffer | Buffer.objects.filter(Origin=i.destination.port)
 
-        for n in filteredPO:
-            Saling = Saling | Shipment.objects.filter(po_id = n.id)
-        for j in filteredPO:
-            readiness = readiness | Readiness.objects.filter(po_id=j.id)
-    except:
-        pass
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id=n.id)
 
-    try:
-        a = Materials.objects.get(name=var)
-        filteredPO = PO.objects.filter(material=a)
-        for n in filteredPO:
-            Saling = Saling | Shipment.objects.filter(po_id = n.id)
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
 
-        for j in filteredPO:
-            readiness = readiness | Readiness.objects.filter(po_id=j.id)
-    except:
-        pass
+        try:
+            a = Empresa.objects.filter(name=var)[0]
+
+            filteredPO = PO.objects.none()
+            filteredSO = SO.objects.none()
+            for i in final:
+                filteredSO = filteredSO | SO.objects.filter(destination=i).filter(client=a)
+                filteredBuffer = Buffer.objects.filter(Origin=i.port)
+
+
+            for i in filteredSO:
+                filteredPO = filteredPO | PO.objects.filter(so=i)
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id=n.id)
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+
+        except:
+            pass
+
+        try:
+            a = Materials.objects.filter(name=var)[0]
+
+            filteredPO = PO.objects.none()
+            filteredSO = SO.objects.none()
+            for i in final:
+                filteredSO = filteredSO | SO.objects.filter(destination=i).filter(material=a.name)
+                filteredBuffer = Buffer.objects.filter(Origin=i.port)
+
+            for i in filteredSO:
+                filteredPO = filteredPO | PO.objects.filter(so=i)
+
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id=n.id)
+
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Empresa.objects.filter(name=var1)[0]
+
+            filteredPO = PO.objects.none()
+            filteredSO = SO.objects.none()
+            for i in final:
+                filteredSO = filteredSO | SO.objects.filter(destination=i).filter(client=a)
+                filteredBuffer = Buffer.objects.filter(Origin=i.port)
+
+            for i in filteredSO:
+                filteredPO = filteredPO | PO.objects.filter(so=i)
+
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id=n.id)
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Materials.objects.filter(name=var1)[0]
+
+            filteredPO = PO.objects.none()
+            filteredSO = SO.objects.none()
+            for i in final:
+                filteredSO = filteredSO | SO.objects.filter(destination=i).filter(material=a.name)
+                filteredBuffer = Buffer.objects.filter(Origin=i.port)
+
+            for i in filteredSO:
+                filteredPO = filteredPO | PO.objects.filter(so=i)
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id=n.id)
+
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Empresa.objects.filter(name=var)[0]
+            b = Materials.objects.filter(name=var1)[0]
+
+            filteredPO = PO.objects.none()
+            filteredSO = SO.objects.none()
+            for i in final:
+                filteredSO = filteredSO | SO.objects.filter(destination=i).filter(material=b.name).filter(client=a)
+                filteredBuffer = Buffer.objects.filter(Origin=i.port)
+
+            for i in filteredSO:
+                filteredPO = filteredPO | PO.objects.filter(so=i)
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id=n.id)
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Empresa.objects.filter(name=var1)[0]
+            b = Materials.objects.filter(name=var)[0]
+
+            filteredPO = PO.objects.none()
+            filteredSO = SO.objects.none()
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+            for i in final:
+                filteredSO = filteredSO | SO.objects.filter(destination=i).filter(material=b.name).filter(client=a)
+                filteredBuffer = Buffer.objects.filter(Origin=i.port)
+
+            for i in filteredSO:
+                filteredPO = filteredPO | PO.objects.filter(so=i)
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id=n.id)
+
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            print('2')
+
+    else:
+        try:
+            for i in X:
+                filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id)
+                filteredBuffer = filteredBuffer | Buffer.objects.filter(Origin=i.port)
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id = n.id)
+
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Empresa.objects.filter(name=var)[0]
+            filteredPO = PO.objects.none()
+            for i in final:
+                filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id).filter(Proveedor=a)
+                filteredBuffer = Buffer.objects.filter(Origin=i.port).filter(proveedor=a.name)
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id = n.id)
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Materials.objects.filter(name=var)[0]
+
+            filteredPO = PO.objects.none()
+            for i in final:
+                filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id).filter(material=a)
+                filteredBuffer = Buffer.objects.none()
+            print('dd',filteredPO)
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id = n.id)
+
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Empresa.objects.filter(name=var1)[0]
+
+            filteredPO = PO.objects.none()
+            for i in final:
+                filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id).filter(Proveedor=a)
+                filteredBuffer = Buffer.objects.filter(Origin=i.port).filter(proveedor=a.name)
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id = n.id)
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Materials.objects.filter(name=var1)[0]
+
+            filteredPO = PO.objects.none()
+            for i in final:
+                filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id).filter(material=a)
+                filteredBuffer = Buffer.objects.none()
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id = n.id)
+
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Empresa.objects.filter(name=var)[0]
+            b = Materials.objects.filter(name=var1)[0]
+
+            filteredPO = PO.objects.none()
+            for i in final:
+                filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id).filter(Proveedor=a).filter(material=b)
+                filteredBuffer = Buffer.objects.none()
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id = n.id)
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            pass
+
+        try:
+            a = Empresa.objects.filter(name=var1)[0]
+            b = Materials.objects.filter(name=var)[0]
+
+            filteredPO = PO.objects.none()
+            for i in final:
+                filteredPO = filteredPO | PO.objects.filter(Origin_id=i.id).filter(Proveedor=a).filter(material=b)
+                filteredBuffer = Buffer.objects.none()
+
+            Saling = Shipment.objects.none()
+            readiness = Readiness.objects.none()
+            filteredBuffer = Buffer.objects.none()
+
+            for n in filteredPO:
+                Saling = Saling | Shipment.objects.filter(po_id = n.id)
+
+            for j in filteredPO:
+                readiness = readiness | Readiness.objects.filter(po_id=j.id)
+        except:
+            print('2')
 
     try:
         f = Readiness.objects.filter(po_id=filteredPO[0].id)
@@ -1621,29 +2043,57 @@ def Particular(request,var):
     }
     return render(request, 'Particular.html', context)
 
-def ParticularSO(request,var):
+def ParticularSO(request,var,var1):
     filteredSO = PO.objects.none()
     
     X = Ports.objects.filter(country=var)
 
-    try:
-        for i in X:
-            filteredSO = filteredSO | SO.objects.filter(Origin_id=i.id)
-            filteredBuffer = filteredBuffer | Buffer.objects.filter(Origin=i)
-    except:
-        pass
+    # try:
+    for i in X:
+        filteredSO = filteredSO | SO.objects.filter(destination=i).filter(stat=False)
+        print('d',filteredSO)
+    # except:
+    #     pass
 
     try:
-        a = Empresa.objects.get(name=var)
+        a = Empresa.objects.filter(name=var)[0]
         filteredSO = SO.objects.filter(client=a)
     except:
         pass
 
     try:
-        a = Materials.objects.get(name=var)
+        a = Materials.objects.filter(name=var)[0]
         filteredSO = SO.objects.filter(material=a)
     except:
         pass
+
+    try:
+        a = Empresa.objects.filter(name=var1)[0]
+        filteredSO = SO.objects.filter(client=a)
+    except:
+        pass
+
+    try:
+        a = Materials.objects.filter(name=var1)[0]
+        filteredSO = SO.objects.filter(material=a)
+    except:
+        pass
+
+    try:
+        a = Materials.objects.filter(name=var1)[0]
+        b = Empresa.objects.filter(name=var)[0]
+        filteredSO = SO.objects.filter(material=a).filter(client=b)
+    except:
+        pass
+
+    try:
+        a = Materials.objects.filter(name=var)[0]
+        b = Empresa.objects.filter(name=var1)[0]
+        filteredSO = SO.objects.filter(material=a).filter(client=b)
+    except:
+        pass
+
+
     closed = {}
 
     for i in filteredSO:
@@ -1691,7 +2141,7 @@ def SalesCreate(request):
             currency = form.cleaned_data['currency']
 
             date = date[8] + date[9] + '.' + date[5] + date[6] + '.' + date[0] + date[1] + date[2] + date[3]
-            client = Empresa.objects.get(name=client)
+            client = Empresa.objects.filter(name=client)[0]
             destination = Ports.objects.filter(port=destination)[0]
             item = SO(user=usr,client=client,destination=destination,date=date,number=number,material=material,cntr=cntr,Tons=Tons,min=min,cost=cost,currency=currency,comment=comment,cpt=cpt)
             item.save()
@@ -1804,11 +2254,29 @@ def SalesViews(request):
         for p in POs:
             closed[i.id] = closed[i.id] + p.Tons
 
+    moveaway = SO.objects.get(number='00-0000',user=request.user)
+
+    POs = PO.objects.filter(so_id=moveaway.id)
+    cm=0
+    for p in POs:
+        cm += p.Tons
+
     filteredSO = SO.objects.filter(user=request.user).filter(stat=False)
+
 
     item1 = []
     for i in filteredSO:
         item1.append(i.client.name)
+
+    d = []
+    for i in filteredSO:
+        d.append(i.destination.country)
+    d.remove('none')
+
+    countries = []
+    for x in d:
+        if x not in countries:
+            countries.append(x)
 
     item2 = []
     for i in filteredSO:
@@ -1821,18 +2289,22 @@ def SalesViews(request):
         if x not in all1:
             all1.append(x)
     all1 = json.dumps(all1)
-    form = searchform()
+    form = opsform()
     if request.method == 'POST':
-        form = searchform(request.POST)
+        form = opsform(request.POST)
         if form.is_valid():
             number = form.cleaned_data['number']
-        return redirect('ParticularSO', number)
-
+            number1 = form.cleaned_data['number1']
+        return redirect('ParticularSO', number,number1)
+    print(all1)
     context = {
         'all': all1,
         'form': form,
         'sales': sales,
-        'closed': closed
+        'closed': closed,
+        'countries':countries,
+        'moveaway':moveaway,
+        'cm':cm
     }
     return render(request, 'views.html', context)
 
@@ -1918,9 +2390,9 @@ def PurchaisesCreate(request):
 
             date = date[8]+date[9]+'.'+date[5]+date[6]+'.'+date[0]+date[1]+date[2]+date[3]
 
-        material = Materials.objects.get(name=material)
+        material = Materials.objects.filter(name=material)[0]
 
-        provider = Empresa.objects.get(name=Proveedor)
+        provider = Empresa.objects.filter(name=Proveedor)[0]
         port = Ports.objects.filter(port=Origin)[0]
         country = port.country
         profiles = Profile.objects.filter(country = country)
@@ -1933,6 +2405,8 @@ def PurchaisesCreate(request):
             elif i.user.username == 'managereurope':
                 current = SO.objects.get(number='00-0000',user=i.user)
 
+        if request.user.username[:6] == 'import':
+            current = SO.objects.get(number='00-0000', user=request.user)
 
         item = PO(so=current, Proveedor = provider, Origin = port,material=material,date=date, cntr=cntr, number='number', Tons=Tons, price=price,spt=spt,currency=currency)
         item.save()
@@ -1990,7 +2464,7 @@ def ReadinessDelete(request, read_id):
     item = Readiness.objects.get(pk=read_id)
     if request.method == 'POST':
         item.delete()
-        amount = Readiness.objects.filter(po_id=item.po_id).count() + Shipment.objects.filter(po_id=item.po_id).count() + Monthly.objects.filter(po_id=item.po_id).count()
+        amount = Readiness.objects.filter(po_id=item.po_id).count() + Shipment.objects.filter(po_id=item.po_id).count()
         print(amount)
         if amount == 0:
             order = PO.objects.get(pk = item.po_id)
@@ -2015,17 +2489,35 @@ def PurchaisesUpdate(request, purchaise_id):
     order = PO.objects.get(id=purchaise_id)
     salesorder = SO.objects.get(id = order.so_id)
     form = poform(instance=order)
+    form1 = destform1()
+
+    ports = Ports.objects.values_list('port', flat=True)
+    ports = list(ports)
+    ports = json.dumps(ports)
+
+    current = "'"+str(order.Origin.port)+"'"
+
     if request.method == 'POST':
+        form1 = destform1(request.POST)
         form = poform(request.POST, instance=order)
         if form.is_valid():
             form.save()
+        if form1.is_valid():
+            dest = form1.cleaned_data['number1']
+            port = Ports.objects.filter(port=dest)[0]
+            order.Origin = port
+            order.save()
+
             return redirect('Result', order.number)
 
     context = {
         'form': form,
         'SO': order.so_id,
         'purchaise': purchaise_id,
-        'number': order.number
+        'number': order.number,
+        'form1':form1,
+        'ports': ports,
+        'current': current
     }
     return render(request, 'UpdatePO.html', context)
 
@@ -2086,11 +2578,15 @@ def MonthlyReports(request, shipment_id):
         origincountry = str(Ports.objects.filter(port=order.Origin)[0].country)
         destinationcountry = str(Ports.objects.filter(port=salesorder.destination)[0].country)
 
-        new = Monthly(sodate=str(salesorder.date), podate = str(order.date), Supplier = str(order.Proveedor), client = str(salesorder.client),\
+        new = Monthly(po = order.number,sodate=str(salesorder.date), podate = str(order.date), Supplier = str(order.Proveedor), client = str(salesorder.client),\
                       origincity = str(order.Origin),origincountry=origincountry,destinationcity=str(salesorder.destination), destinationcountry=destinationcountry,\
-                      number = item.number, bknumber=item.bknumber,material = salesorder.material, cntr=str(order.cntr), Tons = peso,Tonsact = 0,min = str(min),ETD = str(item.ETD),\
+                      number = item.number, bknumber=item.bknumber,material = salesorder.material, cntr=str(item.cntr), Tons = peso,Tonsact = 0,min = str(min),ETD = str(item.ETD),\
                       ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder,Truck = False, transaction = '', shipinstr=item.shipinstr,equip = item.equip)
         new.save()
+
+        a1 = Shipment.objects.filter(po = order)
+        a2 = Readiness.objects.filter(po = order)
+        a3 = Monthly.objects.filter(po = order.number)
 
         if item.Truck == True:
             new.Truck = True
@@ -2116,6 +2612,19 @@ def MonthlyReports(request, shipment_id):
 
         salesorder = SO.objects.get(id=order.so_id)
 
+        total = 0
+        for i in a1:
+            total += i.cntr * i.po.so.min
+
+        for i in a2:
+            total += i.Tons
+
+        for i in a3:
+            total += i.Tons
+
+        order.Tons = total
+        order.save()
+
         if alls == 0 and salesorder.stat == True:
             salesorder.delete()
 
@@ -2124,7 +2633,10 @@ def MonthlyReports(request, shipment_id):
         item = track(bknumber=new.bknumber, number=new.number,Supplier=new.Supplier,origincountry=new.origincountry,material=new.material,payment_status=False,\
                      registered=False,comment = '')
         item.save()
-        return redirect('Particular',city)
+
+
+
+        return redirect('Particular',city, ' ')
 
     return render(request, 'Monthly.html',{'shipment_id':shipment_id})
 
@@ -2166,7 +2678,7 @@ def MonthlyReports1(request, shipment_id):
         item = track(bknumber=new.bknumber, number=new.number,Supplier=new.Supplier,origincountry=new.origincountry,material=new.material,payment_status=False,\
                      registered=False,comment = '')
         item.save()
-        return redirect('Particular',city)
+        return redirect('Particular',city, ' ')
 
     return render(request, 'Monthly1.html',{'shipment_id':shipment_id})
 
@@ -2281,7 +2793,8 @@ def MonthlyCreate(request,monthly_id):
                   destinationcity=item.destinationcity, destinationcountry=item.destinationcountry, \
                   number=item.number, bknumber=item.bknumber, material=item.material, cntr=item.cntr,
                   Tons=item.Tons,Tonsact =item.Tonsact, min=item.min, ETD=item.ETD, \
-                  ETA=item.ETA, margin=0, forwarder = item.forwarder,line = item.line, transaction = item.transaction)
+                  ETA=item.ETA, margin=0, forwarder = item.forwarder,line = item.line, transaction = item.transaction,\
+                  shipinstr=item.shipinstr,equip=item.equip)
     new.save()
 
     costs = MonthlyCosts.objects.filter(monthly=item)
@@ -2334,6 +2847,8 @@ def MonthlyDelete1(request, monthly_id):
 def ContainerViews(request, shipment_id):
     shipment = Shipment.objects.get(pk=shipment_id)
     city = Ports.objects.filter(port=shipment.po.Origin)[0].country
+    if request.user.username[:6] == 'import':
+        city = Ports.objects.filter(port=shipment.po.so.destination)[0].country
     queryset = Containers.objects.filter(shipment_id=shipment_id)
     context = {
         'queryset': queryset,
@@ -2369,34 +2884,6 @@ def ContainerCreate(request, shipment_id):
     if request.method == 'POST':
         now = datetime.now(timezone.utc)
         m = counterupd.objects.get(index='1')
-
-        if now.strftime("%A") == 'Friday':
-            m.st = False
-            m.save()
-
-        if now.strftime("%A") == 'Monday' and m.st == False:
-            all = counter.objects.all()
-            for i in all:
-                i.delete()
-            p = Profile.objects.all()
-
-            cntrs = []
-            for i in p:
-                item1 = counter(name = i.user.username,volume = 0)
-                item1.save()
-                cntrs.append(i.country)
-            output = []
-
-            for x in cntrs:
-                if x not in output:
-                    output.append(x)
-
-            for i in output:
-                itemW = counter(name = i,volume = 0)
-                itemW.save()
-
-            m.st = True
-            m.save()
 
         form = containerindex(request.POST)
         if form.is_valid():
@@ -2532,6 +3019,7 @@ def ContainerUpdate1(request, container_id):
 
 def ContainerDelete(request, container_id):
     item = Containers.objects.get(id=container_id)
+    user = item.us.username
     if request.method == 'POST':
         item.delete()
 
@@ -2539,7 +3027,7 @@ def ContainerDelete(request, container_id):
         nuevo.volume += -1
         nuevo.save()
 
-        nuevo1 = counter.objects.get(name=request.user.username)
+        nuevo1 = counter.objects.get(name=user)
         nuevo1.volume += -1
         nuevo1.save()
 
@@ -2645,6 +3133,8 @@ def ShipmentUpdate(request, shipment_id):
             form = shipmentform1(request.POST, instance=shipment)
             flag = False
 
+        if request.user.username[:6]=='import':
+            city = Ports.objects.filter(port = shipment.po.so.destination)[0].country
         if form.is_valid():
             form.save()
             if flag == True:
@@ -2652,7 +3142,7 @@ def ShipmentUpdate(request, shipment_id):
                 shipment.save()
                 shipment.ETA = shipment.ETA[8] + shipment.ETA[9] + '.' + shipment.ETA[5] + shipment.ETA[6] + '.' + shipment.ETA[0] + shipment.ETA[1] + shipment.ETA[2] + shipment.ETA[3]
                 shipment.save()
-            return redirect('Particular',city)
+            return redirect('Particular',city, ' ')
     context = {
         'form': form,
         'PO': shipment.po_id,
@@ -2726,7 +3216,7 @@ def ShipmentDelete(request, shipment_id):
         nuevo1.save()
 
         item.delete()
-        return redirect('Particular',city)
+        return redirect('Particular',city, ' ')
     context = {
         'item': item,
         'id': id,
@@ -3088,6 +3578,8 @@ def CostViews(request, shipment_id):
     costs = Costs.objects.filter(shipment_id = shipment_id)
     item = Shipment.objects.get(pk = shipment_id)
     city = Ports.objects.filter(port=item.po.Origin)[0].country
+    if request.user.username[:6] == 'import':
+        city = Ports.objects.filter(port=item.po.so.destination)[0].country
     return render(request, 'viewscosts.html', {'costs': costs, 'shipment_id': shipment_id,'city':city})
 
 def C(request, shipment_id):
@@ -3115,7 +3607,7 @@ def ShowFreight(request, readiness_id):
     POL = read.po.Origin
     POD = read.po.so.destination
     options = Freight.objects.filter(POL=POL).filter(POD=POD)
-
+    salesorder = read.po.so
 
     for i in options:
         try:
@@ -3146,7 +3638,13 @@ def ShowFreight(request, readiness_id):
         else:
             additional = float(i.additional)
 
-        margin = sale - purchaise - rate / float(read.po.so.min) - float(additional) / float(read.cntr * read.po.so.min)
+        pcd = 0
+        if salesorder.currency == 'USD':
+            pdc = -4/36500 * (float(salesorder.cpt)*float(salesorder.cost)*float(salesorder.min))
+        else:
+            pdc = -4/36500 * (float(salesorder.cpt) * float(salesorder.cost)/float(rate) * float(salesorder.min))
+
+        margin = sale - purchaise - rate / float(read.po.so.min) - float(additional) / float(read.cntr * read.po.so.min) - float(pdc) / float(read.po.so.min)
         i.margin = float('{:.2f}'.format(margin))
         i.save()
 
@@ -3235,6 +3733,14 @@ def Select(request, freight_id, readiness_id):
             cost1 = Costs(shipment=item, name='Extra', volume=-float(freight.additional) / float(readiness.cntr), currency=freight.currencyadd)
             cost1.save()
 
+            pcd = 0
+            if salesorder.currency == 'USD':
+                pdc = -4/36500 * (float(salesorder.cpt)*float(salesorder.cost)*float(salesorder.min))
+            else:
+                pdc = -4/36500 * (float(salesorder.cpt) * float(salesorder.cost)/float(rate) * float(salesorder.min))
+
+            cost4 = Costs(shipment=item, name='Payment Dealay', volume=pdc, currency='USD')
+            cost4.save()
 
             item.carrier = freight.Line
             item.save()
@@ -3256,7 +3762,7 @@ def Skip(request, readiness_id):
     order = PO.objects.get(pk=readiness.po_id)
     salesorder = SO.objects.get(pk=order.so_id)
 
-    item = Shipment(po=order, number='', forwarder='', carrier='', cntr=1,
+    item = Shipment(po=order, number=readiness.number + '-xxx', forwarder='', carrier='', cntr=1,
                    bknumber='', ETD='', ETA='', margin=0, marginEUR=0, BK=False, SI=False, Magic=False,
                    Truck=True,equip='Truck',shipinstr='')
     item.save()
@@ -3276,38 +3782,19 @@ def Skip(request, readiness_id):
     cost3 = Costs(shipment=item, name='Purchaise', volume=-order.price, currency=order.currency)
     cost3.save()
 
+    pcd = 0
+    if salesorder.currency == 'USD':
+        pdc = -4 / 36500 * (float(salesorder.cpt) * float(salesorder.cost) * float(salesorder.min))
+    else:
+        pdc = -4 / 36500 * (float(salesorder.cpt) * float(salesorder.cost) / float(rate) * float(salesorder.min))
+
+    cost4 = Costs(shipment=item, name='Payment Dealay', volume=pdc, currency='USD')
+    cost4.save()
+
     actualizeShip(item.id)
 
     now = datetime.now(timezone.utc)
     m = counterupd.objects.get(index='1')
-
-    if now.strftime("%A") == 'Friday':
-        m.st = False
-        m.save()
-
-    if now.strftime("%A") == 'Monday' and m.st == False:
-        all = counter.objects.all()
-        for i in all:
-            i.delete()
-        p = Profile.objects.all()
-
-        cntrs = []
-        for i in p:
-            item1 = counter(name=i.user.username, volume=0)
-            item1.save()
-            cntrs.append(i.country)
-        output = []
-
-        for x in cntrs:
-            if x not in output:
-                output.append(x)
-
-        for i in output:
-            itemW = counter(name=i, volume=0)
-            itemW.save()
-
-        m.st = True
-        m.save()
 
     new = Containers(us = request.user,shipment=item,number = '',bales=0,gross = 0, tara=0,vgm = 0)
     new.save()
@@ -3315,9 +3802,50 @@ def Skip(request, readiness_id):
     nuevo = counter.objects.get(name=item.po.Origin.country)
     nuevo.volume += 1
     nuevo.save()
+    print(nuevo.volume)
 
     nuevo1 = counter.objects.get(name=request.user.username)
     nuevo1.volume += 1
     nuevo1.save()
+
+    return redirect('OPS')
+
+def Spot(request, readiness_id):
+
+    readiness = Readiness.objects.get(pk=readiness_id)
+
+    order = PO.objects.get(pk=readiness.po_id)
+    salesorder = SO.objects.get(pk=order.so_id)
+
+    item = Shipment(po=order, number=readiness.number + '-xxx', forwarder='', carrier='', cntr=1,
+                   bknumber='', ETD='', ETA='', margin=0, marginEUR=0, BK=False, SI=False, Magic=False,
+                   Truck=False,equip='40 HQ',shipinstr='')
+    item.save()
+    try:
+        response = requests.get(f'https://www.cbr-xml-daily.ru/daily_json.js')
+        rate = response.json()['Valute']['USD']['Value'] / response.json()['Valute']['EUR']['Value']
+        rate = float('{:.6f}'.format(rate))
+    except:
+        rate = 0.88
+
+    var = ShipmentRate(shipment=item, rate=rate)
+    var.save()
+    readiness.delete()
+
+    cost2 = Costs(shipment=item, name='Sale', volume=salesorder.cost, currency=salesorder.currency)
+    cost2.save()
+    cost3 = Costs(shipment=item, name='Purchaise', volume=-order.price, currency=order.currency)
+    cost3.save()
+
+    pcd = 0
+    if salesorder.currency == 'USD':
+        pdc = -4 / 36500 * (float(salesorder.cpt) * float(salesorder.cost) * float(salesorder.min))
+    else:
+        pdc = -4 / 36500 * (float(salesorder.cpt) * float(salesorder.cost) / float(rate) * float(salesorder.min))
+
+    cost4 = Costs(shipment=item, name='Payment Dealay', volume=pdc, currency='USD')
+    cost4.save()
+
+    actualizeShip(item.id)
 
     return redirect('OPS')

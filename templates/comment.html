@@ -98,7 +98,7 @@
         {% csrf_token %}
         {{ form }}
         <a href = "{% url 'DelBuffer' buffer_id %}" class='link'>Delete</a>
-        <a href = "{% url 'Particular' city %}" class='link'>Back</a>
+        <a href = "{% url 'Particular' city ' ' %}" class='link'>Back</a>
         <button class='button' type="submit">Confirm</button>   
     </form>
 </div>

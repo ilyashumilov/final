@@ -327,7 +327,9 @@
             {% endif %}
         </tr>
         {% endfor %}
+        {% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' or gamma == 'import' %}
         <a href="{% url  'ReportMonthly' month %}" class =link>Report</a>
+        {% endif %}
     </table>
         
 </div>
