@@ -1308,6 +1308,10 @@ def Result(request, number):
     result = 1
     a = 9
     total = 0
+
+    closed = 0
+    sailed = {}
+
     try:
         cnt = Containers.objects.get(number=number)
         result = Shipment.objects.get(pk=cnt.shipment.id)
@@ -1341,6 +1345,31 @@ def Result(request, number):
         result = SO.objects.get(number=number)
         a = 1
         purchaises = PO.objects.filter(so_id=result.id)
+
+        item = request.user
+
+        POs = PO.objects.filter(so_id=result.id)
+        
+        for p in POs:
+            a1 = Readiness.objects.filter(po=p)
+            a2 = Shipment.objects.filter(po=p)
+            a3 = Monthly.objects.filter(po=p.number)
+
+            for i in a1:
+                total += i.Tons
+
+            for i in a2:
+                total += i.cntr * i.po.so.min
+
+            for i in a3:
+                total += i.Tons
+
+            a3 = Monthly.objects.filter(po=p.number)
+
+            sailed[p.id] = 0
+            for i in a3:
+                sailed[p.id] += i.Tons
+                
     except:
         pass
 
@@ -1367,7 +1396,8 @@ def Result(request, number):
         'readiness': readiness,
         'len1':shipments.count(),
         'len':readiness.count(),
-        'loaded':total
+        'loaded':total,
+        'sailed':sailed
     }
     return render(request, 'Result.html', context)
 class LogIn(LoginView):
@@ -3836,7 +3866,7 @@ def Spot(request, readiness_id):
     order = PO.objects.get(pk=readiness.po_id)
     salesorder = SO.objects.get(pk=order.so_id)
 
-    item = Shipment(po=order, number=readiness.number + '-xxx', forwarder='', carrier='', cntr=1,
+    item = Shipment(po=order, number=readiness.number + '-xxx', forwarder='', carrier='', cntr=readiness.cntr,
                    bknumber='', ETD='', ETA='', margin=0, marginEUR=0, BK=False, SI=False, Magic=False,
                    Truck=False,equip='40 HQ',shipinstr='')
     item.save()

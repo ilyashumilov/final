@@ -211,6 +211,7 @@
             <td> Destination </td>
             <td> Cntrs </td>
             <td> Tons </td>
+            <td> Loaded </td>
             <td> Price </td>
             <td> Payment terms </td>
             <td> Material </td>
@@ -228,6 +229,7 @@
             
             <td class=row> {{ result.cntr }} </td>
             <td class=row> {{ result.Tons }} </td>
+            <td class=row> {{ loaded }} </td>
             
             {% if result.currency == 'USD' %}
             <td class=row> {{ result.cost }}{{'$'}} </td>
@@ -254,6 +256,7 @@
             <td class=row3> {{ purchaise.Origin }} </td>
             <td class=row3> {{ purchaise.cntr }} </td>
             <td class=row3> {{ purchaise.Tons }} </td>
+            <td class=row3> {{ sailed|get_item:purchaise.id }} </td>   
             {% if purchaise.currency == 'USD' %}
             <td class=row3> {{ purchaise.price }}{{'$'}} </td>
             {% endif %}
@@ -310,7 +313,10 @@
             <td class=head> Carrier </td>
             <td class=head> BK </td>  
             <td class=head> Origin </td> 
-            <td class=head> Destination </td> 
+            <td class=head> Supplier </td> 
+            <td class=head> Destination </td>
+            <td class=head> Material </td>
+            <td class=head> Cntrs </td>
             <td class=head> ETD </td>
             <td class=head> ETA </td>
             <td class=head> M USD</td>
@@ -328,7 +334,7 @@
             <td class=row2> {{ Shipment.po.Proveedor.name }} </td>
             <td class=row2> {{ Shipment.po.so.destination }} </td>
             <td class=row2 id=ex> {{ Shipment.po.material }} </td>
-            <td class=row2> {{ Shipment.po.cntr }} </td>
+            <td class=row2> {{ Shipment.cntr }} </td>
             <td class=row2> {{ Shipment.ETD }} </td>
             <td class=row2> {{ Shipment.ETA }} </td>
             
