@@ -98,6 +98,8 @@ class Shipment(models.Model):
     equip = models.CharField(max_length=30)
     Truck = models.BooleanField(default=False)
 
+    link = models.TextField(max_length=200)
+
     def numero(self):
         return float(self.marginEUR)
 
@@ -139,6 +141,8 @@ class Monthly(models.Model):
     Truck = models.BooleanField(default = False)
     equip = models.CharField(max_length=30)
 
+    link = models.TextField(max_length=200)
+
     def numero(self):
         return float(self.marginEUR)
 
@@ -172,6 +176,8 @@ class Containers(models.Model):
     gross = models.DecimalField(max_digits=10, decimal_places=2)
     tara = models.DecimalField(max_digits=10, decimal_places=2)
     vgm = models.DecimalField(max_digits=10, decimal_places=2)
+
+
 
     def __str__(self):
         return str(self.shipment)

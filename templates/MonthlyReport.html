@@ -53,19 +53,27 @@
             color: black;
         }
         
-        .row0 {
+        .row0,.row0e {
             background-color: #30393d6c;
             font-size:100%;
             font-weight:bold;
-     
         } 
+        
+        .row0e {
+            max-width: 80px;
+            overflow-x: auto;
+        }
         
         .row7 {
             background-color: red;
         }
              
-        .row2 {
+        .row2,.row2e {
             background-color: #ffad0ab1;
+        }
+        .row2e {
+            max-width: 80px;
+            overflow-x: auto;
         }
         .table {
             border-spacing: 4px;
@@ -179,8 +187,10 @@
             <td class=row0> ETA </td>
             <td class=row0> SI number </td>
             <td class=row0> Equip </td>
+            <td class=row0e> Photos </td>
             <td class=row0> M $ </td>
             <td class=row0> M € </td>
+            
         </tr>
         {% endif %}
         {% for item in all %}
@@ -213,8 +223,9 @@
             
             <td class=row2> {{ item.shipinstr }} </td>
             <td class=row2> {{ item.equip }} </td>
+            <td class=row2e> {{ item.link }} s</td>
 
-            
+
             {% if item.margin <= 0 %}
             <td class=row5> {{ item.margin }} </td>
             {% endif %}
@@ -230,7 +241,6 @@
             {% if item.numero > 0 %}
             <td class=row4> {{ item.marginEUR }} </td>
             {% endif %}
-            
             <td class=row6><a href="{% url  'MonthlyUpdate' item.id %}" class =link>U</a></td>
             <td class=row6><a href="{% url  'CostMonthlyView' item.id%}" class =link>N</a></td>
             {% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' or request.user.username == 'managerrussia' %}
@@ -265,6 +275,7 @@
             <td class=row0> ETA </td>
             <td class=row0> SI number </td>
             <td class=row0> Equip </td>
+            <td class=row0e> Photos </td>
             <td class=row0> M $ </td>
             <td class=row0> M € </td>
         </tr>
@@ -303,6 +314,7 @@
     
             <td class=row2> {{ item.shipinstr }} </td>
             <td class=row2> {{ item.equip }} </td>
+            <td class=row2e> {{ item.link }} </td>
 
             
             {% if item.margin <= 0 %}

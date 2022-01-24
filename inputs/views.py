@@ -374,6 +374,9 @@ def ReportMonthly(request,month):
 
     worksheet.write(0, 30, "Tons Actual",default)
     worksheet.write(0, 31, "Transaction",default)
+
+    worksheet.write(0, 32, "Photos", default)
+
     row = 1
 
     for i in final:
@@ -467,9 +470,10 @@ def ReportMonthly(request,month):
 
             worksheet.write(row, 30, '0')
             worksheet.write(row, 31, '0')
+            worksheet.write(row, 32, i.link)
+
 
             row += 1
-
 
 
     for i in final:
@@ -563,6 +567,7 @@ def ReportMonthly(request,month):
             worksheet.write(row, 29, i.equip)
             worksheet.write(row, 30, i.Tonsact)
             worksheet.write(row, 31, i.transaction)
+            worksheet.write(row, 32, i.link)
 
             row += 1
 
@@ -799,7 +804,7 @@ def buffer(request,shipment_id):
                       destinationcity=str(salesorder.destination), destinationcountry=destinationcountry,\
                       number=item.number,bknumber=item.bknumber, material=salesorder.material, cntr=str(item.cntr), Tons=str(peso),
                       Tonsact=0,min=str(min), ETD=str(item.ETD),\
-                      ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder,shipinstr=item.shipinstr,equip = item.equip)
+                      ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder,shipinstr=item.shipinstr,equip = item.equip, link=item.link)
         new.save()
 
         if item.Truck == True:
@@ -833,23 +838,6 @@ def buffer(request,shipment_id):
 
         order = PO.objects.get(id=item.po_id)
         item.delete()
-
-        a1 = Shipment.objects.filter(po = order)
-        a2 = Readiness.objects.filter(po = order)
-        a3 = Monthly.objects.filter(po = order.number)
-
-        total = 0
-        for i in a1:
-            total += i.cntr * i.po.so.min
-
-        for i in a2:
-            total += i.Tons
-
-        for i in a3:
-            total += i.Tons
-
-        order.Tons = total
-        order.save()
 
         alls = Shipment.objects.filter(po=order).count() + Readiness.objects.filter(po=order).count()
 
@@ -903,7 +891,7 @@ def OPS(request):
     now = datetime.now(timezone.utc)
     m = counterupd.objects.get(index='1')
 
-    if now.strftime("%A") == 'Thursday' and m.st == False:
+    if now.strftime("%A") == 'Monday' and m.st == False:
         all = counter.objects.all()
         for i in all:
             i.delete()
@@ -1005,7 +993,7 @@ def OPS(request):
 
         lista['Shipments'].append(['Number', 'Destination', 'Client', 'Origin', 'Supplier', 'Forwarder', 'Carrier','BK', 'Material', 'Cntrs', 'ETD','ETA','Margin USD','Margin EUR'])
         for i in Shipment.objects.all():
-            lista['Shipments'].append([i.number,i.po.so.destination,i.po.so.client,i.po.Origin,i.po.Proveedor, i.forwarder,i.carrier,i.bknumber,i.po.material,i.cntr,i.ETD,i.ETA,i.margin,i.marginEUR])
+            lista['Shipments'].append([i.number,i.po.so.destination,i.po.so.client,i.po.Origin,i.po.Proveedor, i.forwarder,i.carrier,i.bknumber,i.po.material,i.cntr,i.ETD,i.ETA,i.margin,i.marginEUR,i.link])
 
         lista['Containers'].append(['Date','Number', 'Seal', 'Bales', 'Gross','Tara', 'VGM'])
         for i in Containers.objects.all():
@@ -1319,7 +1307,7 @@ def Result(request, number):
     readiness = Readiness.objects.none()
     result = 1
     a = 9
-
+    total = 0
     try:
         cnt = Containers.objects.get(number=number)
         result = Shipment.objects.get(pk=cnt.shipment.id)
@@ -1360,6 +1348,13 @@ def Result(request, number):
         result = PO.objects.get(number=number)
         shipments = Shipment.objects.filter(po=result)
         readiness = Readiness.objects.filter(po=result)
+
+        a3 = Monthly.objects.filter(po = result.number)
+
+        total = 0
+        for i in a3:
+            total += i.Tons
+
         a = 2
     except:
         pass
@@ -1371,7 +1366,8 @@ def Result(request, number):
         'shipments':shipments,
         'readiness': readiness,
         'len1':shipments.count(),
-        'len':readiness.count()
+        'len':readiness.count(),
+        'loaded':total
     }
     return render(request, 'Result.html', context)
 class LogIn(LoginView):
@@ -2050,46 +2046,46 @@ def ParticularSO(request,var,var1):
 
     # try:
     for i in X:
-        filteredSO = filteredSO | SO.objects.filter(destination=i).filter(stat=False)
+        filteredSO = filteredSO | SO.objects.filter(destination=i).filter(stat=False).filter(user = request.user)
         print('d',filteredSO)
     # except:
     #     pass
 
     try:
         a = Empresa.objects.filter(name=var)[0]
-        filteredSO = SO.objects.filter(client=a)
+        filteredSO = SO.objects.filter(client=a).filter(user = request.user)
     except:
         pass
 
     try:
         a = Materials.objects.filter(name=var)[0]
-        filteredSO = SO.objects.filter(material=a)
+        filteredSO = SO.objects.filter(material=a).filter(user = request.user)
     except:
         pass
 
     try:
         a = Empresa.objects.filter(name=var1)[0]
-        filteredSO = SO.objects.filter(client=a)
+        filteredSO = SO.objects.filter(client=a).filter(user = request.user)
     except:
         pass
 
     try:
         a = Materials.objects.filter(name=var1)[0]
-        filteredSO = SO.objects.filter(material=a)
+        filteredSO = SO.objects.filter(material=a).filter(user = request.user)
     except:
         pass
 
     try:
         a = Materials.objects.filter(name=var1)[0]
         b = Empresa.objects.filter(name=var)[0]
-        filteredSO = SO.objects.filter(material=a).filter(client=b)
+        filteredSO = SO.objects.filter(material=a).filter(client=b).filter(user = request.user)
     except:
         pass
 
     try:
         a = Materials.objects.filter(name=var)[0]
         b = Empresa.objects.filter(name=var1)[0]
-        filteredSO = SO.objects.filter(material=a).filter(client=b)
+        filteredSO = SO.objects.filter(material=a).filter(client=b).filter(user = request.user)
     except:
         pass
 
@@ -2247,12 +2243,27 @@ def SalesViews(request):
     item = request.user
     closed = {}
     sales = SO.objects.filter(stat=False).filter(user=item)
-
-    for i in sales:
-        closed[i.id] = 0
-        POs = PO.objects.filter(so_id = i.id)
+    total = 0
+    for n in sales:
+        closed[n.id] = 0
+        POs = PO.objects.filter(so_id = n.id)
+        total = 0
         for p in POs:
-            closed[i.id] = closed[i.id] + p.Tons
+            a1 = Readiness.objects.filter(po=p)
+            a2 = Shipment.objects.filter(po=p)
+            a3 = Monthly.objects.filter(po=p.number)
+
+            for i in a1:
+                total += i.Tons
+
+            for i in a2:
+                total += i.cntr * i.po.so.min
+
+            for i in a3:
+                total += i.Tons
+
+        closed[n.id] = total
+        print(closed)
 
     moveaway = SO.objects.get(number='00-0000',user=request.user)
 
@@ -2262,7 +2273,6 @@ def SalesViews(request):
         cm += p.Tons
 
     filteredSO = SO.objects.filter(user=request.user).filter(stat=False)
-
 
     item1 = []
     for i in filteredSO:
@@ -2296,7 +2306,6 @@ def SalesViews(request):
             number = form.cleaned_data['number']
             number1 = form.cleaned_data['number1']
         return redirect('ParticularSO', number,number1)
-    print(all1)
     context = {
         'all': all1,
         'form': form,
@@ -2308,27 +2317,48 @@ def SalesViews(request):
     }
     return render(request, 'views.html', context)
 
-def PurchaisesViews(request, sales_id):
+def PurchaisesViews(request, sales_id ):
     salesorder = SO.objects.get(id=sales_id)
     queryset = PO.objects.filter(so_id=sales_id)
 
-    def counter(sales_id, queryset):
-        salesorder = SO.objects.get(id=sales_id)
-        total = salesorder.Tons
-        closed = 0
-        for i in queryset:
-            closed = closed + i.Tons
-        return total, closed
+    item = request.user
+    closed = 0
+    sales = SO.objects.filter(stat=False).filter(user=item)
+    total = 0
+    sailed = {}
+    POs = PO.objects.filter(so_id = sales_id)
+    for p in POs:
+        a1 = Readiness.objects.filter(po=p)
+        a2 = Shipment.objects.filter(po=p)
+        a3 = Monthly.objects.filter(po=p.number)
 
-    total, closed = counter(sales_id, queryset)
+        for i in a1:
+            total += i.Tons
+
+        for i in a2:
+            total += i.cntr * i.po.so.min
+
+        for i in a3:
+            total += i.Tons
+
+        a3 = Monthly.objects.filter(po = p.number)
+
+
+        sailed[p.id] = 0
+        for i in a3:
+            sailed[p.id] += i.Tons
+
+        print(sailed)
+
     context = {
+        'sailed':sailed,
         'purchaises': queryset,
-        'total': total,
-        'closed': closed,
+        'closed': total,
         'salesorder':salesorder,
         'len':queryset.count()
     }
     return render(request, 'viewspo.html', context)
+
 def PurchaisesViews1(request, sales_id):
     salesorder = SO.objects.get(id=sales_id)
     queryset = PO.objects.filter(so_id=sales_id)
@@ -2396,7 +2426,7 @@ def PurchaisesCreate(request):
         port = Ports.objects.filter(port=Origin)[0]
         country = port.country
         profiles = Profile.objects.filter(country = country)
-        if profiles.count() == 0:
+        if (profiles.count()) == 0 and (request.user.username[:6] != 'import'):
             return redirect('OPS')
 
         for i in profiles:
@@ -2408,10 +2438,13 @@ def PurchaisesCreate(request):
         if request.user.username[:6] == 'import':
             current = SO.objects.get(number='00-0000', user=request.user)
 
+        print
         item = PO(so=current, Proveedor = provider, Origin = port,material=material,date=date, cntr=cntr, number='number', Tons=Tons, price=price,spt=spt,currency=currency)
         item.save()
+        print(item.id)
         readiness = Readiness(po=item,Proveedor=item.Proveedor,Origin=item.Origin,date=date,number='Allocate',cntr=cntr,Tons=Tons, comment=status)
         readiness.save()
+        print(readiness.id)
         return redirect('OPS')
 
     context = {
@@ -2581,12 +2614,10 @@ def MonthlyReports(request, shipment_id):
         new = Monthly(po = order.number,sodate=str(salesorder.date), podate = str(order.date), Supplier = str(order.Proveedor), client = str(salesorder.client),\
                       origincity = str(order.Origin),origincountry=origincountry,destinationcity=str(salesorder.destination), destinationcountry=destinationcountry,\
                       number = item.number, bknumber=item.bknumber,material = salesorder.material, cntr=str(item.cntr), Tons = peso,Tonsact = 0,min = str(min),ETD = str(item.ETD),\
-                      ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder,Truck = False, transaction = '', shipinstr=item.shipinstr,equip = item.equip)
+                      ETA=str(item.ETA), margin=0, line = item.carrier, forwarder = item.forwarder,Truck = False, transaction = '', shipinstr=item.shipinstr,equip = item.equip, link=item.link)
         new.save()
 
-        a1 = Shipment.objects.filter(po = order)
-        a2 = Readiness.objects.filter(po = order)
-        a3 = Monthly.objects.filter(po = order.number)
+
 
         if item.Truck == True:
             new.Truck = True
@@ -2612,18 +2643,6 @@ def MonthlyReports(request, shipment_id):
 
         salesorder = SO.objects.get(id=order.so_id)
 
-        total = 0
-        for i in a1:
-            total += i.cntr * i.po.so.min
-
-        for i in a2:
-            total += i.Tons
-
-        for i in a3:
-            total += i.Tons
-
-        order.Tons = total
-        order.save()
 
         if alls == 0 and salesorder.stat == True:
             salesorder.delete()
@@ -2662,7 +2681,7 @@ def MonthlyReports1(request, shipment_id):
         new = Monthly(sodate=str(salesorder.date), podate = str(order.date), Supplier = str(order.Proveedor), client = str(salesorder.client),\
                       origincity = str(order.Origin),origincountry=origincountry,destinationcity=str(salesorder.destination), destinationcountry=destinationcountry,\
                       number = item.number, bknumber=item.bknumber,material = salesorder.material, cntr=str(order.cntr), Tons = peso,min = str(min),ETD = str(item.ETD),\
-                      ETA=str(item.ETA), margin=0,line = item.carrier, forwarder = item.forwarder,shipinstr=item.shipinstr,equip = item.equip)
+                      ETA=str(item.ETA), margin=0,line = item.carrier, forwarder = item.forwarder,shipinstr=item.shipinstr,equip = item.equip, link=item.link)
         new.save()
 
         rate = ShipmentRate.objects.get(shipment=item)

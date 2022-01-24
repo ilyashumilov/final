@@ -159,15 +159,19 @@
             {{ form.Customs }}
             {{ form.BK.label }}
             {{ form.BK }}
+            {{ form.SI.label }}
+            {{ form.SI }}
         </div>
         <div class="line">
             {{ form.shipinstr }}
             {{ form.bknumber }}
             {{ form.ETD }}
             {{ form.ETA }}
-            {{ form.SI.label }}
-            {{ form.SI }}
+
+            {{ form.link }}
         </div>
+        
+
         <button type="submit" class="button">Submit</button>
         <a href = "{% url 'Monthly' Shipment %}" class='link'>Monthly</a>
         <a href = "{% url 'buffer' Shipment %}" class='link'>Buffer</a>

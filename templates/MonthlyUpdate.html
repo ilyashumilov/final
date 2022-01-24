@@ -105,6 +105,7 @@
             padding:9px;
             margin:5px;
             margin-left: 50px;
+            margin-right: 95px;
             border: thin solid black;
             border-radius: 1px;
         }
@@ -192,6 +193,9 @@
         }
         #shipinstr {
             margin-left: 63px;
+        }
+        #link {
+            margin-left: 28px;
         }
     </style>
 
@@ -281,6 +285,10 @@
             
             {{ form.equip.label }}
             {{ form.equip }}
+            
+            {{ form.link.label }}
+            {{ form.link }}    
+            
         </div>
         <a href = "{% url 'MonthlyDelete' id  %}" class="delete">Del</a>
         <button type="submit" class="button">OK</button>

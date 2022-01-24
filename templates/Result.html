@@ -276,6 +276,7 @@
             <td> Material </td>
             <td> Cntrs</td>
             <td> Tons </td>
+            <td> Sailed </td>
             <td> Price </td>
             <td> Supp. paym. terms </td>
 
@@ -289,6 +290,7 @@
             <td class=row id=ex> {{ result.material }} </td>
             <td class=row> {{ result.cntr }} </td>
             <td class=row> {{ result.Tons }} </td>
+            <td class=row> {{ loaded }} </td>
             {% if result.currency == 'USD' %}
             <td class=row> {{ result.price }}{{'$'}} </td>
             {% endif %}

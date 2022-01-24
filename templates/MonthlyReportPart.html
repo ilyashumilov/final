@@ -53,19 +53,26 @@
             color: black;
         }
         
-        .row0 {
+        .row0,.row0e {
             background-color: #30393d6c;
             font-size:100%;
             font-weight:bold;
-     
-        } 
+        }
+        .row0e {
+            max-width: 80px;
+            overflow-x: auto;
+        }
         
         .row7 {
             background-color: red;
         }
              
-        .row2 {
+        .row2,.row2e {
             background-color: #ffad0ab1;
+        }
+        .row2e {
+            max-width: 80px;
+            overflow-x: auto;
         }
         .table {
             border-spacing: 4px;
@@ -177,6 +184,7 @@
             <td class=row0> ETA </td>
             <td class=row0> SI number </td>
             <td class=row0> Equip </td>
+            <td class=row0e> Photos </td>
             <td class=row0> M $ </td>
             <td class=row0> M € </td>
         </tr>
@@ -212,7 +220,8 @@
             
             <td class=row2> {{ item.shipinstr }} </td>
             <td class=row2> {{ item.equip }} </td>
-            
+            <td class=row2e> {{ item.link }} </td>
+
             {% if item.margin <= 0 %}
             <td class=row5> {{ item.margin }} </td>
             {% endif %}
@@ -263,6 +272,7 @@
             <td class=row0> ETA </td>
             <td class=row0> SI number </td>
             <td class=row0> Equip </td>
+            <td class=row0e> Photos </td>
             <td class=row0> M $ </td>
             <td class=row0> M € </td>
         </tr>
@@ -301,6 +311,7 @@
             
             <td class=row2> {{ item.shipinstr }} </td>
             <td class=row2> {{ item.equip }} </td>
+            <td class=row2e> {{ item.link }} </td>
             
             {% if item.margin <= 0 %}
             <td class=row5> {{ item.margin }} </td>
