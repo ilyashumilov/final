@@ -1129,6 +1129,7 @@ def OPS(request):
             item2.append(i.material.name)
 
         all = item1 + item2
+        Saling=Saling.objects.order_by('id')
 
         all1 = []
         for x in all:
