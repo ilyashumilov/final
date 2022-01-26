@@ -1088,6 +1088,8 @@ def OPS(request):
         for j in filteredPO:
             readiness = readiness | Readiness.objects.filter(po_id=j.id)
 
+
+
         item1 = []
         for i in filteredSO:
             item1.append(i.client.name)
@@ -1106,8 +1108,6 @@ def OPS(request):
         all1 = json.dumps(all1)
 
         all = item1 + item2
-
-
 
     else:
         for i in X:
@@ -1129,13 +1129,13 @@ def OPS(request):
             item2.append(i.material.name)
 
         all = item1 + item2
-        
 
         all1 = []
         for x in all:
             if x not in all1:
                 all1.append(x)
         all1 = json.dumps(all1)
+
 
     form = opsform()
     if request.method == 'POST':
@@ -1144,6 +1144,10 @@ def OPS(request):
             number = form.cleaned_data['number']
             number1 = form.cleaned_data['number1']
         return redirect('Particular', number, number1)
+
+    Saling = Saling.order_by('id')
+    readiness = readiness.order_by('id')
+    filteredBuffer = filteredBuffer.order_by('id')
 
     context = {
         'Shipments': Saling,
@@ -2057,6 +2061,10 @@ def Particular(request,var,var1):
     except:
         f = 0
 
+    Saling = Saling.order_by('id')
+    readiness = readiness.order_by('id')
+    filteredBuffer = filteredBuffer.order_by('id')
+
     context = {
         'Shipments': Saling,
         'queryset': readiness,
@@ -2273,7 +2281,7 @@ def SalesDelete1(request, sales_id):
 def SalesViews(request):
     item = request.user
     closed = {}
-    sales = SO.objects.filter(stat=False).filter(user=item)
+    sales = SO.objects.filter(stat=False).filter(user=item).order_by('id')
     total = 0
     for n in sales:
         closed[n.id] = 0
