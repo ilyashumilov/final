@@ -111,11 +111,11 @@
             background: gold;
         }
 
-        .row2t,{
-            background-color: #9ca4ff;
+        .row2t{
+            background-color: #3333ff;
         }
         .row0t {
-            background-color: #000fb5;
+            background-color: #b3b3ff;
         }
         #ex {
             max-width: 120px;
@@ -346,7 +346,7 @@
         </tr>
         {% endif %}
         {% if Shipment.BK == False and Shipment.Truck == True %}
-        
+        <tr>
             <td class=row2t> {{ Shipment.number }} </td>
             <td class=row2t> {{ Shipment.carrier }} </td>
             <td class=row2t> {{ Shipment.equip }} </td>
