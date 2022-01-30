@@ -115,9 +115,11 @@
         }
         .currency {        
             padding:9px;
-            margin:5px;  
+            margin:5px; 
+            margin-right: -2px;
             border: thin solid black;
             border-radius: 1px;
+            width: 80px;
         }
         #ETA{
             
@@ -130,6 +132,10 @@
             font-size:80%;
             font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
+        #link {
+            width: 57px;
+        }
+        #comment 
     </style>
 
     {% load static %}
@@ -153,6 +159,8 @@
             {{ form.carrier }}         
             {{ form.number }}
             {{ form.equip }}
+            {{ form.link }}
+
             {{ form.Magic.label }}
             {{ form.Magic }}    
             {{ form.Customs.label }}
@@ -167,8 +175,8 @@
             {{ form.bknumber }}
             {{ form.ETD }}
             {{ form.ETA }}
+            {{ form.comment }}
 
-            {{ form.link }}
         </div>
         
 

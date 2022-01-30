@@ -108,11 +108,13 @@
             margin: 10px;
             width: 40%;
         }    
-        .row2t{
-            background-color: #4d4dff;
+        .row2t {
+            background-color: #1f39bf9f;
+            border: 1px solid black;
         }
         .row0t {
-            background-color: #b3b3ff;
+            background-color: #07f5f5f4;
+            border: 1px solid black;
         }
         .row3 {
             padding: 10px;
@@ -218,7 +220,7 @@
             <td class=head> BK </td>        
             <td class=head> ETD </td>
             <td class=head> ETA </td>
-            <td class=head> Comment </td>
+            
         </tr>
         {% endif %}
         {% for Shipment in Buffer %}        
@@ -252,6 +254,7 @@
             <td class=head> Cntrs </td>  
             <td class=head> ETD </td>
             <td class=head> ETA </td>
+            <td class=head> Comment </td>
             <td class=head> M USD</td>
             <td class=head> M EUR</td>
             <td class=head>SI/CST</td>
@@ -272,7 +275,7 @@
             <td class=row2> {{ Shipment.cntr }} </td>
             <td class=row2> {{ Shipment.ETD }} </td>
             <td class=row2> {{ Shipment.ETA }} </td>
-            
+            <td class=row2 id=ex> {{ Shipment.comment }} </td>
             
             {% if Shipment.margin <= 0 %}
             <td class=row5> {{ Shipment.margin }} </td>
@@ -325,7 +328,8 @@
             <td class=row0 id=ex> {{ Shipment.po.material }} </td>
             <td class=row0> {{ Shipment.cntr }} </td>
             <td class=row0> {{ Shipment.ETD }} </td>
-            <td class=row0> {{ Shipment.ETA }} </td>      
+            <td class=row0> {{ Shipment.ETA }} </td>
+            <td class=row0 id=ex> {{ Shipment.comment }} </td>
             
             {% if Shipment.margin <= 0 %}
             <td class=row5> {{ Shipment.margin }} </td>
@@ -379,6 +383,7 @@
             <td class=row2t> {{ Shipment.cntr }} </td>
             <td class=row2t> {{ Shipment.ETD }} </td>
             <td class=row2t> {{ Shipment.ETA }} </td>
+            <td class=row2t id=ex> {{ Shipment.comment }} </td>
             
             
             {% if Shipment.margin <= 0 %}
@@ -432,7 +437,8 @@
             <td class=row0t id=ex> {{ Shipment.po.material }} </td>
             <td class=row0t> {{ Shipment.cntr }} </td>
             <td class=row0t> {{ Shipment.ETD }} </td>
-            <td class=row0t> {{ Shipment.ETA }} </td>        
+            <td class=row0t> {{ Shipment.ETA }} </td>
+            <td class=row0t id=ex> {{ Shipment.comment }} </td>
             
             {% if Shipment.margin <= 0 %}
             <td class=row5> {{ Shipment.margin }} </td>

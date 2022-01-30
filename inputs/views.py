@@ -93,93 +93,93 @@ def renewfreight(request):
 
     return redirect('OPS')
 
-
 def f(request):
    user = request.user
-   df_sales = pd.read_excel('/Users/a111/Desktop/Script (1) (1).xlsx', sheet_name='Shipment')
+   df_sales = pd.read_excel('/Users/a111/Desktop/Script (2).xlsx', sheet_name='Trucks')
    df_sales = pd.DataFrame(df_sales)
    count = -1
    print(df_sales)
-   for i in df_sales:
+   for i in df_sales['PO date']:
+       print(i)
        count += 1
+       # try:
+       print(df_sales.loc[count, 'Buyer'])
+       client = Empresa.objects.filter(name=df_sales.loc[count, 'Buyer'])[0]
+       destination = Ports.objects.filter(port=df_sales.loc[count, 'Destination / City'])[0]
+       material = Materials.objects.filter(name=df_sales.loc[count, 'Product / EN643'])[0].name
+
+       print(df_sales.loc[count, 'Supplier'])
+
+       proveedor = Empresa.objects.filter(name=df_sales.loc[count, 'Supplier'])[0]
+       origin = Ports.objects.filter(port=df_sales.loc[count, 'Origin / City'])[0]
+       material1 = Materials.objects.filter(name=df_sales.loc[count, 'Product / EN643'])[0]
+
+       min = 0
        try:
-           print(df_sales.loc[count, 'Buyer'])
-           client = Empresa.objects.filter(name=df_sales.loc[count, 'Buyer'])[0]
-           destination = Ports.objects.filter(port=df_sales.loc[count, 'Destination / City'])[0]
-           material = Materials.objects.filter(name=df_sales.loc[count, 'Product / EN643'])[0].name
-
-           print(df_sales.loc[count, 'Supplier'])
-
-           proveedor = Empresa.objects.filter(name=df_sales.loc[count, 'Supplier'])[0]
-           origin = Ports.objects.filter(port=df_sales.loc[count, 'Origin / City'])[0]
-           material1 = Materials.objects.filter(name=df_sales.loc[count, 'Product / EN643'])[0]
-
-
-           min = 0
-           try:
-               min = float(df_sales.loc[count, 'MT/cntr'].replace(',', '.'))
-           except:
-               min = float(df_sales.loc[count, 'MT/cntr'])
-           cost = 0
-
-           try:
-               price = float(df_sales.loc[count, 'Sales Price (USD/Ton)'].replace(',', '.'))
-           except:
-               price = float(df_sales.loc[count, 'Sales Price (USD/Ton)'])
-
-
-           try:
-               cost = float(df_sales.loc[count, 'Purchase cost'].replace(',', '.'))
-           except:
-               cost = float(df_sales.loc[count, 'Purchase cost'])
-
-           sale = SO(user=user, number=df_sales.loc[count, 'SO'], client=client, destination=destination,
-                     date=df_sales.loc[count, 'SO date'], material=material, cntr=int(df_sales.loc[count, 'Cntrs']), \
-                     Tons=float(str(df_sales.loc[count, 'Tons']).replace(',', '.')), min=min, cost=price,
-                     currency='USD',
-                     comment=str(df_sales.loc[count, 'Add. Info']) + str(
-                         df_sales.loc[count, 'Order Conditions / Remarks']), \
-                     cpt=str(df_sales.loc[count, 'Customers Payment Terms']), stat=True)
-           sale.save()
-
-           purchaise = PO(so=sale, number=df_sales.loc[count, 'PO'][:10], Proveedor=proveedor, Origin=origin,
-                          date=df_sales.loc[count, 'PO date'], material=material1,
-                          cntr=int(df_sales.loc[count, 'Cntrs']), \
-                          Tons=float(str(df_sales.loc[count, 'Tons']).replace(',', '.')), price=cost, currency='EUR', \
-                          spt=str(df_sales.loc[count, 'Suppliers Payment Terms']))
-           purchaise.save()
-
-           ship = Shipment(po=purchaise, number=df_sales.loc[count, 'PO'],
-                           forwarder=df_sales.loc[count, 'Freight Provider'],
-                           carrier=df_sales.loc[count, 'Shipping Line'], \
-                           cntr=int(df_sales.loc[count, 'Cntrs']),
-                           bknumber=str(df_sales.loc[count, 'Forwarder Booking Number']),
-                           ETD=df_sales.loc[count, 'ETD'], \
-                           ETA=df_sales.loc[count, 'ETA'], BK=True, SI=False, Magic=False, margin=0, marginEUR=0,
-                           Truck=True, equip='Truck', \
-                           shipinstr=df_sales.loc[count, 'VGM/Si'])
-           ship.save()
-
-           new = ShipmentRate(shipment=ship,rate=float(str(df_sales.loc[count, 'Exch rate USD/EUR']).replace(',', '.')))
-           new.save()
-           cntr = Containers(shipment=ship,us=request.user, number='', seal=df_sales.loc[count, 'VGM/Si'], bales=0,
-                            gross=float(str(df_sales.loc[count, 'Tons']).replace(',', '.')), tara=0, vgm=0)
-           cntr.save()
-
-           cost2 = Costs(shipment=ship, name='Sale', volume=ship.po.so.cost, currency=ship.po.so.currency)
-           cost2.save()
-           cost3 = Costs(shipment=ship, name='Purchaise', volume=-ship.po.price, currency=ship.po.currency)
-           cost3.save()
-
-           try:
-               f = -float(df_sales.loc[count, 'Freight'].replace(',','.'))
-           except:
-               f = -float(df_sales.loc[count, 'Freight'])
-           cost = Costs(shipment=ship, name='Freight', volume=f, currency='EUR')
-           cost.save()
-           actualizeShip(ship.id)
+           min = float(df_sales.loc[count, 'MT/cntr'].replace(',', '.'))
        except:
-           pass
+           min = float(df_sales.loc[count, 'MT/cntr'])
+       cost = 0
+
+       try:
+           price = float(df_sales.loc[count, 'Sales Price (USD/Ton)'].replace(',', '.'))
+       except:
+           price = float(df_sales.loc[count, 'Sales Price (USD/Ton)'])
+
+
+       try:
+           cost = float(df_sales.loc[count, 'Purchase cost'].replace(',', '.'))
+       except:
+           cost = float(df_sales.loc[count, 'Purchase cost'])
+
+       sale = SO(user=user, number=df_sales.loc[count, 'SO'], client=client, destination=destination,
+                 date=df_sales.loc[count, 'SO date'], material=material, cntr=int(df_sales.loc[count, 'Cntrs']), \
+                 Tons=float(str(df_sales.loc[count, 'Tons']).replace(',', '.')), min=min, cost=price,
+                 currency='USD',
+                 comment=str(df_sales.loc[count, 'Add. Info']) + str(
+                     df_sales.loc[count, 'Order Conditions / Remarks']), \
+                 cpt=str(df_sales.loc[count, 'Customers Payment Terms']), stat=True)
+       sale.save()
+
+       purchaise = PO(so=sale, number=df_sales.loc[count, 'PO'][:10], Proveedor=proveedor, Origin=origin,
+                      date=df_sales.loc[count, 'PO date'], material=material1,
+                      cntr=int(df_sales.loc[count, 'Cntrs']), \
+                      Tons=float(str(df_sales.loc[count, 'Tons']).replace(',', '.')), price=cost, currency='EUR', \
+                      spt=str(df_sales.loc[count, 'Suppliers Payment Terms']))
+       purchaise.save()
+
+       ship = Shipment(po=purchaise, number=df_sales.loc[count, 'PO'],
+                       forwarder=df_sales.loc[count, 'Freight Provider'],
+                       carrier=df_sales.loc[count, 'Shipping Line'], \
+                       cntr=int(df_sales.loc[count, 'Cntrs']),
+                       bknumber=str(df_sales.loc[count, 'Forwarder Booking Number']),
+                       ETD=df_sales.loc[count, 'ETD'], \
+                       ETA=df_sales.loc[count, 'ETA'], BK=True, SI=False, Magic=False, margin=0, marginEUR=0,
+                       Truck=True, equip='Truck', \
+                       shipinstr=df_sales.loc[count, 'VGM/Si'],link='none')
+       ship.save()
+
+       new = ShipmentRate(shipment=ship,rate=float(str(df_sales.loc[count, 'Exch rate USD/EUR']).replace(',', '.')))
+       new.save()
+       cntr = Containers(shipment=ship,us=request.user, number='', seal=df_sales.loc[count, 'VGM/Si'], bales=0,
+                        gross=float(str(df_sales.loc[count, 'Tons']).replace(',', '.')), tara=0, vgm=0)
+       cntr.save()
+
+       cost2 = Costs(shipment=ship, name='Sale', volume=ship.po.so.cost, currency=ship.po.so.currency)
+       cost2.save()
+       cost3 = Costs(shipment=ship, name='Purchaise', volume=-ship.po.price, currency=ship.po.currency)
+       cost3.save()
+
+       try:
+           f = -float(df_sales.loc[count, 'Freight'].replace(',','.'))
+       except:
+           f = -float(df_sales.loc[count, 'Freight'])
+
+       cost = Costs(shipment=ship, name='Freight', volume=f, currency='EUR')
+       cost.save()
+       actualizeShip(ship.id)
+       # except:
+       #     pass
 
        return redirect('OPS')
 def w(request):
@@ -963,7 +963,9 @@ def OPS(request):
         flag.st == False
         flag.save()
 
-    if flag.st == False and now.hour == 8:
+    print('alahsdkh',now.hour)
+    if flag.st == False and now.hour == 20:
+        print('a')
         
         lista = {
             'Readiness':[],
@@ -983,17 +985,17 @@ def OPS(request):
         for i in Readiness.objects.all():
             lista['Readiness'].append([i.po.number,i.Proveedor,i.Origin,i.date,i.number,i.cntr,i.Tons,i.comment])
 
-        lista['SO'].append(['Number', 'Client', 'Destination', 'Date', 'Material', 'Cntrs', 'Tons', 'Min', 'Sales price','Currency','Cust. payment terms','Comment','Closed'])
+        lista['SO'].append(['Number', 'Client', 'Destination', 'Date', 'Material', 'Cntrs', 'Tons', 'Min', 'Sales price','Currency','Cust. payment terms','Comment','Closed','User'])
         for i in SO.objects.all():
-            lista['SO'].append([i.number,i.client.name,i.destination.port,i.date,i.material,i.cntr,i.Tons,i.min,i.cost,i.currency,i.cpt,i.comment,i.stat])
+            lista['SO'].append([i.number,i.client.name,i.destination.port,i.date,i.material,i.cntr,i.Tons,i.min,i.cost,i.currency,i.cpt,i.comment,i.stat,i.user])
 
         lista['PO'].append(['Number', 'Supplier', 'Origin', 'Date', 'Material', 'Cntrs', 'Tons', 'Purchaise price','Currency','Supp. payment terms'])
         for i in PO.objects.all():
             lista['PO'].append([i.number,i.Proveedor.name,i.Origin.port,i.date,i.material,i.cntr,i.Tons,i.price,i.currency,i.spt])
 
-        lista['Shipments'].append(['Number', 'Destination', 'Client', 'Origin', 'Supplier', 'Forwarder', 'Carrier','BK', 'Material', 'Cntrs', 'ETD','ETA','Margin USD','Margin EUR'])
+        lista['Shipments'].append(['Number', 'Destination', 'Client', 'Origin', 'Supplier', 'Forwarder', 'Carrier','BK', 'Material', 'Cntrs', 'ETD','ETA','Margin USD','Margin EUR','Link','comment'])
         for i in Shipment.objects.all():
-            lista['Shipments'].append([i.number,i.po.so.destination,i.po.so.client,i.po.Origin,i.po.Proveedor, i.forwarder,i.carrier,i.bknumber,i.po.material,i.cntr,i.ETD,i.ETA,i.margin,i.marginEUR,i.link])
+            lista['Shipments'].append([i.number,i.po.so.destination,i.po.so.client,i.po.Origin,i.po.Proveedor, i.forwarder,i.carrier,i.bknumber,i.po.material,i.cntr,i.ETD,i.ETA,i.margin,i.marginEUR,i.link,i.comment])
 
         lista['Containers'].append(['Date','Number', 'Seal', 'Bales', 'Gross','Tara', 'VGM'])
         for i in Containers.objects.all():
@@ -1078,6 +1080,7 @@ def OPS(request):
         filteredSO = SO.objects.none()
         for i in X:
             filteredSO = filteredSO | SO.objects.filter(destination=i)
+            filteredBuffer = filteredBuffer | Buffer.objects.filter(Origin=i)
 
         for i in filteredSO:
             filteredPO = filteredPO | PO.objects.filter(so=i)
@@ -1087,8 +1090,6 @@ def OPS(request):
 
         for j in filteredPO:
             readiness = readiness | Readiness.objects.filter(po_id=j.id)
-
-
 
         item1 = []
         for i in filteredSO:
@@ -1136,7 +1137,6 @@ def OPS(request):
                 all1.append(x)
         all1 = json.dumps(all1)
 
-
     form = opsform()
     if request.method == 'POST':
         form = opsform(request.POST)
@@ -1144,11 +1144,9 @@ def OPS(request):
             number = form.cleaned_data['number']
             number1 = form.cleaned_data['number1']
         return redirect('Particular', number, number1)
-
     Saling = Saling.order_by('id')
     readiness = readiness.order_by('id')
     filteredBuffer = filteredBuffer.order_by('id')
-
     context = {
         'Shipments': Saling,
         'queryset': readiness,
@@ -2060,11 +2058,9 @@ def Particular(request,var,var1):
         f = Readiness.objects.filter(po_id=filteredPO[0].id)
     except:
         f = 0
-
     Saling = Saling.order_by('id')
     readiness = readiness.order_by('id')
     filteredBuffer = filteredBuffer.order_by('id')
-
     context = {
         'Shipments': Saling,
         'queryset': readiness,
@@ -2281,7 +2277,7 @@ def SalesDelete1(request, sales_id):
 def SalesViews(request):
     item = request.user
     closed = {}
-    sales = SO.objects.filter(stat=False).filter(user=item).order_by('id')
+    sales = SO.objects.filter(stat=False).filter(user=item)
     total = 0
     for n in sales:
         closed[n.id] = 0

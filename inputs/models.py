@@ -86,8 +86,8 @@ class Shipment(models.Model):
     carrier = models.TextField(max_length = 50)
     cntr = models.IntegerField()
     bknumber = models.TextField(max_length = 50)
-    ETD = models.CharField(max_length=10)
-    ETA = models.CharField(max_length=10)
+    ETD = models.TextField(max_length=200)
+    ETA = models.TextField(max_length=200)
     margin = models.DecimalField(max_digits=10, decimal_places=2)
     marginEUR = models.CharField(max_length=10)
     BK = models.BooleanField(default=False)
@@ -95,9 +95,9 @@ class Shipment(models.Model):
     Magic = models.BooleanField(default=False)
 
     shipinstr = models.TextField(max_length = 50)
-    equip = models.CharField(max_length=30)
+    equip = models.TextField(max_length=200)
     Truck = models.BooleanField(default=False)
-
+    comment = models.TextField(max_length=200)
     link = models.TextField(max_length=200)
 
     def numero(self):

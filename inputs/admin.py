@@ -19,6 +19,8 @@ admin.site.register(upd)
 admin.site.register(counter)
 admin.site.register(counterupd)
 admin.site.register(Freight)
+admin.site.register(Costs)
+
 
 
 

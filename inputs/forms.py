@@ -270,7 +270,7 @@ class shipmentform(forms.ModelForm):
             ("45'", "45'"),
         )
         model = Shipment
-        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic','carrier','forwarder','shipinstr','equip','link']
+        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic','carrier','forwarder','shipinstr','equip','link','comment']
         labels = {
             'number': "Number",
             'bknumber': "BK",
@@ -281,7 +281,8 @@ class shipmentform(forms.ModelForm):
             'forwarder': 'forwarder',
             'shipinstr':'SI number',
             'equip':'Equipment',
-            'link':'Photo'
+            'link':'Photo',
+            'comment':'Comment'
         }
         widgets = {
             'number': forms.TextInput(attrs={'class':'one','id': 'search', 'placeholder': 'Number','autocomplete':"off"}),
@@ -297,7 +298,8 @@ class shipmentform(forms.ModelForm):
             'link': forms.TextInput(attrs={'class': 'one', 'id': 'link', 'placeholder': 'Link', 'autocomplete': "off"}),
             'shipinstr': forms.TextInput(attrs={'class': 'one', 'id': 'shipinstr', 'placeholder': 'SI number', 'autocomplete': "off"}),
             'forwarder': forms.TextInput(attrs={'class': 'one', 'id': 'search', 'placeholder': 'Forwarder', 'autocomplete': "off"}),
-            'equip': forms.Select(attrs={'class': 'currency', 'id': 'currency'},choices=choises)
+            'equip': forms.Select(attrs={'class': 'currency', 'id': 'currency'},choices=choises),
+            'comment': forms.TextInput(attrs={'class': 'one', 'id': 'comment', 'placeholder': 'Comment', 'autocomplete': "off"})
 
         }
 class shipmentform1(forms.ModelForm):
@@ -313,7 +315,7 @@ class shipmentform1(forms.ModelForm):
         )
 
         model = Shipment
-        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic','carrier','forwarder','shipinstr','equip','link']
+        fields = ['number','bknumber','ETD','ETA','BK','SI','Magic','carrier','forwarder','shipinstr','equip','link','comment']
         labels = {
             'number': "Number",
             'bknumber': "BK",
@@ -324,7 +326,8 @@ class shipmentform1(forms.ModelForm):
             'forwarder': 'forwarder',
             'shipinstr':'SI number',
             'equip': 'Equipment',
-            'link': 'Photo'
+            'link': 'Photo',
+            'comment': 'Comment'
         }
         widgets = {
             'number': forms.TextInput(attrs={'class':'one','id': 'search', 'placeholder': 'Number','autocomplete':"off"}),
@@ -338,7 +341,8 @@ class shipmentform1(forms.ModelForm):
             'shipinstr': forms.TextInput(attrs={'class': 'one', 'id': 'shipinstr', 'placeholder': 'SI number', 'autocomplete': "off"}),
             'forwarder': forms.TextInput(attrs={'class': 'one', 'id': 'search', 'placeholder': 'Forwarder', 'autocomplete': "off"}),
             'link': forms.TextInput(attrs={'class': 'one', 'id': 'link', 'placeholder': 'Link', 'autocomplete': "off"}),
-            'equip': forms.Select(attrs={'class': 'currency', 'id': 'currency'},choices=choises)
+            'equip': forms.Select(attrs={'class': 'currency', 'id': 'currency'},choices=choises),
+            'comment': forms.TextInput(attrs={'class': 'one', 'id': 'comment', 'placeholder': 'Comment', 'autocomplete': "off"})
         }
 
 class freightform(forms.ModelForm):
