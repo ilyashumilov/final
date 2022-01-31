@@ -41,7 +41,7 @@ class SO(models.Model):
     min = models.DecimalField(max_digits=10, decimal_places=2)
     cost = models.DecimalField(max_digits=10, decimal_places=2)
     currency = models.CharField(max_length=20)
-    comment = models.TextField(max_length = 100)
+    comment = models.TextField(max_length = 1500)
     cpt = models.CharField(max_length = 10)
 
     stat = models.BooleanField(default=False)
@@ -273,15 +273,15 @@ class FinCosts(models.Model):
     currency = models.CharField(max_length=20)
 
 class Buffer(models.Model):
-    number = models.TextField(max_length = 50)
-    proveedor = models.TextField(max_length = 50)
-    Origin = models.CharField(max_length = 20)
-    carrier = models.TextField(max_length = 50)
+    number = models.TextField(max_length = 500)
+    proveedor = models.TextField(max_length = 500)
+    Origin = models.CharField(max_length = 500)
+    carrier = models.TextField(max_length = 500)
     cntr = models.IntegerField()
-    bknumber = models.TextField(max_length = 50)
-    ETD = models.CharField(max_length=10)
-    ETA = models.CharField(max_length=10)
-    comment = models.TextField(max_length = 50)
+    bknumber = models.TextField(max_length = 500)
+    ETD = models.CharField(max_length=500)
+    ETA = models.CharField(max_length=500)
+    comment = models.TextField(max_length = 500)
 
 class ShipmentRate(models.Model):
     shipment = models.ForeignKey(Shipment, on_delete=models.CASCADE)
