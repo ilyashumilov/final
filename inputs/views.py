@@ -2483,6 +2483,8 @@ def PurchaisesCreate(request):
                 current = SO.objects.get(number='00-0000',user=i.user)
             elif i.user.username == 'managereurope':
                 current = SO.objects.get(number='00-0000',user=i.user)
+            elif i.user.username == 'managerrussia':
+                current = SO.objects.get(number='00-0000',user=i.user)
 
         if request.user.username[:6] == 'import':
             current = SO.objects.get(number='00-0000', user=request.user)
