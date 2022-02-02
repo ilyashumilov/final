@@ -191,7 +191,7 @@ def w(request):
    for i in df_sales:
        count += 1
        # try:
-       print('SS',df_sales.loc[count, 'Buyer'])
+       print(df_sales.loc[count, 'Buyer'])
        client = Empresa.objects.filter(name=df_sales.loc[count, 'Buyer'])[0]
        destination = Ports.objects.filter(port=df_sales.loc[count, 'Destination / City'])[0]
        material = Materials.objects.filter(name=df_sales.loc[count, 'Product / EN643'])[0].name
@@ -227,7 +227,7 @@ def w(request):
                  cpt=str(df_sales.loc[count, 'Customers Payment Terms']), stat=True)
        sale.save()
 
-       purchaise = PO(so=sale, number=df_sales.loc[count, 'PO'][:10], Proveedor=proveedor, Origin=origin,
+       purchaise = PO(so=sale, number=df_sales.loc[count, 'PO'][:11], Proveedor=proveedor, Origin=origin,
                       date=df_sales.loc[count, 'PO date'], material=material1,
                       cntr=int(df_sales.loc[count, 'Cntrs']), \
                       Tons=float(str(df_sales.loc[count, 'Tons']).replace(',', '.')), price=cost, currency='USD', \
@@ -242,7 +242,7 @@ def w(request):
                        ETD=df_sales.loc[count, 'ETD'], \
                        ETA=df_sales.loc[count, 'ETA'], BK=True, SI=False, Magic=False, margin=0, marginEUR=0,
                        Truck=False, equip=str(df_sales.loc[count, 'Delivery By:']), \
-                       shipinstr=df_sales.loc[count, 'VGM/Si'],link = '',comment = str(df_sales.loc[count, 'VGM/Si']))
+                       shipinstr=df_sales.loc[count, 'VGM/Si'])
        ship.save()
 
        new = ShipmentRate(shipment=ship,rate=float(str(df_sales.loc[count, 'Exch rate USD/EUR']).replace(',', '.')))
@@ -261,16 +261,6 @@ def w(request):
        actualizeShip(ship.id)
        # except:
        #     pass
-def function(request):
-    df_sales = pd.read_excel('/Users/a111/Desktop/Script (1) (1).xlsx', sheet_name='truks')
-    df_sales = pd.DataFrame(df_sales)
-    count = 0
-    for i in df_sales:
-        new = Buffer(number=df_sales.loc[count, 'SO'],proveedor=df_sales.loc[count, 'Supplier'],Origin=df_sales.loc[count, 'Origin / City'],\
-                     carrier=df_sales.loc[count, 'Shipping Line'],cntr=df_sales.loc[count, 'Cntrs'],bknumber=str(df_sales.loc[count, 'Forwarder Booking Number']),\
-                     ETD=df_sales.loc[count, 'ETD'],ETA=df_sales.loc[count, 'ETA'],comment='BK bank')
-        new.save()
-        count +=1
 
 def z(request):
    user = request.user
@@ -899,7 +889,6 @@ def OPS(request):
     # z(request)
     # f(request)
     # w(request)
-    # function(request)
     now = datetime.now(timezone.utc)
     m = counterupd.objects.get(index='1')
 
@@ -2138,7 +2127,7 @@ def ParticularSO(request,var,var1):
 
 
     closed = {}
-    filteredSO = filteredSO.order_by('id')
+
     for i in filteredSO:
         closed[i.id] = 0
         POs = PO.objects.filter(so_id = i.id)
@@ -2347,14 +2336,13 @@ def SalesViews(request):
             all1.append(x)
     all1 = json.dumps(all1)
     form = opsform()
-
-    sales=sales.order_by('id')
     if request.method == 'POST':
         form = opsform(request.POST)
         if form.is_valid():
             number = form.cleaned_data['number']
             number1 = form.cleaned_data['number1']
         return redirect('ParticularSO', number,number1)
+    sales=sales.order_by('id')
     context = {
         'all': all1,
         'form': form,
@@ -2482,8 +2470,6 @@ def PurchaisesCreate(request):
             if i.user.username == 'managerlatam':
                 current = SO.objects.get(number='00-0000',user=i.user)
             elif i.user.username == 'managereurope':
-                current = SO.objects.get(number='00-0000',user=i.user)
-            elif i.user.username == 'managerrussia':
                 current = SO.objects.get(number='00-0000',user=i.user)
 
         if request.user.username[:6] == 'import':
