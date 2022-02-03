@@ -166,7 +166,7 @@
     {% endfor %}
 </div>  
     
-{% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' %}
+{% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' or request.user.username == 'managerrussia' %}
 <a href = "{% url 'counter' %}" class=link3>Loaded this week: {{result}} cntrs</a> 
 {% endif %}
 
@@ -504,7 +504,7 @@
     </table>
 </div>
 <div class='manage'>
-    {% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' or gamma == 'import' %}
+    {% if request.user.username == 'managerlatam' or request.user.username == 'managereurope' or request.user.username == 'managerrussia' or gamma == 'import' %}
     <div class="dropdown">
         <button class="dropbtn">Report</button>
         <div class="dropdown-content">
